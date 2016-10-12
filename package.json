@@ -1,0 +1,38 @@
+{
+  "name": "scratch-maven-react",
+  "version": "1.0.0",
+  "description": "An example project that shows how to integrate React with maven.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:karlbennett/scratch-maven-react.git"
+  },
+  "keywords": [
+    "maven",
+    "spring",
+    "react"
+  ],
+  "author": "Karl Bennett",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/karlbennett/scratch-maven-react/issues"
+  },
+  "homepage": "https://github.com/karlbennett/scratch-maven-react",
+  "devDependencies": {
+    "babel-core": "6.16.0",
+    "babel-preset-es2015": "6.16.0",
+    "babel-preset-react": "6.16.0",
+    "babel-loader": "6.2.5",
+    "webpack": "1.13.2",
+    "html-webpack-plugin": "2.22.0"
+  },
+  "dependencies": {
+    "react": "15.3.2",
+    "react-dom": "15.3.2",
+    "react-redux": "4.4.5",
+    "react-router": "2.8.1",
+    "redux": "3.6.0"
+  },
+  "scripts": {
+    "watch": "webpack --watch -d"
+  }
+}
