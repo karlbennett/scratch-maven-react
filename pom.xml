@@ -34,7 +34,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <!-- Install Node, run NPM, and then built the view layer with Webpack. -->
+                <!-- Install Node, run NPM, and then build the view layer with Webpack. -->
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.0</version>
@@ -68,7 +68,8 @@
                         </goals>
                     </execution>
                     <execution>
-                        <!-- Run this execution to compile modified JavaScript files into the static resource directory. -->
+                        <!-- Run this execution to watch then compile modified JavaScript files into the static resource -->
+                        <!-- directory e.g. mvn frontend:webpack@watch -->
                         <id>watch</id>
                         <phase>none</phase>
                         <goals>
@@ -81,7 +82,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- Copy the built view layer a directory on the class path that is a default location Spring MVC views. -->
+                <!-- Copy the built view layer to a directory on the class path that is a default location Spring MVC views. -->
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.1</version>
                 <executions>
@@ -104,7 +105,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- Create the tarball that will be deployed to server that hosts the view layer. -->
+                <!-- Create the tarball that will be deployed to a server that hosts the view layer. -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.6</version>
