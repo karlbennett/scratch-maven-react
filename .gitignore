@@ -1,8 +1,5 @@
 # Node
 node_modules
 
-# The view layor build directory.
-src/main/resources/resources
-
 # Maven
 target

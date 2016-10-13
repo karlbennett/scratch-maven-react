@@ -3,15 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // This is the path to the core JavaScript file that will initialise the entire application.
-    entry: './src/main/js/index.js',
+    entry: './src/main/js/app.js',
+    // This tells webpack to produce a sourcemap that helps with debugging the code.
     devtool: 'sourcemaps',
-    cache: true,
-    debug: true,
     output: {
         // Webpack will build the code into this directory.
-        path: path.join(__dirname, './src/main/resources/resources'),
-        // This is the name of the final compacted file.
-        filename: 'bundle.js'
+        path: path.join(__dirname, './target/dist'),
+        // This is the name of the final compacted file. It has a random hash added to bust any caching.
+        filename: 'bundle.[hash].js'
     },
     module: {
         loaders: [
@@ -23,15 +22,17 @@ module.exports = {
                 // We also assume that all the JavaScript files within the above directory contain ES6 code.
                 include: /\.js$/,
                 query: {
+                    // These presets provide the babel compiler with support for both ES6 and React JSX.
                     presets: ['es2015', 'react']
                 }
             }
         ]
     },
     plugins: [
-        // This plugin will generate the index.html file.
+        // This plugin will generate the index.html file with a script tag pointing to the dynamic 'bundle.[hash].js'
+        // name.
         new HtmlWebpackPlugin({
-            title: 'Scratch Maven React'
+            template: 'src/main/html/index.html'
         })
     ]
 };
