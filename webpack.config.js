@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // This is the path to the core JavaScript file that will initialise the entire application.
-    entry: './src/main/js/app.js',
+    entry: './src/main/javascript/app.js',
     // This tells webpack to produce a sourcemap that helps with debugging the code.
     devtool: 'sourcemaps',
     output: {
@@ -18,7 +18,7 @@ module.exports = {
                 // This is the ES6 Webpack loader. It will pre-process any ES6 file.
                 loader: 'babel-loader',
                 // We assume all ES6 source files reside in the below directory.
-                test: path.join(__dirname, './src/main/js'),
+                test: path.join(__dirname, './src/main/javascript'),
                 // We also assume that all the JavaScript files within the above directory contain ES6 code.
                 include: /\.js$/,
                 query: {
