@@ -15,11 +15,11 @@ module.exports = {
     module: {
         loaders: [
             {
-                // This is the ES6 Webpack loader. It will pre-process any ES6 file.
+                // This is the ES6 Webpack loader. It will pre-process any ES6 files.
                 loader: 'babel-loader',
                 // We assume all ES6 source files reside in the below directory.
                 test: path.join(__dirname, './src/main/javascript'),
-                // We also assume that all the JavaScript files within the above directory contain ES6 code.
+                // We also assume that all the JavaScript files within that directory contain ES6 code.
                 include: /\.js$/,
                 query: {
                     // These presets provide the babel compiler with support for both ES6 and React JSX.
