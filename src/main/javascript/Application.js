@@ -20,8 +20,8 @@ export class Application extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.state.text}
+            <div className="hello_world">
+                <p>{this.state.text}</p>
             </div>
         );
     }
