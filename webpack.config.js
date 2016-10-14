@@ -21,6 +21,7 @@ module.exports = {
                 test: path.join(__dirname, './src/main/javascript'),
                 // We also assume that all the JavaScript files within that directory contain ES6 code.
                 include: /\.js$/,
+                exclude: /spec\.js$/,
                 query: {
                     // These presets provide the babel compiler with support for both ES6 and React JSX.
                     presets: ['es2015', 'react']

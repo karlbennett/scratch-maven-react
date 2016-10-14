@@ -68,6 +68,12 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>karma tests</id>
+                        <goals>
+                            <goal>karma</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <!-- Run this execution to watch then compile modified JavaScript files into the static resource -->
                         <!-- directory e.g. mvn frontend:webpack@watch -->
                         <id>watch</id>
