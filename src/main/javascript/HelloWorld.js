@@ -1,7 +1,9 @@
 import React, {PropTypes} from "react";
 
 const HelloWord = ({text}) => (
-    <p>{text}</p>
+    <div className="hello_world">
+        <p>{text}</p>
+    </div>
 );
 
 HelloWord.propTypes = {
