@@ -41,6 +41,6 @@ const mapStateToProps = (state) => {
 
 // Here is where we get Redux to bind all the properties for this container and also take control of the calls to the
 // render method.
-export default connect(mapStateToProps, {HelloWorldAction})(HelloWorldContainer)
+export default connect(mapStateToProps, {requestHelloWorld: HelloWorldAction})(HelloWorldContainer)
 
 
