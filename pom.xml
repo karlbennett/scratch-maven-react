@@ -74,8 +74,8 @@
                         </goals>
                     </execution>
                     <execution>
-                        <!-- Run this execution to watch then compile modified JavaScript files into the static resource -->
-                        <!-- directory e.g. mvn frontend:webpack@watch -->
+                        <!-- Run this execution to watch then compile modified JavaScript files into the Spring MVC -->
+                        <!-- static assets directory e.g. mvn frontend:webpack@watch -->
                         <id>watch</id>
                         <phase>none</phase>
                         <goals>
@@ -88,7 +88,8 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- Copy the built view layer to a directory on the class path that is a default location Spring MVC views. -->
+                <!-- Copy the built React assets to a directory on the class path which Spring MVC will automatically -->
+                <!-- serve as static assets.-->
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.1</version>
                 <executions>

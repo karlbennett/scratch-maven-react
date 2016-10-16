@@ -45,6 +45,7 @@
     "react-dom": "15.3.2",
     "react-redux": "4.4.5",
     "redux-thunk": "2.1.0",
+    "react-router": "2.8.1",
     "rest": "2.0.0"
   }
 }

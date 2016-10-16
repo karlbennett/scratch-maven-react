@@ -1,9 +1,10 @@
 import React, {PropTypes} from "react";
+import {Link} from "react-router";
 
 // Here we create a JSX fragment that can be used within other React components as a tag e.g. <HelloWorld/>
 const HelloWord = ({text}) => (
     <div className="hello_world">
-        <p>{text}</p>
+        <p><Link to={'/helloWorld'}>{text}</Link></p>
     </div>
 );
 
