@@ -2,8 +2,19 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import {Application} from "./Application.js";
+import {Provider} from "react-redux";
+import {createStore, applyMiddleware} from "redux";
+import reduxThunk from "redux-thunk";
+import HelloWorldReducers from "./HelloWorldReducers.js";
+import HelloWorldApp from "./HelloWorldApp.js";
 
 require('../sass/main.scss');
 
-window.app = ReactDOM.render(<Application />, document.getElementById('content'));
+let store = createStore(HelloWorldReducers, applyMiddleware(reduxThunk));
+
+window.app = ReactDOM.render(
+    <Provider store={store}>
+        <HelloWorldApp/>
+    </Provider>,
+    document.getElementById('content')
+);

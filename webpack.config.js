@@ -28,8 +28,9 @@ module.exports = {
                 include: srcDir,
                 exclude: /spec\.js$/,
                 query: {
-                    // These presets provide the babel compiler with support for both ES6 and React JSX.
-                    presets: ['es2015', 'react']
+                    // These presets provide the babel compiler with support for both ES6, React JSX, and experimental
+                    // syntax.
+                    presets: ['es2015', 'react', 'stage-0']
                 }
             },
             {
