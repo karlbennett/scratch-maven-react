@@ -1,3 +1,4 @@
+const applyProfile = require('webpack-profiles');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -6,16 +7,12 @@ const mainDir = path.join(__dirname, './src/main');
 const srcDir = path.join(mainDir, './javascript');
 const outputDir = path.join(__dirname, './target/dist');
 
-module.exports = {
+const webpack = {
     // This is the path to the core JavaScript file that will initialise the entire application.
     entry: path.join(srcDir, './app.js'),
-    // This tells webpack to produce a sourcemap that helps with debugging the code.
-    devtool: 'sourcemaps',
     output: {
         // Webpack will build the code into this directory.
-        path: outputDir,
-        // This is the name of the final compacted file. It has a random hash added to bust any caching.
-        filename: 'bundle.[hash].js'
+        path: outputDir
     },
     module: {
         loaders: [
@@ -56,3 +53,5 @@ module.exports = {
         })
     ]
 };
+
+module.exports = applyProfile(webpack, {profilesFilename: 'webpack.profiles.js'});
