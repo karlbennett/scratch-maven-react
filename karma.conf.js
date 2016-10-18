@@ -28,7 +28,18 @@ module.exports = function (config) {
         // The configuration for the karma-webpack plugin.
         // This should be very similar to the main webpack.config.js.
         webpack: {
+            isparta: {
+                babel: {
+                    presets: ['es2015', 'react', 'stage-0']
+                }
+            },
             module: {
+                preLoaders: [
+                    {
+                        loader: 'isparta-loader',
+                        test: path.join(__dirname, './src/main/javascript')
+                    }
+                ],
                 loaders: [
                     {
                         loader: 'babel-loader',
@@ -37,7 +48,7 @@ module.exports = function (config) {
                             path.join(__dirname, './src/test/javascript')
                         ],
                         query: {
-                            presets: ['es2015', 'react']
+                            presets: ['es2015', 'react', 'stage-0']
                         }
                     }
                 ]
@@ -52,7 +63,15 @@ module.exports = function (config) {
         // Test results reporter to use
         // Possible values: 'dots', 'progress'
         // Available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
+
+        coverageReporter: {
+            dir: 'target/coverage/',
+            reporters: [
+                {type: 'html', subdir: "html"},
+                {type: 'lcovonly', subdir: "lcov"}
+            ]
+        },
 
         // Web server port
         port: 9876,
