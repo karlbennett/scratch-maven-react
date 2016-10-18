@@ -15,6 +15,15 @@ const webpack = {
         path: outputDir
     },
     module: {
+        preLoaders: [
+            {
+                // This is the ESLint Webpack loader. It will check the ES6 code for any code style errors.
+                loader: 'eslint-loader',
+                // We will check all the JavaScript files.
+                test: /\.js$/,
+                include: srcDir
+            }
+        ],
         loaders: [
             {
                 // This is the ES6 Webpack loader. It will pre-process any ES6 files.
@@ -23,12 +32,7 @@ const webpack = {
                 test: /\.js$/,
                 // We also assume all the source files reside in the below directory.
                 include: srcDir,
-                exclude: /spec\.js$/,
-                query: {
-                    // These presets provide the babel compiler with support for both ES6, React JSX, and experimental
-                    // syntax.
-                    presets: ['es2015', 'react', 'stage-0']
-                }
+                exclude: /spec\.js$/
             },
             {
                 // This is the SASS loader. It will compile the SASS files. We have used the

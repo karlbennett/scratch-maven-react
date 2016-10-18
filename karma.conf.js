@@ -28,11 +28,6 @@ module.exports = function (config) {
         // The configuration for the karma-webpack plugin.
         // This should be very similar to the main webpack.config.js.
         webpack: {
-            isparta: {
-                babel: {
-                    presets: ['es2015', 'react', 'stage-0']
-                }
-            },
             module: {
                 preLoaders: [
                     {
@@ -46,10 +41,7 @@ module.exports = function (config) {
                         test: [
                             path.join(__dirname, './src/main/javascript'),
                             path.join(__dirname, './src/test/javascript')
-                        ],
-                        query: {
-                            presets: ['es2015', 'react', 'stage-0']
-                        }
+                        ]
                     }
                 ]
             }
