@@ -15,6 +15,9 @@ const webpack = {
     path: outputDir
   },
 
+  // These are the file extensions that will assumed for import names
+  // e.g. import HelloWorld from './HelloWorld';
+  // Will be assumed to have either the extension '.js' or '.jsx'.
   resolve: {
     extensions: ['', '.js', '.jsx']
   },

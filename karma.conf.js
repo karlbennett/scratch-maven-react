@@ -4,6 +4,11 @@ var path = require("path");
 module.exports = function (config) {
   config.set({
 
+    // Allow console logs to be output during test runs.
+    client: {
+      captureConsole: true
+    },
+
     // Base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
@@ -13,6 +18,8 @@ module.exports = function (config) {
 
     // List of files / patterns to load in the browser
     files: [
+      // We load the babel-polyfill on startup becuase some browsers don't support all the ES6 functions.
+      'node_modules/babel-polyfill/dist/polyfill.js',
       'src/test/javascript/**/*.spec.js'
     ],
 
@@ -28,22 +35,40 @@ module.exports = function (config) {
     // The configuration for the karma-webpack plugin.
     // This should be very similar to the main webpack.config.js.
     webpack: {
+      node: {
+        fs: "empty"
+      },
+      resolve: {
+        extensions: ['', '.js', '.jsx']
+      },
       module: {
         preLoaders: [
           {
             loader: 'isparta-loader',
-            test: path.join(__dirname, './src/main/javascript')
+            test: /\.jsx?$/,
+            include: path.join(__dirname, './src/main/javascript')
           }
         ],
         loaders: [
           {
             loader: 'babel-loader',
-            test: [
+            test: /\.jsx?$/,
+            include: [
               path.join(__dirname, './src/main/javascript'),
               path.join(__dirname, './src/test/javascript')
             ]
+          },
+          {
+            loader: 'json-loader',
+            test: /\.json$/
           }
         ]
+      },
+      // We make sure that Webpack doesn't try to compile the Enzyme code.
+      externals: {
+        'react/addons': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true
       }
     },
 
@@ -53,10 +78,11 @@ module.exports = function (config) {
     },
 
     // Test results reporter to use
-    // Possible values: 'dots', 'progress'
     // Available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress', 'coverage'],
 
+    // Coverage reports.
+    // Available reports: https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md
     coverageReporter: {
       dir: 'target/coverage/',
       reporters: [
