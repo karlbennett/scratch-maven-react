@@ -44,4 +44,4 @@ The Webpack build tool is used to compile and build the React project. This incl
 
 The tests are run with Karma which has also been configured to carry out code coverage analyses. Additional 
 configuration has been added to allow Karma to support the [Enzyme](https://github.com/airbnb/enzyme) test library which 
-is used the test the React components.
+is used the test to React components.
