@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'enzyme';
 import HelloWorld from '../../main/javascript/HelloWorld';
 
-describe('HelloWorld', () => {
+describe('src/test/javascript/HelloWorld.spec.js', () => {
 
   it('Can add text to a HelloWorld tag', () => {
 

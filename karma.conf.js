@@ -79,15 +79,22 @@ module.exports = function (config) {
 
     // Test results reporter to use
     // Available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress', 'sonarqubeUnit', 'coverage'],
+
+    // Set the path for the Sonar test report.
+    sonarQubeUnitReporter: {
+      outputFile: 'target/karma/test/ut_report.xml',
+      useBrowserName: false
+    },
 
     // Coverage reports.
     // Available reports: https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md
     coverageReporter: {
-      dir: 'target/coverage/',
+      dir: 'target/karma/coverage/',
       reporters: [
         { type: 'html', subdir: "html" },
-        { type: 'lcovonly', subdir: "lcov" }
+        { type: 'lcovonly', subdir: "lcov" },
+        { type: 'cobertura', subdir: 'cobertura', file: 'cobertura.xml' }
       ]
     },
 

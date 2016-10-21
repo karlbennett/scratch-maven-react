@@ -10,7 +10,7 @@ function Response() {
 Promise.prototype.entity = '';
 
 // Tests
-describe('HelloWorldService', () => {
+describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
   it('Can make a request to the endpoint', () => {
 

@@ -7,7 +7,7 @@ import HelloWorldContainer from '../../main/javascript/HelloWorldContainer';
 // Here we configure a function that can be used to create a mock Redux store that also has 'redux-thunk' support.
 const mockStore = configureStore([thunk]);
 
-describe('HelloWorldContainer', () => {
+describe('src/test/javascript/HelloWorldContainer.spec.js', () => {
 
   it('Can add text to a HelloWorldContainer tag', () => {
 
