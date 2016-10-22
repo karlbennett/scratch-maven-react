@@ -44,6 +44,7 @@ module.exports = function (config) {
       module: {
         preLoaders: [
           {
+            // This loader will instrument the JavaScript to enable coverage  reporting.
             loader: 'isparta-loader',
             test: /\.jsx?$/,
             include: path.join(__dirname, './src/main/javascript')
@@ -59,6 +60,9 @@ module.exports = function (config) {
             ]
           },
           {
+            // This loader is added so that we can handle the JSON file with the 'package.json' file within the cheerio
+            // library. Unfortunately we need to compile the cheerio library into our test code to enable the Enzyme
+            // test library to work.
             loader: 'json-loader',
             test: /\.json$/
           }

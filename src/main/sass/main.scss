@@ -10,4 +10,10 @@
       text-decoration: none;
     }
   }
+
+  .hello_world_image {
+    background: url('../images/hello-world.png') no-repeat center;
+    background-size: contain;
+    height: 300px;
+  }
 }

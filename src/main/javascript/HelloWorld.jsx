@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 const HelloWord = ({ text }) => (
   <div className="hello_world">
     <p><Link to={'/helloWorld'}>{text}</Link></p>
+    <div className="hello_world_image" />
   </div>
 );
 

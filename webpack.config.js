@@ -43,10 +43,21 @@ const webpack = {
         exclude: /spec\.js$/
       },
       {
+        // This is the file loader. It is used to copy the images into the final build location. The build image paths
+        // produces by this loader will then be used by the 'css' and 'sass' loaders below to set the correct values in
+        // the 'url()' function calls.
+        loader: 'file-loader',
+        test: /\.png/,
+        include: path.join(mainDir, './images'),
+        query: {
+          name: 'images/[name].[ext]'
+        }
+      },
+      {
         // This is the SASS loader. It will compile the SASS files. We have used the
         // 'extract-text-webpack-plugin' loader so that the CSS is compiled into an external file instead of
         // placed inline within the index.html.
-        loader: ExtractTextPlugin.extract(["css", "sass"]),
+        loader: ExtractTextPlugin.extract(['css', 'sass']),
         // We assume that all the SASS files end with '.scss'.
         test: /\.scss$/,
         include: path.join(mainDir, './sass')
