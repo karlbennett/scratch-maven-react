@@ -36,7 +36,7 @@ module.exports = function (config) {
     // This should be very similar to the main webpack.config.js.
     webpack: {
       node: {
-        fs: "empty"
+        fs: 'empty'
       },
       resolve: {
         extensions: ['', '.js', '.jsx']
@@ -96,8 +96,9 @@ module.exports = function (config) {
     coverageReporter: {
       dir: 'target/karma/coverage/',
       reporters: [
-        { type: 'html', subdir: "html" },
-        { type: 'lcovonly', subdir: "lcov" },
+        { type: 'text' },
+        { type: 'html', subdir: 'html' },
+        { type: 'lcovonly', subdir: 'lcov' },
         { type: 'cobertura', subdir: 'cobertura', file: 'cobertura.xml' }
       ]
     },
