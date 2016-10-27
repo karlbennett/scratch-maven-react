@@ -31,12 +31,12 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
   it('Can make a request to the endpoint', () => {
 
-    var fetch = mockFunction();
-    var data = mockFunction();
-    var responsePromise = mock(Promise);
-    var response = mock(Response);
-    var dataPromise = mock(Promise);
-    var text = 'some data';
+    const fetch = mockFunction();
+    const data = mockFunction();
+    const responsePromise = mock(Promise);
+    const response = mock(Response);
+    const dataPromise = mock(Promise);
+    const text = 'some data';
 
     // Given
     when(fetch)('/hello').thenReturn(responsePromise);
