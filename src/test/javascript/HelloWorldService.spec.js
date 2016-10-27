@@ -7,28 +7,31 @@ Promise.prototype.then = function () {
 };
 function Response() {
 }
-Promise.prototype.entity = '';
+Response.prototype.text = function () {
+};
 
 // Tests
 describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
   it('Can make a request to the endpoint', () => {
 
-    var rest = mockFunction();
+    var fetch = mockFunction();
     var data = mockFunction();
-    var promise = mock(Promise);
+    var responsePromise = mock(Promise);
     var response = mock(Response);
-    var entity = 'some data';
+    var dataPromise = mock(Promise);
+    var text = 'some data';
 
     // Given
-    when(rest)('/hello').thenReturn(promise);
-    when(promise).then(anything()).then((callback) => callback(response));
-    response.entity = entity;
+    when(fetch)('/hello').thenReturn(responsePromise);
+    when(responsePromise).then(anything()).then((callback) => callback(response));
+    when(response).text().thenReturn(dataPromise);
+    when(dataPromise).then(anything()).then((callback) => callback(text));
 
     // When
-    new HelloWorldService(rest).request(data);
+    new HelloWorldService(fetch).request(data);
 
     // Then
-    verify(data)(entity);
+    verify(data)(text);
   });
 });

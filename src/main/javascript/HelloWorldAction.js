@@ -1,4 +1,4 @@
-import rest from 'rest';
+import fetch from 'isomorphic-fetch';
 import HelloWorldService from './HelloWorldService';
 
 // Here we are defining an asynchronous Redux action by returning a function that takes the Redux "dispatch()" function
@@ -8,4 +8,4 @@ import HelloWorldService from './HelloWorldService';
 export default () =>
   // Once the "Hello World" request has returned a 'HELLO_WORLD' action will be dispatched to any registered Redux
   // reducers.
-  dispatch => new HelloWorldService(rest).request(data => dispatch({ type: 'HELLO_WORLD', text: data }));
+  dispatch => new HelloWorldService(fetch).request(data => dispatch({ type: 'HELLO_WORLD', text: data }));
