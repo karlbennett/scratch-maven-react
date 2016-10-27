@@ -23,6 +23,6 @@ export default class HelloWorldService {
 
   // Make the HTTP request and pass the response body down into the supplied callback.
   request(processData) {
-    this.fetch('/hello').then(response => response.text()).then(text => processData(text));
+    return this.fetch('/hello').then(response => response.text()).then(text => processData(text));
   }
 }

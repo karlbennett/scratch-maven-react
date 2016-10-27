@@ -34,6 +34,7 @@ module.exports = function (config) {
 
     // List of files / patterns to load in the browser
     files: [
+      'node_modules/whatwg-fetch/fetch.js',
       // We load the babel-polyfill on startup becuase some browsers don't support all the ES6 functions.
       'node_modules/babel-polyfill/dist/polyfill.js',
       'src/test/javascript/**/*.spec.js'
@@ -74,6 +75,14 @@ module.exports = function (config) {
               path.join(__dirname, './src/main/javascript'),
               path.join(__dirname, './src/test/javascript')
             ]
+          },
+          {
+            test: /\.scss$/,
+            loaders: ["style", "css", "sass"]
+          },
+          {
+            loader: 'file-loader',
+            test: /\.png/
           },
           {
             // This loader is added so that we can handle the JSON file with the 'package.json' file within the cheerio

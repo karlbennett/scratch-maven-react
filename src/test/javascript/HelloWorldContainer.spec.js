@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import fetchMock from 'fetch-mock';
 import React from 'react';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
@@ -25,14 +26,23 @@ const mockStore = configureStore([thunk]);
 
 describe('src/test/javascript/HelloWorldContainer.spec.js', () => {
 
+  beforeEach(function () {
+    fetchMock.restore()
+  });
+
+  afterEach(function () {
+    fetchMock.restore()
+  });
+
   it('Can add text to a HelloWorldContainer tag', () => {
 
     // Given
     const text = 'some text';
     const store = mockStore({ text }); // Create the mock store with an initial state that contains the test data.
+    fetchMock.get('*', 'some other text to prove the http request is not being used.');
 
     // When
-    const actual = render(<HelloWorldContainer store={store} text={text} />).find('a').text();
+    const actual = render(<HelloWorldContainer store={store} />).find('a').text();
 
     // Then
     assertThat(actual, equalTo(text))
