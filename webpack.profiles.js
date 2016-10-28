@@ -23,7 +23,7 @@ module.exports = {
       devtool: 'eval',
       output: {
         // This is the name of the final compacted file.
-        filename: 'bundle.js'
+        filename: 'scripts/bundle.js'
       },
       plugins: [
         new webpack.DefinePlugin({
@@ -39,7 +39,7 @@ module.exports = {
       devtool: 'cheap-module-source-map',
       output: {
         // The production file has a random hash added to bust any caching.
-        filename: 'bundle.[hash].js'
+        filename: 'scripts/bundle.[hash].js'
       },
       plugins: [
         new webpack.DefinePlugin({

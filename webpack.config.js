@@ -66,7 +66,8 @@ const webpack = {
         test: /\.png/,
         include: path.join(mainDir, './images'),
         query: {
-          name: 'images/[name].[ext]'
+          // Note the '/' at the start of the name. This is needed to stop the image urls from being relative.
+          name: '/images/[name].[ext]'
         }
       },
       {
@@ -87,7 +88,7 @@ const webpack = {
       template: path.join(mainDir, './html/index.html')
     }),
     // This plugin will output all the transformed CSS into a file called 'main.css'.
-    new ExtractTextPlugin('main.css', {
+    new ExtractTextPlugin('styles/main.css', {
       allChunks: true
     })
   ]
