@@ -14,34 +14,36 @@
  * limitations under the License.
  */
 
-import fetchMock from 'fetch-mock';
-import HelloWorldAction from '../../main/javascript/HelloWorldAction'; // This must be imported first for the mocking to work correctly.
-
 describe('src/test/javascript/HelloWorldAction.spec.js', () => {
 
+  var mockRequest, HelloWorldAction;
+
   beforeEach(function () {
-    fetchMock.restore()
+    // Here we manually load the HelloWorldAction through the inject-loader so that we can override the
+    // HelloWorldService import and mock it's request method.
+    const inject = require('inject!../../main/javascript/HelloWorldAction');
+    mockRequest = mockFunction();
+    HelloWorldAction = inject({
+      './HelloWorldService': class {
+        constructor() {
+          this.request = mockRequest;
+        }
+      }
+    }).default;
   });
 
-  afterEach(function () {
-    fetchMock.restore()
-  });
-
-  it('Can dispatch a HelloWorld action', (done) => {
+  it('Can dispatch a HelloWorld action', () => {
 
     const dispatch = mockFunction();
     const text = 'some text';
 
     // Given
-    fetchMock.get('*', text);
+    when(mockRequest)(anything()).then((callback) => callback(text));
 
     // When
-    HelloWorldAction()(dispatch).then(() => {
-      // This is an async action so we must also carry out the verify as an async callback.
+    HelloWorldAction()(dispatch);
 
-      // Then
-      verify(dispatch)(allOf(hasMember('type', equalTo('HELLO_WORLD')), hasMember('text', equalTo(text))));
-      done(); // Indicate that the async test has successfully completed.
-    });
+    // Then
+    verify(dispatch)(allOf(hasMember('type', equalTo('HELLO_WORLD')), hasMember('text', equalTo(text))));
   });
 });

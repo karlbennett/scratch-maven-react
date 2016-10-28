@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import 'isomorphic-fetch';
-import HelloWorldService from './HelloWorldService'; // We MUST import the fetch function like this for the fetch-mock to work in the tests.
+import HelloWorldService from './HelloWorldService';
 
 // Here we are defining an asynchronous Redux action by returning a function that takes the Redux "dispatch()" function
 // as it's first argument. This will only work if you have added the "redux-thunk" middleware when creating your store.
@@ -24,5 +23,4 @@ import HelloWorldService from './HelloWorldService'; // We MUST import the fetch
 export default () =>
   // Once the "Hello World" request has returned a 'HELLO_WORLD' action will be dispatched to any registered Redux
   // reducers.
-  // eslint-disable-next-line no-undef
-  dispatch => new HelloWorldService(fetch).request(data => dispatch({ type: 'HELLO_WORLD', text: data }));
+  dispatch => new HelloWorldService().request(data => dispatch({ type: 'HELLO_WORLD', text: data }));

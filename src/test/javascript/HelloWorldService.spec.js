@@ -14,40 +14,34 @@
  * limitations under the License.
  */
 
+import fetchMock from 'fetch-mock';
 import HelloWorldService from '../../main/javascript/HelloWorldService.js';
 
-// Test Stubs
-function Promise() {
-}
-Promise.prototype.then = function () {
-};
-function Response() {
-}
-Response.prototype.text = function () {
-};
-
-// Tests
 describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
-  it('Can make a request to the endpoint', () => {
+  beforeEach(function () {
+    fetchMock.restore()
+  });
 
-    const fetch = mockFunction();
+  afterEach(function () {
+    fetchMock.restore()
+  });
+
+  it('Can make a request to the endpoint', (done) => {
+
     const data = mockFunction();
-    const responsePromise = mock(Promise);
-    const response = mock(Response);
-    const dataPromise = mock(Promise);
-    const text = 'some data';
+    const text = 'some service text';
 
     // Given
-    when(fetch)('/hello').thenReturn(responsePromise);
-    when(responsePromise).then(anything()).then((callback) => callback(response));
-    when(response).text().thenReturn(dataPromise);
-    when(dataPromise).then(anything()).then((callback) => callback(text));
+    fetchMock.get('*', text);
 
     // When
-    new HelloWorldService(fetch).request(data);
+    new HelloWorldService().request(data).then(() => {
+      // This is an async action so we must also carry out the verify as an async callback.
 
-    // Then
-    verify(data)(text);
+      // Then
+      verify(data)(text);
+      done(); // Indicate that the async test has successfully completed.
+    });
   });
 });

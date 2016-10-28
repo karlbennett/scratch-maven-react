@@ -19,7 +19,10 @@
 // re-render any registered React components that are bound to the states "text" field. You can see one of these
 // bindings in "HelloWorldContainer.jsx".
 // NOTE: Normally you would have multiple reducers for any given component.
-export default (state = {}, action) => (
+export default (state = {}, action) => {
   // Only modify the state if the current Redux action is a 'HELLO_WORLD' action.
-  action.type === 'HELLO_WORLD' ? Object.assign({}, state, { text: action.text }) : state
-);
+  if (action.type === 'HELLO_WORLD') {
+    return Object.assign({}, state, { text: action.text });
+  }
+  return state;
+};

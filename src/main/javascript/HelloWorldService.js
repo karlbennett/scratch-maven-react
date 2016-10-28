@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
+// We MUST import the fetch function like this for the fetch-mock to work in the tests.
+import 'isomorphic-fetch';
+
 // This is the service that makes the "Hello World" HTTP request. It is completely decouple from any React or Redux
 // code, this makes it much simpler to unit test.
 export default class HelloWorldService {
-  constructor(fetch) {
-    this.fetch = fetch;
-  }
 
   // Make the HTTP request and pass the response body down into the supplied callback.
+  // eslint-disable-next-line class-methods-use-this
   request(processData) {
-    return this.fetch('/hello').then(response => response.text()).then(text => processData(text));
+    // We return the promise to allow users of this method to add further executions to the chain.
+    // eslint-disable-next-line no-undef
+    return fetch('/hello').then(response => response.text()).then(text => processData(text));
   }
 }
