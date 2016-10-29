@@ -32,5 +32,9 @@
     background: url('../images/hello-world.png') no-repeat center;
     background-size: contain;
     height: 300px;
+
+    &.secret {
+      background: url('../images/hello-secret-world.png') no-repeat center;
+    }
   }
 }
