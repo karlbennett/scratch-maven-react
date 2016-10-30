@@ -32,6 +32,17 @@ public class HomePage {
         this.finder = finder;
     }
 
+    public boolean isLoggedIn() {
+        try {
+            finder.findByText("Login");
+            return false;
+        } catch (NoSuchElementException e) {
+            log.debug("User is logged in.", e);
+            finder.findByText("Logout");
+            return true;
+        }
+    }
+
     public String getMessage() {
         return finder.findTextByClassName("hello_world_message");
     }

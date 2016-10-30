@@ -19,8 +19,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import HelloWorldReducer from './HelloWorldReducer';
+import HelloWorldLayout from './HelloWorldLayout';
 import HelloWorldContainer from './HelloWorldContainer';
 
 // This will cause Webpack to add the compiled "main.scss" SASS file to the index.html page.
@@ -35,8 +36,8 @@ const store = createStore(HelloWorldReducer, applyMiddleware(thunk));
 window.app = ReactDOM.render( // eslint-disable-line no-undef
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={HelloWorldContainer}>
-        <Route path="helloWorld" component={HelloWorldContainer} />
+      <Route path="/" component={HelloWorldLayout}>
+        <IndexRoute component={HelloWorldContainer} />
       </Route>
     </Router>
   </Provider>,

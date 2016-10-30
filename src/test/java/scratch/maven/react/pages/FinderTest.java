@@ -18,6 +18,7 @@ package scratch.maven.react.pages;
 
 import cucumber.scratch.maven.react.pages.Bys;
 import cucumber.scratch.maven.react.pages.Finder;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -31,11 +32,20 @@ import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class FinderTest {
 
+    private WebDriver driver;
+    private Bys by;
+    private Finder finder;
+
+    @Before
+    public void setUp() {
+        driver = mock(WebDriver.class);
+        by = mock(Bys.class);
+        finder = new Finder(driver, by);
+    }
+
     @Test
     public void Can_find_an_element_by_a_class_name() {
 
-        final WebDriver driver = mock(WebDriver.class);
-        final Bys by = mock(Bys.class);
         final String className = someString();
 
         final By byClassName = mock(By.class);
@@ -46,7 +56,7 @@ public class FinderTest {
         given(driver.findElement(byClassName)).willReturn(expected);
 
         // When
-        final WebElement actual = new Finder(driver, by).findByClassName(className);
+        final WebElement actual = finder.findByClassName(className);
 
         // Then
         assertThat(actual, is(expected));
@@ -55,8 +65,6 @@ public class FinderTest {
     @Test
     public void Can_find_some_text_by_a_class_name() {
 
-        final WebDriver driver = mock(WebDriver.class);
-        final Bys by = mock(Bys.class);
         final String className = someString();
 
         final By byClassName = mock(By.class);
@@ -70,7 +78,26 @@ public class FinderTest {
         given(element.getText()).willReturn(expected);
 
         // When
-        final String actual = new Finder(driver, by).findTextByClassName(className);
+        final String actual = finder.findTextByClassName(className);
+
+        // Then
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void Can_find_an_element_by_its_text() {
+
+        final String text = someString();
+
+        final By byClassName = mock(By.class);
+        final WebElement expected = mock(WebElement.class);
+
+        // Given
+        given(by.text(text)).willReturn(byClassName);
+        given(driver.findElement(byClassName)).willReturn(expected);
+
+        // When
+        final WebElement actual = finder.findByText(text);
 
         // Then
         assertThat(actual, is(expected));

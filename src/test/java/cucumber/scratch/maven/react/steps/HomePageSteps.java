@@ -19,6 +19,7 @@ package cucumber.scratch.maven.react.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.scratch.maven.react.pages.HomePage;
+import cucumber.scratch.maven.react.pages.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -28,21 +29,25 @@ import static org.junit.Assert.assertThat;
 public class HomePageSteps {
 
     private final PagePathHolder pagePathHolder;
+    private final Page page;
     private final HomePage homePage;
 
     @Autowired
-    public HomePageSteps(PagePathHolder pagePathHolder, HomePage homePage) {
+    public HomePageSteps(PagePathHolder pagePathHolder, Page page, HomePage homePage) {
         this.pagePathHolder = pagePathHolder;
+        this.page = page;
         this.homePage = homePage;
     }
 
     @Given("^I have decided to visit the Hello World homepage$")
     public void iHaveDecidedToVisitTheHelloWorldHomepage() {
+        page.clearCookies();
         pagePathHolder.set("");
     }
 
     @Then("^I should see it rendered correctly$")
     public void iShouldSeeItRenderedCorrectly() {
+        assertThat(homePage.isLoggedIn(), equalTo(false));
         assertThat(homePage.getMessage(), equalTo("Hello world."));
         assertThat(homePage.hasImage(), is(true));
     }

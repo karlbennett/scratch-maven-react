@@ -37,4 +37,8 @@ public class Finder {
     public String findTextByClassName(String className) {
         return findByClassName(className).getText();
     }
+
+    public WebElement findByText(String text) {
+        return driver.findElement(by.text(text));
+    }
 }

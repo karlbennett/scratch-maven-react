@@ -17,25 +17,52 @@
 package scratch.maven.react.pages;
 
 import cucumber.scratch.maven.react.pages.Page;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.openqa.selenium.WebDriver.Options;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class PageTest {
+
+    private String baseUrl;
+    private WebDriver driver;
+    private Page page;
+
+    @Before
+    public void setUp() {
+        baseUrl = someString();
+        driver = mock(WebDriver.class);
+        page = new Page(baseUrl, driver);
+    }
+
+    @Test
+    public void Can_clear_the_browsers_cookies() {
+
+        final Options options = mock(Options.class);
+
+        // Given
+        given(driver.manage()).willReturn(options);
+
+        // When
+        page.clearCookies();
+
+        // Then
+        verify(options).deleteAllCookies();
+    }
 
     @Test
     public void Can_visit_a_page() {
 
         // Given
-        final String baseUrl = someString();
-        final WebDriver driver = mock(WebDriver.class);
         final String path = someString();
 
         // When
-        new Page(baseUrl, driver).visit(path);
+        page.visit(path);
 
         // Then
         verify(driver).get(baseUrl + path);

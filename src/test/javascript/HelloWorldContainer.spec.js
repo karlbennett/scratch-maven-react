@@ -42,7 +42,7 @@ describe('src/test/javascript/HelloWorldContainer.spec.js', () => {
     fetchMock.get('*', 'some other text to prove the http request is not being used.');
 
     // When
-    const actual = render(<HelloWorldContainer store={store} />).find('a').text();
+    const actual = render(<HelloWorldContainer store={store} />).find('p').text();
 
     // Then
     assertThat(actual, equalTo(text))

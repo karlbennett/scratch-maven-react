@@ -16,19 +16,28 @@
 
 import React from 'react';
 import { render } from 'enzyme';
-import HelloWorld from '../../main/javascript/HelloWorld';
+import HelloWorldLayout from '../../main/javascript/HelloWorldLayout';
 
-describe('src/test/javascript/HelloWorld.spec.js', () => {
+describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
 
-  it('Can add text to a HelloWorld tag', () => {
-
-    // Given
-    const text = 'some text';
+  it('Can show that the user is not logged in', () => {
 
     // When
-    const actual = render(<HelloWorld text={text} />).find('p').text();
+    const actual = render(<HelloWorldLayout />).find('.hello_world_header > a:nth-child(1)').text();
 
     // Then
-    assertThat(actual, equalTo(text))
+    assertThat(actual, equalTo('Login'))
+  });
+
+  it('Can add content to the layout', () => {
+
+    // Given
+    const expected = 'some content';
+
+    // When
+    const actual = render(<HelloWorldLayout>{expected}</HelloWorldLayout>).find('.hello_world_content').text();
+
+    // Then
+    assertThat(actual, equalTo(expected))
   });
 });

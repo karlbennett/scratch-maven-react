@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-import React, { PropTypes } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { Link } from 'react-router';
 
-// Here we create a JSX fragment that can be used within other React components as a tag e.g. <HelloWorld/>
-const HelloWorld = ({ text }) => (
-  <div className="hello_world">
-    <p className="hello_world_message">{text}</p>
-    <div className="hello_world_image" />
+const HelloWorldLayout = ({ children }) => (
+  <div>
+    <div className="hello_world_header">
+      <Link className="hello_world_login" to={'/login'}>Login</Link>
+    </div>
+    <div className="hello_world_content">
+      {children}
+    </div>
   </div>
 );
 
-// Here we define any properties for the fragment, these map to attributes within the tag
-// e.g. <HelloWorld text={'some text'}/>
-HelloWorld.propTypes = {
-  text: PropTypes.string,
-};
-
-export default HelloWorld;
+export default HelloWorldLayout;

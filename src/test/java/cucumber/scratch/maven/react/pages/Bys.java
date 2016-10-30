@@ -19,10 +19,16 @@ package cucumber.scratch.maven.react.pages;
 import org.openqa.selenium.By;
 import org.springframework.stereotype.Component;
 
+import static java.lang.String.format;
+
 @Component
 public class Bys {
 
     public By className(String className) {
         return By.className(className);
+    }
+
+    public By text(String text) {
+        return By.xpath(format("//*[contains(text(),'%s')]", text));
     }
 }

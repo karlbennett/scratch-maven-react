@@ -41,6 +41,34 @@ public class HomePageTest {
     }
 
     @Test
+    public void Can_check_that_the_user_is_logged_in() {
+
+        // Given
+        given(finder.findByText("Login")).willThrow(new NoSuchElementException(someString()));
+        given(finder.findByText("Logout")).willReturn(mock(WebElement.class));
+
+        // When
+        final boolean actual = page.isLoggedIn();
+
+        // Then
+        assertThat(actual, is(true));
+    }
+
+    @Test
+    public void Can_check_that_the_user_is_logged_out() {
+
+        // Given
+        given(finder.findByText("Login")).willReturn(mock(WebElement.class));
+        given(finder.findByText("Logout")).willThrow(new NoSuchElementException(someString()));
+
+        // When
+        final boolean actual = page.isLoggedIn();
+
+        // Then
+        assertThat(actual, is(false));
+    }
+
+    @Test
     public void Can_get_the_home_page_message() {
 
         final String expected = someString();

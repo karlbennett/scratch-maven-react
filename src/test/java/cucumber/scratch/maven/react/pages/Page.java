@@ -31,6 +31,10 @@ public class Page {
         this.driver = driver;
     }
 
+    public void clearCookies() {
+        driver.manage().deleteAllCookies();
+    }
+
     public void visit(String path) {
         driver.get(baseUrl + path);
     }
