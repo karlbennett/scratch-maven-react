@@ -41,13 +41,16 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <cucumber.version>1.2.5</cucumber.version>
         <sonar.language>js</sonar.language>
         <sonar.javascript.file.suffixes>.js,.jsx</sonar.javascript.file.suffixes>
         <sonar.sources>${project.basedir}/src/main/javascript</sonar.sources>
         <sonar.tests>${project.basedir}/src/test/javascript</sonar.tests>
         <sonar.binaries>${project.build.directory}/dist</sonar.binaries>
-        <sonar.genericcoverage.unitTestReportPaths>${project.build.directory}/karma/test/ut_report.xml</sonar.genericcoverage.unitTestReportPaths>
-        <sonar.javascript.lcov.reportPath>${project.build.directory}/karma/coverage/lcov/lcov.info</sonar.javascript.lcov.reportPath>
+        <sonar.genericcoverage.unitTestReportPaths>${project.build.directory}/karma/test/ut_report.xml
+        </sonar.genericcoverage.unitTestReportPaths>
+        <sonar.javascript.lcov.reportPath>${project.build.directory}/karma/coverage/lcov/lcov.info
+        </sonar.javascript.lcov.reportPath>
     </properties>
 
     <profiles>
@@ -126,8 +129,23 @@
                             <goal>webpack</goal>
                         </goals>
                         <configuration>
-                            <arguments>--output-path ${project.build.outputDirectory}/static --progress --colors --watch --profiles=${webpack.profile}</arguments>
+                            <arguments>--output-path ${project.build.outputDirectory}/static --progress --colors --watch
+                                --profiles=${webpack.profile}
+                            </arguments>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Enable the execution of the integration tests. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -193,7 +211,65 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.0.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shiver-me-timbers</groupId>
+            <artifactId>smt-waiting-aspect</artifactId>
+            <version>4.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shiver-me-timbers</groupId>
+            <artifactId>smt-waiting-spring</artifactId>
+            <version>4.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>4.3.3.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shiver-me-timbers</groupId>
+            <artifactId>smt-random</artifactId>
+            <version>1.8</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shiver-me-timbers</groupId>
+            <artifactId>smt-matchers</artifactId>
+            <version>1.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
