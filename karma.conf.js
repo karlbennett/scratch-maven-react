@@ -34,9 +34,11 @@ module.exports = function (config) {
 
     // List of files / patterns to load in the browser
     files: [
+      // We load the fetch and babel-polyfill scripts on startup becuase some browsers don't support all the ES6
+      // functions.
       'node_modules/whatwg-fetch/fetch.js',
-      // We load the babel-polyfill on startup becuase some browsers don't support all the ES6 functions.
       'node_modules/babel-polyfill/dist/polyfill.js',
+      // Here we give a pattern for finding the actual tests that we wich to load.
       'src/test/javascript/**/*.spec.js'
     ],
 
