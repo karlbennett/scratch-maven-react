@@ -22,27 +22,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HomePage {
-
-    private Logger log = LoggerFactory.getLogger(getClass());
+public class HelloWorldPage {
 
     private final Finder finder;
+    private Logger log = LoggerFactory.getLogger(getClass());
 
-    public HomePage(Finder finder) {
+
+    public HelloWorldPage(Finder finder) {
         this.finder = finder;
     }
 
-    public String getMessage() {
-        return finder.findTextByClassName("hello_world_message");
+    public boolean isLoggedIn() {
+        try {
+            finder.findByText("Login");
+            return false;
+        } catch (NoSuchElementException e) {
+            log.debug("User is logged in.", e);
+            finder.findByText("Logout");
+            return true;
+        }
     }
 
-    public boolean hasImage() {
-        try {
-            finder.findByClassName("hello_world_image");
-            return true;
-        } catch (NoSuchElementException e) {
-            log.error("Failed to find the home page image.", e);
-            return false;
-        }
+    public void clickLogin() {
+        finder.clickByText("Login");
     }
 }

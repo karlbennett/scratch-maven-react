@@ -16,33 +16,21 @@
 
 package cucumber.scratch.maven.react.pages;
 
-import org.openqa.selenium.NoSuchElementException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cucumber.scratch.maven.react.domain.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HomePage {
-
-    private Logger log = LoggerFactory.getLogger(getClass());
+public class LoginPage {
 
     private final Finder finder;
 
-    public HomePage(Finder finder) {
+    public LoginPage(Finder finder) {
         this.finder = finder;
     }
 
-    public String getMessage() {
-        return finder.findTextByClassName("hello_world_message");
-    }
-
-    public boolean hasImage() {
-        try {
-            finder.findByClassName("hello_world_image");
-            return true;
-        } catch (NoSuchElementException e) {
-            log.error("Failed to find the home page image.", e);
-            return false;
-        }
+    public void login(User user) {
+        finder.setTextByLabel("Username", user.getUserName());
+        finder.setTextByLabel("Password", user.getPassword());
+        finder.clickByValue("Login");
     }
 }

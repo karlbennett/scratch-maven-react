@@ -18,40 +18,57 @@ package cucumber.scratch.maven.react.steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import cucumber.scratch.maven.react.domain.UserFactory;
 import cucumber.scratch.maven.react.pages.HelloWorldPage;
-import cucumber.scratch.maven.react.pages.HomePage;
+import cucumber.scratch.maven.react.pages.LoginPage;
 import cucumber.scratch.maven.react.pages.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class HomePageSteps {
+public class LoginSteps {
 
-    private final PagePathHolder pagePathHolder;
+    private final UserFactory userFactory;
+    private final UserHolder userHolder;
     private final Page page;
     private final HelloWorldPage helloWorldPage;
-    private final HomePage homePage;
+    private final LoginPage loginPage;
 
     @Autowired
-    public HomePageSteps(PagePathHolder pagePathHolder, Page page, HelloWorldPage helloWorldPage, HomePage homePage) {
-        this.pagePathHolder = pagePathHolder;
+    public LoginSteps(
+        UserFactory userFactory,
+        UserHolder userHolder,
+        Page page,
+        HelloWorldPage helloWorldPage,
+        LoginPage loginPage
+    ) {
+        this.userFactory = userFactory;
+        this.userHolder = userHolder;
         this.page = page;
         this.helloWorldPage = helloWorldPage;
-        this.homePage = homePage;
+        this.loginPage = loginPage;
     }
 
-    @Given("^I have decided to visit the Hello World homepage$")
-    public void iHaveDecidedToVisitTheHelloWorldHomepage() {
+    @Given("^I am an existing user$")
+    public void iAmAnExistingUser() {
+        userHolder.set(userFactory.create("existing"));
+    }
+
+    @Given("^I am not logged in$")
+    public void iAmNotLoggedIn() {
         page.clearCookies();
-        pagePathHolder.set("");
     }
 
-    @Then("^I should be on the home page$")
-    public void iShouldBeOnTheHomePage() {
-        assertThat(helloWorldPage.isLoggedIn(), equalTo(false));
-        assertThat(homePage.getMessage(), equalTo("Hello world."));
-        assertThat(homePage.hasImage(), is(true));
+    @When("^I login$")
+    public void iLogin() {
+        helloWorldPage.clickLogin();
+        loginPage.login(userHolder.get());
+    }
+
+    @Then("^I should see that I am logged in$")
+    public void iShouldSeeThatIAmLoggedIn() {
+        assertThat(helloWorldPage.isLoggedIn(), is(true));
     }
 }

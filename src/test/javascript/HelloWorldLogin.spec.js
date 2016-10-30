@@ -15,20 +15,24 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
-import HelloWorld from '../../main/javascript/HelloWorld';
+import { mount } from 'enzyme';
+import HelloWorldLogin from '../../main/javascript/HelloWorldLogin';
 
-describe('src/test/javascript/HelloWorld.spec.js', () => {
+describe('src/test/javascript/HelloWorldLogin.spec.js', () => {
 
-  it('Can add text to a HelloWorld tag', () => {
+  it('Can execute a function on submit', () => {
 
     // Given
-    const text = 'some text';
+    const username = 'some username';
+    const password = 'some password';
+    const submit = mockFunction();
 
     // When
-    const actual = render(<HelloWorld text={text} />).find('.hello_world_message').text();
+    var helloWorldLogin = mount(<HelloWorldLogin submitLogin={submit} />);
+    helloWorldLogin.setState({ username: username, password: password });
+    helloWorldLogin.find('form').simulate('submit');
 
     // Then
-    assertThat(actual, equalTo(text))
+    verify(submit)(username, password);
   });
 });

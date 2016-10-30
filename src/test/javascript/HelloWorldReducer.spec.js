@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import HelloWorldReducer from '../../main/javascript/HelloWorldReducer';
+import HelloWorldReducer from '../../main/javascript/HelloWorldReducers';
 
 describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
 

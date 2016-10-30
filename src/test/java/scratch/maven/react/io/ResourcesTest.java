@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import { render } from 'enzyme';
-import HelloWorld from '../../main/javascript/HelloWorld';
+package scratch.maven.react.io;
 
-describe('src/test/javascript/HelloWorld.spec.js', () => {
+import cucumber.scratch.maven.react.io.Resources;
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
 
-  it('Can add text to a HelloWorld tag', () => {
+import java.io.IOException;
 
-    // Given
-    const text = 'some text';
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
-    // When
-    const actual = render(<HelloWorld text={text} />).find('.hello_world_message').text();
+public class ResourcesTest {
 
-    // Then
-    assertThat(actual, equalTo(text))
-  });
-});
+    @Test
+    public void Can_get_the_input_stream_for_a_resource() throws IOException {
+
+        // When
+        final String actual = IOUtils.toString(new Resources().toInputStream("test-resource.txt"));
+
+        // Then
+        assertThat(actual, is("Some test text."));
+    }
+}

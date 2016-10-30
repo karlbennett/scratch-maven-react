@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import { render } from 'enzyme';
-import HelloWorld from '../../main/javascript/HelloWorld';
+package cucumber.scratch.maven.react.domain;
 
-describe('src/test/javascript/HelloWorld.spec.js', () => {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-  it('Can add text to a HelloWorld tag', () => {
+public class User {
 
-    // Given
-    const text = 'some text';
+    private final String userName;
+    private final String password;
 
-    // When
-    const actual = render(<HelloWorld text={text} />).find('.hello_world_message').text();
+    public User(@JsonProperty("username") String userName, @JsonProperty("password") String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 
-    // Then
-    assertThat(actual, equalTo(text))
-  });
-});
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}

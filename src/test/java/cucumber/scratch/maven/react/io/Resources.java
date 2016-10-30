@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import { render } from 'enzyme';
-import HelloWorld from '../../main/javascript/HelloWorld';
+package cucumber.scratch.maven.react.io;
 
-describe('src/test/javascript/HelloWorld.spec.js', () => {
+import org.springframework.stereotype.Component;
 
-  it('Can add text to a HelloWorld tag', () => {
+import java.io.IOException;
+import java.io.InputStream;
 
-    // Given
-    const text = 'some text';
+@Component
+public class Resources {
 
-    // When
-    const actual = render(<HelloWorld text={text} />).find('.hello_world_message').text();
-
-    // Then
-    assertThat(actual, equalTo(text))
-  });
-});
+    public InputStream toInputStream(String path) throws IOException {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+    }
+}

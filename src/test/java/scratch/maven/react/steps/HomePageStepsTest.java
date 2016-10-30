@@ -16,6 +16,7 @@
 
 package scratch.maven.react.steps;
 
+import cucumber.scratch.maven.react.pages.HelloWorldPage;
 import cucumber.scratch.maven.react.pages.HomePage;
 import cucumber.scratch.maven.react.pages.Page;
 import cucumber.scratch.maven.react.steps.HomePageSteps;
@@ -39,6 +40,7 @@ public class HomePageStepsTest {
 
     private PagePathHolder pagePathHolder;
     private Page page;
+    private HelloWorldPage helloWorldPage;
     private HomePage homePage;
     private HomePageSteps steps;
 
@@ -46,8 +48,9 @@ public class HomePageStepsTest {
     public void setUp() {
         pagePathHolder = mock(PagePathHolder.class);
         page = mock(Page.class);
+        helloWorldPage = mock(HelloWorldPage.class);
         homePage = mock(HomePage.class);
-        steps = new HomePageSteps(pagePathHolder, page, homePage);
+        steps = new HomePageSteps(pagePathHolder, page, helloWorldPage, homePage);
     }
 
     @Test
@@ -65,15 +68,15 @@ public class HomePageStepsTest {
     public void Can_verify_the_content_of_the_home_page() {
 
         // Given
-        given(homePage.isLoggedIn()).willReturn(false);
+        given(helloWorldPage.isLoggedIn()).willReturn(false);
         given(homePage.getMessage()).willReturn("Hello world.");
         given(homePage.hasImage()).willReturn(true);
 
         // When
-        steps.iShouldSeeItRenderedCorrectly();
+        steps.iShouldBeOnTheHomePage();
 
         // Then
-        verify(homePage).isLoggedIn();
+        verify(helloWorldPage).isLoggedIn();
         verify(homePage).getMessage();
         verify(homePage).hasImage();
     }
@@ -82,12 +85,12 @@ public class HomePageStepsTest {
     public void Can_verify_the_content_of_the_home_page_is_invalid() {
 
         // Given
-        given(homePage.isLoggedIn()).willReturn(someBoolean());
+        given(helloWorldPage.isLoggedIn()).willReturn(someBoolean());
         given(homePage.getMessage()).willReturn(someThing(someString(), "Hello world."));
         given(homePage.hasImage()).willReturn(false);
         expectedException.expect(AssertionError.class);
 
         // When
-        steps.iShouldSeeItRenderedCorrectly();
+        steps.iShouldBeOnTheHomePage();
     }
 }

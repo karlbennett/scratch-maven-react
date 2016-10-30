@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-describe('src/test/javascript/HelloWorldAction.spec.js', () => {
+describe('src/test/javascript/HelloWorldActions.spec.js', () => {
 
   var mockRequest, HelloWorldAction;
 
   beforeEach(function () {
     // Here we manually load the HelloWorldAction through the inject-loader so that we can override the
     // HelloWorldService import and mock it's request method.
-    const inject = require('inject!../../main/javascript/HelloWorldAction');
+    const inject = require('inject!../../main/javascript/HelloWorldActions');
     mockRequest = mockFunction();
     HelloWorldAction = inject({
       './HelloWorldService': class {
@@ -29,7 +29,7 @@ describe('src/test/javascript/HelloWorldAction.spec.js', () => {
           this.request = mockRequest;
         }
       }
-    }).default;
+    }).requestHelloWorld;
   });
 
   it('Can dispatch a HelloWorld action', () => {

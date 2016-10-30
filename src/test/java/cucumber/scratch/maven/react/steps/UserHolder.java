@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import { render } from 'enzyme';
-import HelloWorld from '../../main/javascript/HelloWorld';
+package cucumber.scratch.maven.react.steps;
 
-describe('src/test/javascript/HelloWorld.spec.js', () => {
+import cucumber.scratch.maven.react.domain.User;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-  it('Can add text to a HelloWorld tag', () => {
-
-    // Given
-    const text = 'some text';
-
-    // When
-    const actual = render(<HelloWorld text={text} />).find('.hello_world_message').text();
-
-    // Then
-    assertThat(actual, equalTo(text))
-  });
-});
+@Component
+@Scope("cucumber-glue")
+public class UserHolder extends GenericHolder<User> {
+}

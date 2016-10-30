@@ -20,6 +20,7 @@ import cucumber.scratch.maven.react.pages.Bys;
 import cucumber.scratch.maven.react.pages.Finder;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,7 +28,9 @@ import org.openqa.selenium.WebElement;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class FinderTest {
@@ -89,17 +92,83 @@ public class FinderTest {
 
         final String text = someString();
 
-        final By byClassName = mock(By.class);
+        final By byText = mock(By.class);
         final WebElement expected = mock(WebElement.class);
 
         // Given
-        given(by.text(text)).willReturn(byClassName);
-        given(driver.findElement(byClassName)).willReturn(expected);
+        given(by.text(text)).willReturn(byText);
+        given(driver.findElement(byText)).willReturn(expected);
 
         // When
         final WebElement actual = finder.findByText(text);
 
         // Then
         assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void Can_click_an_element_by_its_text() {
+
+        final String text = someString();
+
+        final By byText = mock(By.class);
+        final WebElement element = mock(WebElement.class);
+
+        // Given
+        given(by.text(text)).willReturn(byText);
+        given(driver.findElement(byText)).willReturn(element);
+
+        // When
+        finder.clickByText(text);
+
+        // Then
+        verify(element).click();
+    }
+
+    @Test
+    public void Can_click_an_element_by_its_value() {
+
+        final String value = someString();
+
+        final By byValue = mock(By.class);
+        final WebElement element = mock(WebElement.class);
+
+        // Given
+        given(by.value(value)).willReturn(byValue);
+        given(driver.findElement(byValue)).willReturn(element);
+
+        // When
+        finder.clickByValue(value);
+
+        // Then
+        verify(element).click();
+    }
+
+    @Test
+    public void Can_set_the_text_of_an_element_by_its_label_name() {
+
+        final String labelName = someString();
+        final String text = someString();
+
+        final By byText = mock(By.class);
+        final WebElement label = mock(WebElement.class);
+        final String inputId = someString();
+        final By byId = mock(By.class);
+        final WebElement input = mock(WebElement.class);
+
+        // Given
+        given(by.text(labelName)).willReturn(byText);
+        given(driver.findElement(byText)).willReturn(label);
+        given(label.getAttribute("for")).willReturn(inputId);
+        given(by.id(inputId)).willReturn(byId);
+        given(driver.findElement(byId)).willReturn(input);
+
+        // When
+        finder.setTextByLabel(labelName, text);
+
+        // Then
+        final InOrder order = inOrder(input);
+        order.verify(input).clear();
+        order.verify(input).sendKeys(text);
     }
 }

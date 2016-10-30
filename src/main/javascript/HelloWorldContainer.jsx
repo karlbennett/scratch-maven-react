@@ -16,7 +16,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import HelloWorldAction from './HelloWorldAction';
+import { requestHelloWorld } from './HelloWorldActions';
 import HelloWorld from './HelloWorld';
 
 // Here we have defined the "Hello World" container, this is responsible from making the "Hello World" HTTP request
@@ -51,4 +51,4 @@ const mapStateToProps = state => ({ text: state.text });
 
 // Here is where we get Redux to bind all the properties for this container and also take control of the calls to the
 // render method.
-export default connect(mapStateToProps, { requestHelloWorld: HelloWorldAction })(HelloWorldContainer);
+export default connect(mapStateToProps, { requestHelloWorld: requestHelloWorld })(HelloWorldContainer);

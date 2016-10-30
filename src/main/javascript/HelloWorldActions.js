@@ -20,7 +20,18 @@ import HelloWorldService from './HelloWorldService';
 // as it's first argument. This will only work if you have added the "redux-thunk" middleware when creating your store.
 // You can see this being done in the "app.jsx" file.
 // NOTE: Normally you would have multiple actions for any given component.
-export default () =>
+export const requestHelloWorld = () =>
   // Once the "Hello World" request has returned a 'HELLO_WORLD' action will be dispatched to any registered Redux
   // reducers.
   dispatch => new HelloWorldService().request(data => dispatch({ type: 'HELLO_WORLD', text: data }));
+
+export const loginHelloWorld = (username, password) =>
+  dispatch => new HelloWorldService().login(
+    username, password,
+    () => {
+      dispatch({ type: 'HELLO_WORLD_LOGIN', username: username })
+    },
+    () => {
+      dispatch({ type: 'HELLO_WORLD_LOGIN', username: '' })
+    }
+  );

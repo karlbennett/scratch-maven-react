@@ -17,7 +17,7 @@
 package scratch.maven.react.pages;
 
 import cucumber.scratch.maven.react.pages.Finder;
-import cucumber.scratch.maven.react.pages.HomePage;
+import cucumber.scratch.maven.react.pages.HelloWorldPage;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
@@ -27,57 +27,55 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
-public class HomePageTest {
+public class HelloWorldPageTest {
 
     private Finder finder;
-    private HomePage page;
+    private HelloWorldPage page;
 
     @Before
     public void setUp() {
         finder = mock(Finder.class);
-        page = new HomePage(finder);
+        page = new HelloWorldPage(finder);
     }
 
     @Test
-    public void Can_get_the_home_page_message() {
-
-        final String expected = someString();
+    public void Can_check_that_the_user_is_logged_in() {
 
         // Given
-        given(finder.findTextByClassName("hello_world_message")).willReturn(expected);
+        given(finder.findByText("Login")).willThrow(new NoSuchElementException(someString()));
+        given(finder.findByText("Logout")).willReturn(mock(WebElement.class));
 
         // When
-        final String actual = page.getMessage();
-
-        // Then
-        assertThat(actual, is(expected));
-    }
-
-    @Test
-    public void Can_check_for_the_home_page_image() {
-
-        // Given
-        given(finder.findByClassName("hello_world_image")).willReturn(mock(WebElement.class));
-
-        // When
-        final boolean actual = page.hasImage();
+        final boolean actual = page.isLoggedIn();
 
         // Then
         assertThat(actual, is(true));
     }
 
     @Test
-    public void Can_check_for_the_home_page_image_not_being_present() {
+    public void Can_check_that_the_user_is_logged_out() {
 
         // Given
-        given(finder.findByClassName("hello_world_image")).willThrow(new NoSuchElementException(someString()));
+        given(finder.findByText("Login")).willReturn(mock(WebElement.class));
+        given(finder.findByText("Logout")).willThrow(new NoSuchElementException(someString()));
 
         // When
-        final boolean actual = page.hasImage();
+        final boolean actual = page.isLoggedIn();
 
         // Then
         assertThat(actual, is(false));
+    }
+
+    @Test
+    public void Can_login_a_user() {
+
+        // When
+        page.clickLogin();
+
+        // Then
+        verify(finder).clickByText("Login");
     }
 }

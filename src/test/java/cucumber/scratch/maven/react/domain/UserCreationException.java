@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import { render } from 'enzyme';
-import HelloWorld from '../../main/javascript/HelloWorld';
+package cucumber.scratch.maven.react.domain;
 
-describe('src/test/javascript/HelloWorld.spec.js', () => {
+import static java.lang.String.format;
 
-  it('Can add text to a HelloWorld tag', () => {
-
-    // Given
-    const text = 'some text';
-
-    // When
-    const actual = render(<HelloWorld text={text} />).find('.hello_world_message').text();
-
-    // Then
-    assertThat(actual, equalTo(text))
-  });
-});
+public class UserCreationException extends IllegalArgumentException {
+    public UserCreationException(String fileName, Throwable cause) {
+        super(format("Failed to create a user from the file (%s).", fileName), cause);
+    }
+}
