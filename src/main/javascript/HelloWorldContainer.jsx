@@ -49,6 +49,9 @@ HelloWorldContainer.propTypes = {
 // is carried out within the "connect()" call bellow.
 const mapStateToProps = state => ({ text: state.text });
 
+// Here we map the Redux action to the components 'this.props.requestHelloWorld' function.
+const mapDispatchToProps = { requestHelloWorld };
+
 // Here is where we get Redux to bind all the properties for this container and also take control of the calls to the
 // render method.
-export default connect(mapStateToProps, { requestHelloWorld: requestHelloWorld })(HelloWorldContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(HelloWorldContainer);

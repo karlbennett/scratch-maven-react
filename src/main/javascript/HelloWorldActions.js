@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { browserHistory } from 'react-router';
 import HelloWorldService from './HelloWorldService';
 
 // Here we are defining an asynchronous Redux action by returning a function that takes the Redux "dispatch()" function
@@ -26,12 +27,13 @@ export const requestHelloWorld = () =>
   dispatch => new HelloWorldService().request(data => dispatch({ type: 'HELLO_WORLD', text: data }));
 
 export const loginHelloWorld = (username, password) =>
-  dispatch => new HelloWorldService().login(
-    username, password,
-    () => {
-      dispatch({ type: 'HELLO_WORLD_LOGIN', username: username })
-    },
-    () => {
-      dispatch({ type: 'HELLO_WORLD_LOGIN', username: '' })
-    }
-  );
+  (dispatch) => {
+    new HelloWorldService().login(
+      username, password,
+      (responseUsername) => {
+        browserHistory.push('/');
+        dispatch({ type: 'HELLO_WORLD_LOGIN', username: responseUsername });
+      },
+      error => dispatch({ type: 'HELLO_WORLD_LOGIN', username: '', loginError: error })
+    );
+  };

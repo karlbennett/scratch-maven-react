@@ -14,46 +14,29 @@
  * limitations under the License.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
-class HelloWorldLogin extends Component {
-
-  constructor(props) {
-    super(props);
-    this.submitLogin = this.submitLogin.bind(this); // Must bind 'this' to put it into the methods scope.
-    this.state = {
-      username: '',
-      password: ''
-    }
-  }
-
-  submitLogin(event) {
-    event.preventDefault();
-    this.props.submitLogin(this.state.username, this.state.password);
-  }
-
-  render() {
-    return (
-      <div className="hello_world_login">
-        <form action="/login" method="POST" onSubmit={this.submitLogin}>
-          <label htmlFor="username" className="hello_world_login_username_label">Username</label>
-          <input
-            id="username" name="username" type="text" className="hello_world_login_username"
-            value={this.state.username}
-          />
-          <label htmlFor="password" className="hello_world_login_password_label">Password</label>
-          <input
-            id="password" name="password" type="password" className="hello_world_login_password"
-            value={this.state.password}
-          />
-          <button type="submit" className="hello_world_login_button">Login</button>
-        </form>
-      </div>
-    );
-  }
-}
+const HelloWorldLogin = ({ usernameOnChange, passwordOnChange, submitLogin }) => (
+  <div className="hello_world_login">
+    <form action="/login" method="POST" onSubmit={submitLogin}>
+      <label htmlFor="username" className="hello_world_login_username_label">Username</label>
+      <input
+        id="username" name="username" type="text" className="hello_world_login_username"
+        onChange={usernameOnChange}
+      />
+      <label htmlFor="password" className="hello_world_login_password_label">Password</label>
+      <input
+        id="password" name="password" type="password" className="hello_world_login_password"
+        onChange={passwordOnChange}
+      />
+      <button type="submit" className="hello_world_login_button">Login</button>
+    </form>
+  </div>
+);
 
 HelloWorldLogin.propTypes = {
+  usernameOnChange: PropTypes.func.isRequired,
+  passwordOnChange: PropTypes.func.isRequired,
   submitLogin: PropTypes.func.isRequired,
 };
 

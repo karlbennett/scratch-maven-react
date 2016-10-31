@@ -31,6 +31,6 @@ public class LoginPage {
     public void login(User user) {
         finder.setTextByLabel("Username", user.getUserName());
         finder.setTextByLabel("Password", user.getPassword());
-        finder.clickByValue("Login");
+        finder.clickByText("Login");
     }
 }

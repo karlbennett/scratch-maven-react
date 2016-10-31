@@ -16,23 +16,34 @@
 
 describe('src/test/javascript/HelloWorldActions.spec.js', () => {
 
-  var mockRequest, HelloWorldAction;
+  var mockPush, mockRequest, mockLogin, requestHelloWorld, loginHelloWorld;
 
   beforeEach(function () {
     // Here we manually load the HelloWorldAction through the inject-loader so that we can override the
     // HelloWorldService import and mock it's request method.
     const inject = require('inject!../../main/javascript/HelloWorldActions');
+    mockPush = mockFunction();
     mockRequest = mockFunction();
-    HelloWorldAction = inject({
+    mockLogin = mockFunction();
+    const HelloWorldActions = inject({
+      'react-router': {
+        browserHistory: {
+          push: mockPush
+        }
+      },
       './HelloWorldService': class {
         constructor() {
           this.request = mockRequest;
+          this.login = mockLogin;
         }
       }
-    }).requestHelloWorld;
+    });
+
+    requestHelloWorld = HelloWorldActions.requestHelloWorld;
+    loginHelloWorld = HelloWorldActions.loginHelloWorld;
   });
 
-  it('Can dispatch a HelloWorld action', () => {
+  it('Can dispatch a HelloWorld request', () => {
 
     const dispatch = mockFunction();
     const text = 'some text';
@@ -41,9 +52,51 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     when(mockRequest)(anything()).then((callback) => callback(text));
 
     // When
-    HelloWorldAction()(dispatch);
+    requestHelloWorld()(dispatch);
 
     // Then
     verify(dispatch)(allOf(hasMember('type', equalTo('HELLO_WORLD')), hasMember('text', equalTo(text))));
+  });
+
+  it('Can dispatch a successful HelloWorld login', () => {
+
+    const dispatch = mockFunction();
+    const username = 'some username';
+    const responseUsername = 'some response username';
+
+    // Given
+    when(mockLogin)(anything()).then((username, password, success, failure) => success(responseUsername));
+
+    // When
+    loginHelloWorld(username, 'some password')(dispatch);
+
+    // Then
+    verify(mockPush)('/');
+    verify(dispatch)(
+      allOf(
+        hasMember('type', equalTo('HELLO_WORLD_LOGIN')), hasMember('username', equalTo(responseUsername))
+      ));
+  });
+
+  it('Can dispatch a successful HelloWorld login', () => {
+
+    const dispatch = mockFunction();
+    const username = 'some username';
+    const error = 'some response error';
+
+    // Given
+    when(mockLogin)(anything()).then((username, password, success, failure) => failure(error));
+
+    // When
+    loginHelloWorld(username, 'some password')(dispatch);
+
+    // Then
+    verify(mockPush, never())(anything());
+    verify(dispatch)(
+      allOf(
+        hasMember('type', equalTo('HELLO_WORLD_LOGIN')),
+        hasMember('username', equalTo('')),
+        hasMember('loginError', equalTo(error))
+      ));
   });
 });

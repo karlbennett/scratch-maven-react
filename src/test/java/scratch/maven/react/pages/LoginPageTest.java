@@ -49,6 +49,6 @@ public class LoginPageTest {
         final InOrder order = inOrder(finder);
         order.verify(finder).setTextByLabel("Username", username);
         order.verify(finder).setTextByLabel("Password", password);
-        order.verify(finder).clickByValue("Login");
+        order.verify(finder).clickByText("Login");
     }
 }

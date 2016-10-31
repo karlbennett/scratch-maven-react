@@ -24,15 +24,35 @@ class HelloWorldLoginContainer extends Component {
   constructor(props) {
     super(props);
     this.submitLogin = this.submitLogin.bind(this);
+    this.usernameOnChange = this.usernameOnChange.bind(this);
+    this.passwordOnChange = this.passwordOnChange.bind(this);
+    this.state = {
+      username: '',
+      password: '',
+    };
   }
 
-  submitLogin(username, password) {
+  submitLogin(event) {
+    event.preventDefault();
+    const username = this.state.username;
+    const password = this.state.password;
+    this.setState({ username: '', password: '' });
     this.props.submitLogin(username, password);
+  }
+
+  usernameOnChange(event) {
+    this.setState({ username: event.target.value });
+  }
+
+  passwordOnChange(event) {
+    this.setState({ password: event.target.value });
   }
 
   render() {
     return (
-      <HelloWorldLogin submitLogin={this.submitLogin} />
+      <HelloWorldLogin
+        usernameOnChange={this.usernameOnChange} passwordOnChange={this.passwordOnChange} submitLogin={this.submitLogin}
+      />
     );
   }
 }

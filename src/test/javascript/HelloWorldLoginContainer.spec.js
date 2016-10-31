@@ -38,9 +38,11 @@ describe('src/test/javascript/HelloWorldLoginContainer.spec.js', () => {
   it('Can execute a function on submit', () => {
 
     const store = mockStore({});
+    const username = 'some username';
+    const password = 'some password';
 
     // Given
-    when(mockLoginHelloWorld)('', '').thenReturn({ type: 'MOCK_ACTION' });
+    when(mockLoginHelloWorld)(anything()).thenReturn({ type: 'MOCK_ACTION' });
 
     // When
     mount(<HelloWorldLoginContainer store={store} />).find('form').simulate('submit');

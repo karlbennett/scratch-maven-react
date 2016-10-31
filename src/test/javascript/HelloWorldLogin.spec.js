@@ -23,16 +23,18 @@ describe('src/test/javascript/HelloWorldLogin.spec.js', () => {
   it('Can execute a function on submit', () => {
 
     // Given
-    const username = 'some username';
-    const password = 'some password';
+    const usernameOnChange = mockFunction();
+    const passwordOnChange = mockFunction();
     const submit = mockFunction();
 
     // When
-    var helloWorldLogin = mount(<HelloWorldLogin submitLogin={submit} />);
-    helloWorldLogin.setState({ username: username, password: password });
-    helloWorldLogin.find('form').simulate('submit');
+    mount(
+      <HelloWorldLogin usernameOnChange={usernameOnChange} passwordOnChange={passwordOnChange} submitLogin={submit} />
+    ).find('form').simulate('submit');
 
     // Then
-    verify(submit)(username, password);
+    verify(usernameOnChange, never())(anything());
+    verify(passwordOnChange, never())(anything());
+    verify(submit)(anything());
   });
 });

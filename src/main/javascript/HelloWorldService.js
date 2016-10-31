@@ -28,4 +28,25 @@ export default class HelloWorldService {
     // eslint-disable-next-line no-undef
     return fetch('/hello').then(response => response.text()).then(text => processData(text));
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  login(username, password, success, failure) {
+    // We return the promise to allow users of this method to add further executions to the chain.
+    // eslint-disable-next-line no-undef
+    return fetch(
+      '/login',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+        body: `username=${username}&password=${password}`,
+        credentials: 'same-origin',
+      }
+    ).then((response) => {
+      if (!response.ok) {
+        throw Error('Login Failed');
+      }
+      return response.json();
+    }).then(json => success(json.username))
+      .catch(error => failure(error.message));
+  }
 }

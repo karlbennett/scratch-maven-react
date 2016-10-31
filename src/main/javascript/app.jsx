@@ -23,7 +23,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import HelloWorldReducer from './HelloWorldReducers';
 import HelloWorldLayout from './HelloWorldLayout';
 import HelloWorldContainer from './HelloWorldContainer';
-import HelloWorldLogin from './HelloWorldLogin';
+import HelloWorldLoginContainer from './HelloWorldLoginContainer';
 
 // This will cause Webpack to add the compiled "main.scss" SASS file to the index.html page.
 require('../sass/main.scss');
@@ -40,7 +40,7 @@ window.app = ReactDOM.render( // eslint-disable-line no-undef
       <Route path="/" component={HelloWorldLayout}>
         <IndexRoute component={HelloWorldContainer} />
       </Route>
-      <Route path="/login" component={HelloWorldLogin} />
+      <Route path="/login" component={HelloWorldLoginContainer} />
     </Router>
   </Provider>,
   document.getElementById('content') // eslint-disable-line no-undef

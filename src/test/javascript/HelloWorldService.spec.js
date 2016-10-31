@@ -27,7 +27,7 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
     fetchMock.restore()
   });
 
-  it('Can make a request to the endpoint', (done) => {
+  it('Can make a hello world request', (done) => {
 
     const data = mockFunction();
     const text = 'some service text';
@@ -42,6 +42,47 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
       // Then
       verify(data)(text);
       done(); // Indicate that the async test has successfully completed.
+    });
+  });
+
+  it('Can make a successful login request', (done) => {
+
+    const username = 'some service username';
+    const password = 'some service password';
+    const responseUsername = 'some service username';
+    const success = mockFunction();
+    const failure = mockFunction();
+
+    // Given
+    fetchMock.post('*', { status: 200, body: { username: responseUsername } });
+
+    // When
+    new HelloWorldService().login(username, password, success, failure).then(() => {
+
+      // Then
+      verify(success)(responseUsername);
+      verify(failure, never())(anything());
+      done();
+    });
+  });
+
+  it('Can make a failed login request', (done) => {
+
+    const username = 'some service username';
+    const password = 'some service password';
+    const success = mockFunction();
+    const failure = mockFunction();
+
+    // Given
+    fetchMock.post('*', { status: 401 });
+
+    // When
+    new HelloWorldService().login(username, password, success, failure).then(() => {
+
+      // Then
+      verify(success, never())(anything());
+      verify(failure)('Login Failed');
+      done();
     });
   });
 });

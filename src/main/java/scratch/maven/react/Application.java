@@ -16,6 +16,8 @@
 
 package scratch.maven.react;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,6 +28,7 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static java.util.Collections.singletonMap;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -40,6 +43,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @SpringBootApplication
 @EnableWebSecurity
 public class Application extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private ObjectMapper mapper;
 
     /**
      * This is the backend endpoint that the React frontend will call to get the text that is to be be displayed on the
@@ -65,7 +71,10 @@ public class Application extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
             .and()
             .formLogin()
-            .successHandler((request, response, authentication) -> response.setStatus(SC_OK))
+            .successHandler((request, response, authentication) -> {
+                response.setStatus(SC_OK);
+                mapper.writeValue(response.getOutputStream(), singletonMap("username", authentication.getPrincipal()));
+            })
             .failureHandler((request, response, exception) -> response.sendError(SC_UNAUTHORIZED, "Login Failed"))
             .loginPage("/login").permitAll()
             .and()
