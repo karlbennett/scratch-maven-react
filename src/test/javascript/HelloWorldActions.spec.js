@@ -47,15 +47,18 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
 
     const dispatch = mockFunction();
     const text = 'some text';
+    var newState = null;
 
     // Given
-    when(mockRequest)(anything()).then((callback) => callback(text));
+    when(mockRequest)(anything()).then(callback => callback(text));
+    when(dispatch)(anything()).then((object) => (newState = object.newState()));
 
     // When
     requestHelloWorld()(dispatch);
 
     // Then
-    verify(dispatch)(allOf(hasMember('type', equalTo('HELLO_WORLD')), hasMember('text', equalTo(text))));
+    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(newState, hasMember('text', equalTo(text)));
   });
 
   it('Can dispatch a successful HelloWorld login', () => {
@@ -63,21 +66,25 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     const dispatch = mockFunction();
     const username = 'some username';
     const responseUsername = 'some response username';
+    var newState = null;
 
     // Given
     when(mockLogin)(anything()).then((username, password, success, failure) => success(responseUsername));
+    when(dispatch)(anything()).then((object) => (newState = object.newState()));
 
     // When
     loginHelloWorld(username, 'some password')(dispatch);
 
     // Then
     verify(mockPush)('/');
-    verify(dispatch)(
+    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(
+      newState,
       allOf(
-        hasMember('type', equalTo('HELLO_WORLD_LOGIN')),
         hasMember('loggedIn', equalTo(true)),
         hasMember('username', equalTo(responseUsername))
-      ));
+      )
+    );
   });
 
   it('Can dispatch a successful HelloWorld login', () => {
@@ -85,21 +92,25 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     const dispatch = mockFunction();
     const username = 'some username';
     const error = 'some response error';
+    var newState = null;
 
     // Given
     when(mockLogin)(anything()).then((username, password, success, failure) => failure(error));
+    when(dispatch)(anything()).then((object) => (newState = object.newState()));
 
     // When
     loginHelloWorld(username, 'some password')(dispatch);
 
     // Then
     verify(mockPush, never())(anything());
-    verify(dispatch)(
+    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(
+      newState,
       allOf(
-        hasMember('type', equalTo('HELLO_WORLD_LOGIN')),
         hasMember('loggedIn', equalTo(false)),
         hasMember('username', equalTo('')),
         hasMember('loginError', equalTo(error))
-      ));
+      )
+    );
   });
 });

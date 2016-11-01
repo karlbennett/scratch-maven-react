@@ -18,11 +18,10 @@
 // dispatched and updating the application state accordingly. If the reducer ends up changing the state then Redux will
 // re-render any components that have bound to that state attributes that have been updated.
 export default (state = {}, action) => {
-  if (action.type === 'HELLO_WORLD') {
-    return Object.assign({}, state, { text: action.text });
-  }
-  if (action.type === 'HELLO_WORLD_LOGIN') {
-    return Object.assign({}, state, { loggedIn: action.loggedIn, username: action.username });
+  // A polymorphic action must contain a 'newState' function that will return the required state updates when it is
+  // evaluated.
+  if (action.type === 'POLYMORPHIC') {
+    return Object.assign({}, state, action.newState(state));
   }
   return state;
 };

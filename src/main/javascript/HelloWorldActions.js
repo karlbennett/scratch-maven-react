@@ -23,7 +23,7 @@ import HelloWorldService from './HelloWorldService';
 function loginSuccessHandler(dispatch) {
   return (responseUsername) => {
     browserHistory.push('/');
-    dispatch({ type: 'HELLO_WORLD_LOGIN', loggedIn: true, username: responseUsername });
+    dispatch({ type: 'POLYMORPHIC', newState: () => ({ loggedIn: true, username: responseUsername }) });
   };
 }
 
@@ -31,7 +31,10 @@ function loginSuccessHandler(dispatch) {
  * If the login fails make sure to clear the login state.
  */
 function loginFailureHandler(dispatch) {
-  return error => dispatch({ type: 'HELLO_WORLD_LOGIN', loggedIn: false, username: '', loginError: error });
+  return error => dispatch({
+    type: 'POLYMORPHIC',
+    newState: () => ({ loggedIn: false, username: '', loginError: error }),
+  });
 }
 
 /**
@@ -42,7 +45,10 @@ function loginFailureHandler(dispatch) {
 export const requestHelloWorld = () =>
   // Once the "Hello World" request has returned, a 'HELLO_WORLD' action will be dispatched to any registered Redux
   // reducers.
-  dispatch => new HelloWorldService().request(data => dispatch({ type: 'HELLO_WORLD', text: data }));
+  dispatch => new HelloWorldService().request(data => dispatch({
+    type: 'POLYMORPHIC',
+    newState: () => ({ text: data }),
+  }));
 
 /**
  * This action carries out a login, it is also asynchronous because the login is an HTTP request.

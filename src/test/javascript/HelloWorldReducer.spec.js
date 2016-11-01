@@ -18,7 +18,7 @@ import HelloWorldReducer from '../../main/javascript/HelloWorldReducer';
 
 describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
 
-  it('Can update the application state with the new hello world text.', () => {
+  it('Can update the application state with a polymorphic action', () => {
 
     // Given
     const oldText = 'some old text';
@@ -26,41 +26,10 @@ describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
     const oldState = { text: oldText };
 
     // When
-    const actual = HelloWorldReducer(oldState, { type: 'HELLO_WORLD', text: newText });
+    const actual = HelloWorldReducer(oldState, { type: 'POLYMORPHIC', newState: () => ({ text: newText }) });
 
     // Then
     assertThat(actual, hasMember('text', newText));
-    assertThat(oldState, hasMember('text', oldText));
-  });
-
-  it('Can update the application state with the new login values.', () => {
-
-    // Given
-    const loggedIn = true;
-    const username = 'some old text';
-    const oldLoggedIn = false;
-    const oldUsername = 'some old username';
-    const oldState = { loggedIn: oldLoggedIn, username: oldUsername };
-
-    // When
-    const actual = HelloWorldReducer(oldState, { type: 'HELLO_WORLD_LOGIN', loggedIn, username });
-
-    // Then
-    assertThat(actual, allOf(hasMember('loggedIn', loggedIn), hasMember('username', username)));
-    assertThat(oldState, allOf(hasMember('loggedIn', oldLoggedIn), hasMember('username', oldUsername)));
-  });
-
-  it('Will not update the application state for a non hello world action.', () => {
-
-    // Given
-    const oldText = 'some old text';
-    const oldState = { text: oldText };
-
-    // When
-    const actual = HelloWorldReducer(oldState, { type: 'HELLO_MOON', text: 'some new text' });
-
-    // Then
-    assertThat(actual, hasMember('text', oldText));
     assertThat(oldState, hasMember('text', oldText));
   });
 });
