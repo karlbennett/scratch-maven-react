@@ -17,6 +17,7 @@
 /* eslint-disable react/prop-types, react/jsx-indent */
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
 // This component contains the wrapping for all the main pages on the web site. It uses the default 'children' React
 // component property to allow it to be used to wrap other components
@@ -43,4 +44,10 @@ HelloWorldLayout.propTypes = {
   loggedIn: PropTypes.bool,
 };
 
-export default HelloWorldLayout;
+// It is possible to bind a simple stateless React component function with Redux as well as a Component class.
+const mapStateToProps = state => ({
+  username: state.username,
+  loggedIn: state.loggedIn,
+});
+
+export default connect(mapStateToProps)(HelloWorldLayout);

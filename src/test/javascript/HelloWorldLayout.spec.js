@@ -16,14 +16,21 @@
 
 import React from 'react';
 import { render } from 'enzyme';
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
 import HelloWorldLayout from '../../main/javascript/HelloWorldLayout';
+
+const mockStore = configureStore([thunk]);
 
 describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
 
   it('Can show that the user is not logged in', () => {
 
+    // Given
+    const store = mockStore({});
+
     // When
-    const actual = render(<HelloWorldLayout />).find('.hello_world_header > a').text();
+    const actual = render(<HelloWorldLayout store={store} />).find('.hello_world_header > a').text();
 
     // Then
     assertThat(actual, equalTo('Login'))
@@ -33,9 +40,10 @@ describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
 
     // Given
     const username = 'some username';
+    const store = mockStore({ loggedIn: true, username });
 
     // When
-    const component = render(<HelloWorldLayout loggedIn={true} username={username} />);
+    const component = render(<HelloWorldLayout store={store} />);
 
     // Then
     assertThat(component.find('.hello_world_header p').text(), equalTo(username));
@@ -45,10 +53,12 @@ describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
   it('Can add content to the layout', () => {
 
     // Given
+    const store = mockStore({});
     const expected = 'some content';
 
     // When
-    const actual = render(<HelloWorldLayout>{expected}</HelloWorldLayout>).find('.hello_world_content').text();
+    const actual = render(<HelloWorldLayout store={store}>{expected}</HelloWorldLayout>)
+      .find('.hello_world_content').text();
 
     // Then
     assertThat(actual, equalTo(expected))

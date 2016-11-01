@@ -21,7 +21,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import HelloWorldReducer from './HelloWorldReducer';
-import HelloWorldLayoutContainer from './HelloWorldLayoutContainer';
+import HelloWorldLayout from './HelloWorldLayout';
 import HelloWorldContainer from './HelloWorldContainer';
 import HelloWorldLoginContainer from './HelloWorldLoginContainer';
 
@@ -37,7 +37,7 @@ const store = createStore(HelloWorldReducer, applyMiddleware(thunk));
 window.app = ReactDOM.render( // eslint-disable-line no-undef
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={HelloWorldLayoutContainer}>
+      <Route path="/" component={HelloWorldLayout}>
         <IndexRoute component={HelloWorldContainer} />
       </Route>
       <Route path="/login" component={HelloWorldLoginContainer} />
