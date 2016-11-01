@@ -50,7 +50,6 @@ public class HomePageSteps {
 
     @Then("^I should be on the home page$")
     public void iShouldBeOnTheHomePage() {
-        assertThat(helloWorldPage.isLoggedIn(), equalTo(false));
         assertThat(homePage.getMessage(), equalTo("Hello world."));
         assertThat(homePage.hasImage(), is(true));
     }

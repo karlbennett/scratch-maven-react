@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import HelloWorldReducer from '../../main/javascript/HelloWorldReducers';
+import HelloWorldReducer from '../../main/javascript/HelloWorldReducer';
 
 describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
 
@@ -31,6 +31,23 @@ describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
     // Then
     assertThat(actual, hasMember('text', newText));
     assertThat(oldState, hasMember('text', oldText));
+  });
+
+  it('Can update the application state with the new login values.', () => {
+
+    // Given
+    const loggedIn = true;
+    const username = 'some old text';
+    const oldLoggedIn = false;
+    const oldUsername = 'some old username';
+    const oldState = { loggedIn: oldLoggedIn, username: oldUsername };
+
+    // When
+    const actual = HelloWorldReducer(oldState, { type: 'HELLO_WORLD_LOGIN', loggedIn, username });
+
+    // Then
+    assertThat(actual, allOf(hasMember('loggedIn', loggedIn), hasMember('username', username)));
+    assertThat(oldState, allOf(hasMember('loggedIn', oldLoggedIn), hasMember('username', oldUsername)));
   });
 
   it('Will not update the application state for a non hello world action.', () => {

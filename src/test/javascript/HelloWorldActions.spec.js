@@ -74,7 +74,9 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     verify(mockPush)('/');
     verify(dispatch)(
       allOf(
-        hasMember('type', equalTo('HELLO_WORLD_LOGIN')), hasMember('username', equalTo(responseUsername))
+        hasMember('type', equalTo('HELLO_WORLD_LOGIN')),
+        hasMember('loggedIn', equalTo(true)),
+        hasMember('username', equalTo(responseUsername))
       ));
   });
 
@@ -95,6 +97,7 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     verify(dispatch)(
       allOf(
         hasMember('type', equalTo('HELLO_WORLD_LOGIN')),
+        hasMember('loggedIn', equalTo(false)),
         hasMember('username', equalTo('')),
         hasMember('loginError', equalTo(error))
       ));

@@ -24,6 +24,7 @@ import cucumber.scratch.maven.react.pages.HelloWorldPage;
 import cucumber.scratch.maven.react.pages.LoginPage;
 import cucumber.scratch.maven.react.pages.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import shiver.me.timbers.waiting.Wait;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -68,7 +69,13 @@ public class LoginSteps {
     }
 
     @Then("^I should see that I am logged in$")
+    @Wait
     public void iShouldSeeThatIAmLoggedIn() {
         assertThat(helloWorldPage.isLoggedIn(), is(true));
+    }
+
+    @Then("^I should not be logged in$")
+    public void iShouldNotBeLoggedIn() {
+        assertThat(helloWorldPage.isLoggedIn(), is(false));
     }
 }

@@ -21,7 +21,9 @@ import 'isomorphic-fetch';
 // code, this makes it much simpler to unit test.
 export default class HelloWorldService {
 
-  // Make the HTTP request and pass the response body down into the supplied callback.
+  /**
+   * Request the 'Hello World' message and then pass it down into the supplied 'processData' callback.
+   */
   // eslint-disable-next-line class-methods-use-this
   request(processData) {
     // We return the promise to allow users of this method to add further executions to the chain.
@@ -29,9 +31,12 @@ export default class HelloWorldService {
     return fetch('/hello').then(response => response.text()).then(text => processData(text));
   }
 
+  /**
+   * Make the login request useing the supplied username and password, if it succeeds call the 'success' callback
+   * otherwise call the 'failure' callback.
+   */
   // eslint-disable-next-line class-methods-use-this
   login(username, password, success, failure) {
-    // We return the promise to allow users of this method to add further executions to the chain.
     // eslint-disable-next-line no-undef
     return fetch(
       '/login',
@@ -42,7 +47,7 @@ export default class HelloWorldService {
         credentials: 'same-origin',
       }
     ).then((response) => {
-      if (!response.ok) {
+      if (!response.ok) { // Fetch doesn't call failure functions for HTTP error codes like other clients.
         throw Error('Login Failed');
       }
       return response.json();

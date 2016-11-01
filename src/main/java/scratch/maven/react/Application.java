@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,7 +74,10 @@ public class Application extends WebSecurityConfigurerAdapter {
             .formLogin()
             .successHandler((request, response, authentication) -> {
                 response.setStatus(SC_OK);
-                mapper.writeValue(response.getOutputStream(), singletonMap("username", authentication.getPrincipal()));
+                mapper.writeValue(
+                    response.getOutputStream(),
+                    singletonMap("username", ((User) authentication.getPrincipal()).getUsername())
+                );
             })
             .failureHandler((request, response, exception) -> response.sendError(SC_UNAUTHORIZED, "Login Failed"))
             .loginPage("/login").permitAll()

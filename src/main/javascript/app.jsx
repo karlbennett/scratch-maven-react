@@ -20,8 +20,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import HelloWorldReducer from './HelloWorldReducers';
-import HelloWorldLayout from './HelloWorldLayout';
+import HelloWorldReducer from './HelloWorldReducer';
+import HelloWorldLayoutContainer from './HelloWorldLayoutContainer';
 import HelloWorldContainer from './HelloWorldContainer';
 import HelloWorldLoginContainer from './HelloWorldLoginContainer';
 
@@ -33,11 +33,11 @@ const store = createStore(HelloWorldReducer, applyMiddleware(thunk));
 
 // Here we setup the entire React app. First the "Provider" component is used to automatically add the Redux store to
 // all React components. Then the "Router" is used to setup the supported paths to the main component
-// e.g. "/" and "/helloWorld"
+// e.g. "/" and "/login"
 window.app = ReactDOM.render( // eslint-disable-line no-undef
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={HelloWorldLayout}>
+      <Route path="/" component={HelloWorldLayoutContainer}>
         <IndexRoute component={HelloWorldContainer} />
       </Route>
       <Route path="/login" component={HelloWorldLoginContainer} />

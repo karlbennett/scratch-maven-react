@@ -96,7 +96,7 @@ public class LoginStepsTest {
     }
 
     @Test
-    public void Can_check_that_the_user_is_logged_in() {
+    public void Can_check_that_the_user_should_be_logged_in_and_is() {
 
         // Given
         given(helloWorldPage.isLoggedIn()).willReturn(true);
@@ -109,7 +109,7 @@ public class LoginStepsTest {
     }
 
     @Test
-    public void Can_check_that_the_user_is_not_logged_in() {
+    public void Can_check_that_the_user_should_be_logged_in_and_is_not() {
 
         // Given
         given(helloWorldPage.isLoggedIn()).willReturn(false);
@@ -117,5 +117,29 @@ public class LoginStepsTest {
 
         // When
         steps.iShouldSeeThatIAmLoggedIn();
+    }
+
+    @Test
+    public void Can_check_that_the_user_should_be_not_logged_in_and_is_not() {
+
+        // Given
+        given(helloWorldPage.isLoggedIn()).willReturn(false);
+
+        // When
+        steps.iShouldNotBeLoggedIn();
+
+        // Then
+        verify(helloWorldPage).isLoggedIn();
+    }
+
+    @Test
+    public void Can_check_that_the_user_should_be_not_logged_in_and_is() {
+
+        // Given
+        given(helloWorldPage.isLoggedIn()).willReturn(true);
+        expectedException.expect(AssertionError.class);
+
+        // When
+        steps.iShouldNotBeLoggedIn();
     }
 }

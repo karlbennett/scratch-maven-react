@@ -16,7 +16,7 @@
 
 import React, { PropTypes } from 'react';
 
-// Here we create a JSX fragment that can be used within other React components as a tag e.g. <HelloWorld/>
+// Here we create a JSX fragment that can be used within other React components as a tag e.g. <HelloWorld />
 const HelloWorld = ({ text }) => (
   <div className="hello_world">
     <p className="hello_world_message">{text}</p>

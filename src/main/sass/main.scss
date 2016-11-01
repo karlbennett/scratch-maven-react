@@ -34,9 +34,15 @@ a:link, a:visited, a:hover, a:active {
     margin: 0 0 50px 0;
     border-bottom: solid black thin;
 
-    .hello_world_login {
+    .hello_world_login, .hello_world_logout, .hello_world_username {
       float: right;
       margin: 10px 20px;
+    }
+
+    .hello_world_logout {
+      margin: 10px 20px 10px 0;
+      padding-left: 20px;
+      border-left: solid black thin;
     }
   }
 

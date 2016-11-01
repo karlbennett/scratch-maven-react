@@ -14,19 +14,33 @@
  * limitations under the License.
  */
 
-/* eslint-disable react/prop-types */
-import React from 'react';
+/* eslint-disable react/prop-types, react/jsx-indent */
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const HelloWorldLayout = ({ children }) => (
+// This component contains the wrapping for all the main pages on the web site. It uses the default 'children' React
+// component property to allow it to be used to wrap other components
+// e.g. <HelloWorldLayout><HelloWorld/></HelloWorldLayout>
+const HelloWorldLayout = ({ loggedIn, username, children }) => (
   <div>
     <div className="hello_world_header">
-      <Link className="hello_world_login" to={'/login'}>Login</Link>
+      {loggedIn ?
+        <div>
+          <Link className="hello_world_logout" to={'/logout'}>Logout</Link>
+          <p className="hello_world_username">{username}</p>
+        </div> :
+        <Link className="hello_world_login" to={'/login'}>Login</Link>
+      }
     </div>
     <div className="hello_world_content">
       {children}
     </div>
   </div>
 );
+
+HelloWorldLayout.propTypes = {
+  username: PropTypes.string,
+  loggedIn: PropTypes.bool,
+};
 
 export default HelloWorldLayout;

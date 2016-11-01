@@ -23,10 +23,23 @@ describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
   it('Can show that the user is not logged in', () => {
 
     // When
-    const actual = render(<HelloWorldLayout />).find('.hello_world_header > a:nth-child(1)').text();
+    const actual = render(<HelloWorldLayout />).find('.hello_world_header > a').text();
 
     // Then
     assertThat(actual, equalTo('Login'))
+  });
+
+  it('Can show that the user is logged in', () => {
+
+    // Given
+    const username = 'some username';
+
+    // When
+    const component = render(<HelloWorldLayout loggedIn={true} username={username} />);
+
+    // Then
+    assertThat(component.find('.hello_world_header p').text(), equalTo(username));
+    assertThat(component.find('.hello_world_header a').text(), equalTo('Logout'));
   });
 
   it('Can add content to the layout', () => {

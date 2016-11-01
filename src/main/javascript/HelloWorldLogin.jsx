@@ -16,6 +16,8 @@
 
 import React, { PropTypes } from 'react';
 
+// We have exposed the three event callback functions in this component to allow other components of containers the
+// register their own functions that can then update their state from the interactions with this components inputs.
 const HelloWorldLogin = ({ usernameOnChange, passwordOnChange, submitLogin }) => (
   <div className="hello_world_login">
     <form action="/login" method="POST" onSubmit={submitLogin}>

@@ -32,6 +32,12 @@ class HelloWorldLoginContainer extends Component {
     };
   }
 
+  /**
+   * This method carries out the login request, it does this by first stopping the submit from doing it's normal page
+   * POST we don't get taken away from the current page. Then is records and clears the login state so that it isn't
+   * recorded and presented the next time this component is rendered. Lastly it carries out the actual login HTTP
+   * request with the entered username and password by calling the bound Redux action.
+   */
   submitLogin(event) {
     event.preventDefault();
     const username = this.state.username;
@@ -40,10 +46,18 @@ class HelloWorldLoginContainer extends Component {
     this.props.submitLogin(username, password);
   }
 
+  /**
+   * This even callback is called every time a character is entered into the Username input. This makes sure this
+   * components state is in sync with the inputs states.
+   */
   usernameOnChange(event) {
     this.setState({ username: event.target.value });
   }
 
+  /**
+   * This even callback is called every time a character is entered into the Password input. This makes sure this
+   * components state is in sync with the inputs states.
+   */
   passwordOnChange(event) {
     this.setState({ password: event.target.value });
   }
@@ -61,4 +75,6 @@ HelloWorldLoginContainer.propTypes = {
   submitLogin: PropTypes.func,
 };
 
+// We have no properties to bind to Redux just the loginHelloWorld action. This is because the login username and
+// password don't need to be available to anyu other components.
 export default connect(() => ({}), { submitLogin: loginHelloWorld })(HelloWorldLoginContainer);

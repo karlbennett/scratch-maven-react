@@ -29,7 +29,6 @@ import org.junit.rules.ExpectedException;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static shiver.me.timbers.data.random.RandomBooleans.someBoolean;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 import static shiver.me.timbers.data.random.RandomThings.someThing;
 
@@ -68,7 +67,6 @@ public class HomePageStepsTest {
     public void Can_verify_the_content_of_the_home_page() {
 
         // Given
-        given(helloWorldPage.isLoggedIn()).willReturn(false);
         given(homePage.getMessage()).willReturn("Hello world.");
         given(homePage.hasImage()).willReturn(true);
 
@@ -76,7 +74,6 @@ public class HomePageStepsTest {
         steps.iShouldBeOnTheHomePage();
 
         // Then
-        verify(helloWorldPage).isLoggedIn();
         verify(homePage).getMessage();
         verify(homePage).hasImage();
     }
@@ -85,7 +82,6 @@ public class HomePageStepsTest {
     public void Can_verify_the_content_of_the_home_page_is_invalid() {
 
         // Given
-        given(helloWorldPage.isLoggedIn()).willReturn(someBoolean());
         given(homePage.getMessage()).willReturn(someThing(someString(), "Hello world."));
         given(homePage.hasImage()).willReturn(false);
         expectedException.expect(AssertionError.class);
