@@ -15,7 +15,7 @@
  */
 
 import { browserHistory } from 'react-router';
-import HelloWorldService from './HelloWorldService';
+import { request, login } from './HelloWorldService';
 
 /**
  * If the login succeeds forward to the home page and dispatch the state for a successful login.
@@ -45,14 +45,10 @@ function loginFailureHandler(dispatch) {
 export const requestHelloWorld = () =>
   // Once the "Hello World" request has returned, a 'HELLO_WORLD' action will be dispatched to any registered Redux
   // reducers.
-  dispatch => new HelloWorldService().request(data => dispatch({
-    type: 'POLYMORPHIC',
-    newState: () => ({ text: data }),
-  }));
+  dispatch => request(data => dispatch({ type: 'POLYMORPHIC', newState: () => ({ text: data }) }));
 
 /**
  * This action carries out a login, it is also asynchronous because the login is an HTTP request.
  */
 export const loginHelloWorld = (username, password) =>
-  dispatch =>
-    new HelloWorldService().login(username, password, loginSuccessHandler(dispatch), loginFailureHandler(dispatch));
+  dispatch => login(username, password, loginSuccessHandler(dispatch), loginFailureHandler(dispatch));

@@ -31,11 +31,9 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
           push: mockPush
         }
       },
-      './HelloWorldService': class {
-        constructor() {
-          this.request = mockRequest;
-          this.login = mockLogin;
-        }
+      './HelloWorldService': {
+        request: mockRequest,
+        login: mockLogin
       }
     });
 

@@ -15,7 +15,7 @@
  */
 
 import fetchMock from 'fetch-mock';
-import HelloWorldService from '../../main/javascript/HelloWorldService.js';
+import { request, login } from '../../main/javascript/HelloWorldService.js';
 
 describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
@@ -36,7 +36,7 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
     fetchMock.get('*', text);
 
     // When
-    new HelloWorldService().request(data).then(() => {
+    request(data).then(() => {
       // This is an async action so we must also carry out the verify as an async callback.
 
       // Then
@@ -57,7 +57,7 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
     fetchMock.post('*', { status: 200, body: { username: responseUsername } });
 
     // When
-    new HelloWorldService().login(username, password, success, failure).then(() => {
+    login(username, password, success, failure).then(() => {
 
       // Then
       verify(success)(responseUsername);
@@ -77,7 +77,7 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
     fetchMock.post('*', { status: 401 });
 
     // When
-    new HelloWorldService().login(username, password, success, failure).then(() => {
+    login(username, password, success, failure).then(() => {
 
       // Then
       verify(success, never())(anything());
