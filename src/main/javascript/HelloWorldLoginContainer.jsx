@@ -17,7 +17,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loginHelloWorld } from './HelloWorldActions';
-import HelloWorldLogin from './HelloWorldLogin';
 
 class HelloWorldLoginContainer extends Component {
 
@@ -63,10 +62,29 @@ class HelloWorldLoginContainer extends Component {
   }
 
   render() {
+    // We haven't bothered pulling this template out as a separate component because it will only ever be used within
+    // the page produced by this container. If later there was a need for a generic login form then it could be pulled
+    // out then.
     return (
-      <HelloWorldLogin
-        usernameOnChange={this.usernameOnChange} passwordOnChange={this.passwordOnChange} submitLogin={this.submitLogin}
-      />
+      <div className="hello_world_login">
+        <form action="/login" method="POST" onSubmit={this.submitLogin}>
+          <label htmlFor="username" className="hello_world_login_username_label">Username</label>
+          {/*
+           We don't bind the components state to the input values so that when we clear the state on a submit it doesn't
+           clear the inputs which would then be seen by the user.
+           */}
+          <input
+            id="username" name="username" type="text" className="hello_world_login_username"
+            onChange={this.usernameOnChange}
+          />
+          <label htmlFor="password" className="hello_world_login_password_label">Password</label>
+          <input
+            id="password" name="password" type="password" className="hello_world_login_password"
+            onChange={this.passwordOnChange}
+          />
+          <button type="submit" className="hello_world_login_button">Login</button>
+        </form>
+      </div>
     );
   }
 }
