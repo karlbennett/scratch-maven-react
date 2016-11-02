@@ -5,5 +5,5 @@ Feature: Can login
     Given I am an existing user
     And I am not logged in
     When I login
-    Then I should see that I am logged in
-    And I should be on the home page
+    Then I should be on the home page
+    And I should see that I am logged in

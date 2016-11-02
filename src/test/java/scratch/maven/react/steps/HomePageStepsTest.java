@@ -16,7 +16,6 @@
 
 package scratch.maven.react.steps;
 
-import cucumber.scratch.maven.react.pages.HelloWorldPage;
 import cucumber.scratch.maven.react.pages.HomePage;
 import cucumber.scratch.maven.react.pages.Page;
 import cucumber.scratch.maven.react.steps.HomePageSteps;
@@ -39,7 +38,6 @@ public class HomePageStepsTest {
 
     private PagePathHolder pagePathHolder;
     private Page page;
-    private HelloWorldPage helloWorldPage;
     private HomePage homePage;
     private HomePageSteps steps;
 
@@ -47,9 +45,8 @@ public class HomePageStepsTest {
     public void setUp() {
         pagePathHolder = mock(PagePathHolder.class);
         page = mock(Page.class);
-        helloWorldPage = mock(HelloWorldPage.class);
         homePage = mock(HomePage.class);
-        steps = new HomePageSteps(pagePathHolder, page, helloWorldPage, homePage);
+        steps = new HomePageSteps(pagePathHolder, page, homePage);
     }
 
     @Test

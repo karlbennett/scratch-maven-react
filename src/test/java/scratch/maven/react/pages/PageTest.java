@@ -24,6 +24,7 @@ import org.openqa.selenium.WebDriver;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.openqa.selenium.WebDriver.Navigation;
 import static org.openqa.selenium.WebDriver.Options;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
@@ -66,5 +67,22 @@ public class PageTest {
 
         // Then
         verify(driver).get(baseUrl + path);
+    }
+
+    @Test
+    public void Can_refresh_a_page() {
+
+        final String path = someString();
+
+        final Navigation navigation = mock(Navigation.class);
+
+        // Given
+        given(driver.navigate()).willReturn(navigation);
+
+        // When
+        page.refresh();
+
+        // Then
+        verify(navigation).refresh();
     }
 }

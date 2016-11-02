@@ -19,6 +19,7 @@ package scratch.maven.react.steps;
 import cucumber.scratch.maven.react.domain.User;
 import cucumber.scratch.maven.react.domain.UserFactory;
 import cucumber.scratch.maven.react.pages.HelloWorldPage;
+import cucumber.scratch.maven.react.pages.HomePage;
 import cucumber.scratch.maven.react.pages.LoginPage;
 import cucumber.scratch.maven.react.pages.Page;
 import cucumber.scratch.maven.react.steps.LoginSteps;
@@ -27,8 +28,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.InOrder;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -42,6 +45,7 @@ public class LoginStepsTest {
     private Page page;
     private HelloWorldPage helloWorldPage;
     private LoginPage loginPage;
+    private HomePage homePage;
     private LoginSteps steps;
 
     @Before
@@ -51,7 +55,8 @@ public class LoginStepsTest {
         page = mock(Page.class);
         helloWorldPage = mock(HelloWorldPage.class);
         loginPage = mock(LoginPage.class);
-        steps = new LoginSteps(userFactory, userHolder, page, helloWorldPage, loginPage);
+        homePage = mock(HomePage.class);
+        steps = new LoginSteps(userFactory, userHolder, page, helloWorldPage, loginPage, homePage);
     }
 
     @Test
@@ -105,7 +110,11 @@ public class LoginStepsTest {
         steps.iShouldSeeThatIAmLoggedIn();
 
         // Then
-        verify(helloWorldPage).isLoggedIn();
+        final InOrder order = inOrder(homePage, page, helloWorldPage);
+        order.verify(homePage).waitToLoad();
+        order.verify(page).refresh();
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).isLoggedIn();
     }
 
     @Test

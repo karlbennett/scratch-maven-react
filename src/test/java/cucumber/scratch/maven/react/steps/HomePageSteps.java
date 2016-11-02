@@ -18,10 +18,10 @@ package cucumber.scratch.maven.react.steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import cucumber.scratch.maven.react.pages.HelloWorldPage;
 import cucumber.scratch.maven.react.pages.HomePage;
 import cucumber.scratch.maven.react.pages.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import shiver.me.timbers.waiting.Wait;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -31,14 +31,12 @@ public class HomePageSteps {
 
     private final PagePathHolder pagePathHolder;
     private final Page page;
-    private final HelloWorldPage helloWorldPage;
     private final HomePage homePage;
 
     @Autowired
-    public HomePageSteps(PagePathHolder pagePathHolder, Page page, HelloWorldPage helloWorldPage, HomePage homePage) {
+    public HomePageSteps(PagePathHolder pagePathHolder, Page page, HomePage homePage) {
         this.pagePathHolder = pagePathHolder;
         this.page = page;
-        this.helloWorldPage = helloWorldPage;
         this.homePage = homePage;
     }
 
@@ -49,6 +47,7 @@ public class HomePageSteps {
     }
 
     @Then("^I should be on the home page$")
+    @Wait
     public void iShouldBeOnTheHomePage() {
         assertThat(homePage.getMessage(), equalTo("Hello world."));
         assertThat(homePage.hasImage(), is(true));

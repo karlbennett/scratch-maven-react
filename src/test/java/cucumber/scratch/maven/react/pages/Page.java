@@ -38,4 +38,8 @@ public class Page {
     public void visit(String path) {
         driver.get(baseUrl + path);
     }
+
+    public void refresh() {
+        driver.navigate().refresh();
+    }
 }

@@ -21,10 +21,10 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.scratch.maven.react.domain.UserFactory;
 import cucumber.scratch.maven.react.pages.HelloWorldPage;
+import cucumber.scratch.maven.react.pages.HomePage;
 import cucumber.scratch.maven.react.pages.LoginPage;
 import cucumber.scratch.maven.react.pages.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import shiver.me.timbers.waiting.Wait;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -36,6 +36,7 @@ public class LoginSteps {
     private final Page page;
     private final HelloWorldPage helloWorldPage;
     private final LoginPage loginPage;
+    private final HomePage homePage;
 
     @Autowired
     public LoginSteps(
@@ -43,13 +44,15 @@ public class LoginSteps {
         UserHolder userHolder,
         Page page,
         HelloWorldPage helloWorldPage,
-        LoginPage loginPage
+        LoginPage loginPage,
+        HomePage homePage
     ) {
         this.userFactory = userFactory;
         this.userHolder = userHolder;
         this.page = page;
         this.helloWorldPage = helloWorldPage;
         this.loginPage = loginPage;
+        this.homePage = homePage;
     }
 
     @Given("^I am an existing user$")
@@ -69,8 +72,10 @@ public class LoginSteps {
     }
 
     @Then("^I should see that I am logged in$")
-    @Wait
     public void iShouldSeeThatIAmLoggedIn() {
+        homePage.waitToLoad();
+        page.refresh();
+        homePage.waitToLoad();
         assertThat(helloWorldPage.isLoggedIn(), is(true));
     }
 

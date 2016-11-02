@@ -27,6 +27,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class HomePageTest {
@@ -79,5 +81,22 @@ public class HomePageTest {
 
         // Then
         assertThat(actual, is(false));
+    }
+
+    @Test
+    public void Can_wait_for_the_page_to_load() {
+
+        // Given
+        given(finder.findTextByClassName("hello_world_message"))
+            .willThrow(new NoSuchElementException(someString())).willReturn(someString());
+        given(finder.findByClassName("hello_world_image"))
+            .willThrow(new NoSuchElementException(someString())).willReturn(mock(WebElement.class));
+
+        // When
+        page.waitToLoad();
+
+        // Then
+        verify(finder, times(3)).findTextByClassName("hello_world_message");
+        verify(finder, times(2)).findByClassName("hello_world_image");
     }
 }

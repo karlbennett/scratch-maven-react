@@ -20,6 +20,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import shiver.me.timbers.waiting.Options;
+import shiver.me.timbers.waiting.Waiter;
 
 @Component
 public class HomePage {
@@ -44,5 +46,12 @@ public class HomePage {
             log.error("Failed to find the home page image.", e);
             return false;
         }
+    }
+
+    public void waitToLoad() {
+        new Waiter(new Options().willWaitForTrue(true)).wait(() -> {
+            getMessage();
+            return hasImage();
+        });
     }
 }
