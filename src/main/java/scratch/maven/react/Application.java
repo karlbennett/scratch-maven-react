@@ -16,22 +16,14 @@
 
 package scratch.maven.react;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import static java.util.Collections.singletonMap;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -42,57 +34,38 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  */
 @RestController
 @SpringBootApplication
-@EnableWebSecurity
-public class Application extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private ObjectMapper mapper;
+@EnableWebMvc
+public class Application extends WebMvcConfigurerAdapter {
 
     /**
-     * This is the backend endpoint that the React frontend will call to get the text that is to be be displayed on the
-     * page.
+     * This is the backend endpoint that the React frontend will call to get the text that is to be displayed on the
+     * home page.
      */
     @RequestMapping(path = "hello", method = GET, produces = APPLICATION_JSON_VALUE)
     public String hello() {
         return "Hello world.";
     }
 
+    /**
+     * This is a secure endpoint that the React frontend will call to get the text that is to be displayed on the secure
+     * page.
+     */
     @RequestMapping(path = "secret", method = GET, produces = APPLICATION_JSON_VALUE)
     public String secret() {
         return "Hello secret world.";
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable()
-            .authorizeRequests().antMatchers("/", "/scripts/*", "/images/*", "/styles/*", "/hello").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-            .and()
-            .formLogin()
-            .successHandler((request, response, authentication) -> {
-                response.setStatus(SC_OK);
-                mapper.writeValue(
-                    response.getOutputStream(),
-                    singletonMap("username", ((User) authentication.getPrincipal()).getUsername())
-                );
-            })
-            .failureHandler((request, response, exception) -> response.sendError(SC_UNAUTHORIZED, "Login Failed"))
-            .loginPage("/login").permitAll()
-            .and()
-            .logout()
-            .logoutSuccessHandler((request, response, authentication) -> response.setStatus(SC_OK))
-            .logoutUrl("/logout").permitAll();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/styles/**").addResourceLocations("classpath:/static/styles/");
+        registry.addResourceHandler("/scripts/**").addResourceLocations("classpath:/static/scripts/");
+        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
+        registry.addResourceHandler("/*").resourceChain(false)
+            .addResolver(new ClasspathFileResourceResolver("/static/index.html"));
     }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
 }

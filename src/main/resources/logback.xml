@@ -23,7 +23,9 @@
         </encoder>
     </appender>
 
-    <root level="ERROR">
+    <logger name="org.springframework.web" level="INFO" />
+
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
