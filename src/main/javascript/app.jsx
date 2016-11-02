@@ -20,6 +20,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { persistStore, autoRehydrate } from 'redux-persist';
 import HelloWorldReducer from './HelloWorldReducer';
 import HelloWorldLayout from './HelloWorldLayout';
 import HelloWorldContainer from './HelloWorldContainer';
@@ -28,8 +29,12 @@ import HelloWorldLoginContainer from './HelloWorldLoginContainer';
 // This will cause Webpack to add the compiled "main.scss" SASS file to the index.html page.
 require('../sass/main.scss');
 
-// Here we create the Redux store and add the "redux-thunk" middleware that allows us to make asynchronous dispatches.
-const store = createStore(HelloWorldReducer, applyMiddleware(thunk));
+// Here we create the Redux store.
+// The "redux-thunk" middleware is added to allows us to make asynchronous dispatches.
+// The the "autoRehydrate" enhancer is added so the 'redux-persist' hydrates the Redux store with the last state after a
+// browser refresh.
+const store = createStore(HelloWorldReducer, applyMiddleware(thunk), autoRehydrate());
+persistStore(store); // Start persisting the Redux state to local storage.
 
 // Here we setup the entire React app. First the "Provider" component is used to automatically add the Redux store to
 // all React components. Then the "Router" is used to setup the supported paths to the main component

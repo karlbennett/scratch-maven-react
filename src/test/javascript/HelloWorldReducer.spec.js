@@ -14,9 +14,20 @@
  * limitations under the License.
  */
 
+import { REHYDRATE } from 'redux-persist/constants';
 import HelloWorldReducer from '../../main/javascript/HelloWorldReducer';
 
 describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
+
+  it('Can start the application with default state', () => {
+
+    // When
+    const actual = HelloWorldReducer(undefined, { type: 'invalid' });
+
+    // Then
+    assertThat(actual.constructor, equalTo(Object));
+    assertThat(Object.keys(actual).length, equalTo(0));
+  });
 
   it('Can update the application state with a polymorphic action', () => {
 
@@ -27,6 +38,21 @@ describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
 
     // When
     const actual = HelloWorldReducer(oldState, { type: 'POLYMORPHIC', newState: () => ({ text: newText }) });
+
+    // Then
+    assertThat(actual, hasMember('text', newText));
+    assertThat(oldState, hasMember('text', oldText));
+  });
+
+  it('Can hydrate the application state with a react-persist REHYDRATE action', () => {
+
+    // Given
+    const oldText = 'some old text';
+    const newText = 'some new text';
+    const oldState = { text: oldText };
+
+    // When
+    const actual = HelloWorldReducer(oldState, { type: REHYDRATE, payload: { text: newText } });
 
     // Then
     assertThat(actual, hasMember('text', newText));

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { REHYDRATE } from 'redux-persist/constants';
+
 // Here we are defining the "Hello World" reducer, it is responsible for reacting to any actions that have been
 // dispatched and updating the application state accordingly. If the reducer ends up changing the state then Redux will
 // re-render any components that have bound to that state attributes that have been updated.
@@ -22,6 +24,11 @@ export default (state = {}, action) => {
   // evaluated.
   if (action.type === 'POLYMORPHIC') {
     return Object.assign({}, state, action.newState(state));
+  }
+  // This handles the react-persist hydration from of the state from the local storage which allows the site to keep
+  // it's state across page refreshes.
+  if (action.type === REHYDRATE) {
+    return Object.assign({}, state, action.payload);
   }
   return state;
 };
