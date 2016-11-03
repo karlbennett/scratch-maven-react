@@ -130,6 +130,6 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
 
     // Then
     verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
-    assertThat(newState, hasMember('text', equalTo(text)));
+    assertThat(newState, hasMember('secretText', equalTo(text)));
   });
 });

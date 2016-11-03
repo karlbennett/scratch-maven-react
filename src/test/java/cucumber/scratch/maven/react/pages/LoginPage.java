@@ -24,15 +24,17 @@ import shiver.me.timbers.waiting.Wait;
 public class LoginPage {
 
     private final Finder finder;
+    private final Bys by;
 
-    public LoginPage(Finder finder) {
+    public LoginPage(Finder finder, Bys by) {
         this.finder = finder;
+        this.by = by;
     }
 
     @Wait
     public void login(User user) {
         finder.setTextByLabel("Username", user.getUserName());
         finder.setTextByLabel("Password", user.getPassword());
-        finder.clickByText("Login");
+        finder.findByClassName("hello_world_login").findElement(by.text("Login")).click();
     }
 }

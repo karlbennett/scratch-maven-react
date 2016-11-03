@@ -68,20 +68,24 @@ class HelloWorldLoginContainer extends Component {
     return (
       <div className="hello_world_login">
         <form action="/login" method="POST" onSubmit={this.submitLogin}>
-          <label htmlFor="username" className="hello_world_login_username_label">Username</label>
-          {/*
-           We don't bind the components state to the input values so that when we clear the state on a submit it doesn't
-           clear the inputs which would then be seen by the user.
-           */}
-          <input
-            id="username" name="username" type="text" className="hello_world_login_username"
-            onChange={this.usernameOnChange}
-          />
-          <label htmlFor="password" className="hello_world_login_password_label">Password</label>
-          <input
-            id="password" name="password" type="password" className="hello_world_login_password"
-            onChange={this.passwordOnChange}
-          />
+          <div className="hello_world_login_username">
+            <label htmlFor="username" className="hello_world_login_username_label">Username</label>
+            {/*
+             We don't bind the components state to the input values so that when we clear the state on a submit it
+             doesn't clear the inputs which would then be seen by the user.
+             */}
+            <input
+              id="username" name="username" type="text" className="hello_world_login_username_input"
+              onChange={this.usernameOnChange}
+            />
+          </div>
+          <div className="hello_world_login_password">
+            <label htmlFor="password" className="hello_world_login_password_label">Password</label>
+            <input
+              id="password" name="password" type="password" className="hello_world_login_password_input"
+              onChange={this.passwordOnChange}
+            />
+          </div>
           <button type="submit" className="hello_world_login_button">Login</button>
         </form>
       </div>

@@ -30,7 +30,7 @@ describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
     const store = mockStore({});
 
     // When
-    const actual = render(<HelloWorldLayout store={store} />).find('.hello_world_login').text();
+    const actual = render(<HelloWorldLayout store={store} />).find('.hello_world_login_link').text();
 
     // Then
     assertThat(actual, equalTo('Login'))
@@ -46,7 +46,7 @@ describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
     const component = render(<HelloWorldLayout store={store} />);
 
     // Then
-    assertThat(component.find('.hello_world_logout').text(), equalTo('Logout'));
+    assertThat(component.find('.hello_world_logout_link').text(), equalTo('Logout'));
     assertThat(component.find('.hello_world_username').text(), equalTo(username));
   });
 

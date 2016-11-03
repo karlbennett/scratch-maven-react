@@ -76,7 +76,7 @@ public class BysTest {
         final By actual = by.text(text);
 
         // Then
-        assertThat(actual, hasField("xpathExpression", format("//*[contains(text(),'%s')]", text)));
+        assertThat(actual, hasField("xpathExpression", format(".//*[contains(text(),'%s')]", text)));
     }
 
     @Test
@@ -89,6 +89,6 @@ public class BysTest {
         final By actual = by.value(value);
 
         // Then
-        assertThat(actual, hasField("xpathExpression", format("//*[@value = '%s']", value)));
+        assertThat(actual, hasField("xpathExpression", format(".//*[@value = '%s']", value)));
     }
 }

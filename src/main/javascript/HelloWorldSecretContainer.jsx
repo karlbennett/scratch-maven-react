@@ -29,19 +29,19 @@ class HelloWorldSecretContainer extends Component {
   }
 
   render() {
-    const { text } = this.props;
+    const { secretText } = this.props;
     return (
-      <HelloWorld text={text} linkUrl="/" linkText="Home" imageClassNames="hello_world_image secret" />
+      <HelloWorld text={secretText} linkUrl="/" linkText="Home" imageClassNames="hello_world_image secret" />
     );
   }
 }
 
 HelloWorldSecretContainer.propTypes = {
-  text: PropTypes.string,
+  secretText: PropTypes.string,
   requestHelloWorldSecret: PropTypes.func,
 };
 
-const mapStateToProps = state => ({ text: state.text });
+const mapStateToProps = state => ({ secretText: state.secretText });
 
 const mapDispatchToProps = { requestHelloWorldSecret };
 

@@ -28,10 +28,10 @@ const HelloWorldLayout = ({ loggedIn, username, children }) => (
       <Link className="hello_world_home" to="/">Home</Link>
       {loggedIn ?
         <div>
-          <Link className="hello_world_logout" to="/logout">Logout</Link>
+          <Link className="hello_world_logout_link" to="/logout">Logout</Link>
           <p className="hello_world_username">{username}</p>
         </div> :
-        <Link className="hello_world_login" to="/login">Login</Link>
+        <Link className="hello_world_login_link" to="/login">Login</Link>
       }
     </div>
     <div className="hello_world_content">

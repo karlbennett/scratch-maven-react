@@ -31,9 +31,11 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InOrder;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 public class LoginStepsTest {
 
@@ -93,6 +95,16 @@ public class LoginStepsTest {
         order.verify(helloWorldPage).clickLogin();
         order.verify(userHolder).get();
         order.verify(loginPage).login(user);
+    }
+
+    @Test
+    public void Can_be_not_logged_in() {
+
+        // When
+        steps.iAmNotLoggedIn();
+
+        // Then
+        verifyZeroInteractions(userFactory, userHolder, page, helloWorldPage, loginPage, homePage);
     }
 
     @Test
@@ -156,6 +168,27 @@ public class LoginStepsTest {
 
     @Test
     public void Can_check_that_the_user_should_be_not_logged_in_and_is() {
+
+        // Given
+        given(helloWorldPage.isLoggedIn()).willReturn(true);
+        expectedException.expect(AssertionError.class);
+
+        // When
+        steps.iShouldNotBeLoggedIn();
+    }
+
+    @Test
+    public void Can_check_that_the_user_is_on_the_login_page() {
+
+        // When
+        steps.iShouldBeTakenToTheLoginPage();
+
+        // Then
+        verify(loginPage).login(any(User.class));
+    }
+
+    @Test
+    public void Can_check_that_the_user_is_not_on_the_login_page() {
 
         // Given
         given(helloWorldPage.isLoggedIn()).willReturn(true);

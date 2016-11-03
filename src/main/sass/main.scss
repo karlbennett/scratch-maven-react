@@ -24,6 +24,29 @@ a:link, a:visited, a:hover, a:active {
   color: black;
 }
 
+.hello_world_login {
+  max-width: 300px;
+  margin: 50px auto 0 auto;
+
+  label {
+    display: inline-block;
+    width: 100px;
+    margin-left: 8px;
+  }
+
+  input {
+    margin: 0 auto 20px auto;
+    border: none;
+    border-bottom: solid black thin;
+    background: none;
+  }
+
+  button {
+    display: block;
+    margin: 0 auto 0 auto;
+  }
+}
+
 #content {
   max-width: 800px;
   margin: 0 auto;
@@ -39,12 +62,12 @@ a:link, a:visited, a:hover, a:active {
       margin: 10px 20px;
     }
 
-    .hello_world_login, .hello_world_logout, .hello_world_username {
+    .hello_world_login_link, .hello_world_logout_link, .hello_world_username {
       float: right;
       margin: 10px 20px;
     }
 
-    .hello_world_logout {
+    .hello_world_logout_link {
       margin: 10px 20px 10px 0;
       padding-left: 20px;
       border-left: solid black thin;

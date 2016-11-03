@@ -51,7 +51,7 @@ export const requestHelloWorld = () =>
  * This action carries out an asynchronous HTTP request for the secured 'Hello World' text..
  */
 export const requestHelloWorldSecret = () =>
-  dispatch => requestSecret(data => dispatch({ type: 'POLYMORPHIC', newState: () => ({ text: data }) }));
+  dispatch => requestSecret(data => dispatch({ type: 'POLYMORPHIC', newState: () => ({ secretText: data }) }));
 
 /**
  * This action carries out a login, it is also asynchronous because the login is an HTTP request.

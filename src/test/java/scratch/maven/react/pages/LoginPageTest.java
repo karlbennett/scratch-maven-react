@@ -17,10 +17,13 @@
 package scratch.maven.react.pages;
 
 import cucumber.scratch.maven.react.domain.User;
+import cucumber.scratch.maven.react.pages.Bys;
 import cucumber.scratch.maven.react.pages.Finder;
 import cucumber.scratch.maven.react.pages.LoginPage;
 import org.junit.Test;
 import org.mockito.InOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
@@ -33,22 +36,29 @@ public class LoginPageTest {
     public void Can_login_a_user() {
 
         final Finder finder = mock(Finder.class);
+        final Bys by = mock(Bys.class);
         final User user = mock(User.class);
 
         final String username = someString();
         final String password = someString();
+        final WebElement login = mock(WebElement.class);
+        final By byText = mock(By.class);
+        final WebElement loginButton = mock(WebElement.class);
 
         // Given
         given(user.getUserName()).willReturn(username);
         given(user.getPassword()).willReturn(password);
+        given(finder.findByClassName("hello_world_login")).willReturn(login);
+        given(by.text("Login")).willReturn(byText);
+        given(login.findElement(byText)).willReturn(loginButton);
 
         // When
-        new LoginPage(finder).login(user);
+        new LoginPage(finder, by).login(user);
 
         // Then
-        final InOrder order = inOrder(finder);
+        final InOrder order = inOrder(finder, loginButton);
         order.verify(finder).setTextByLabel("Username", username);
         order.verify(finder).setTextByLabel("Password", password);
-        order.verify(finder).clickByText("Login");
+        order.verify(loginButton).click();
     }
 }

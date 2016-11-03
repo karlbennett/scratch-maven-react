@@ -19,6 +19,7 @@ package cucumber.scratch.maven.react.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.scratch.maven.react.domain.User;
 import cucumber.scratch.maven.react.domain.UserFactory;
 import cucumber.scratch.maven.react.pages.HelloWorldPage;
 import cucumber.scratch.maven.react.pages.HomePage;
@@ -66,6 +67,11 @@ public class LoginSteps {
         iLogin();
     }
 
+    @Given("^I am not logged in$")
+    public void iAmNotLoggedIn() {
+        // Do nothing here because the Hooks will logout before every scenario.
+    }
+
     @When("^I login$")
     public void iLogin() {
         homePage.waitToLoad();
@@ -84,5 +90,10 @@ public class LoginSteps {
     @Then("^I should not be logged in$")
     public void iShouldNotBeLoggedIn() {
         assertThat(helloWorldPage.isLoggedIn(), is(false));
+    }
+
+    @Then("^I should be taken to the login page$")
+    public void iShouldBeTakenToTheLoginPage() {
+        loginPage.login(new User("", ""));
     }
 }

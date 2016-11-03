@@ -37,14 +37,14 @@ describe('src/test/javascript/HelloWorldSecretContainer.spec.js', () => {
   it('Can add text to a HelloWorldSecretContainer tag', () => {
 
     // Given
-    const text = 'some text';
-    const store = mockStore({ text }); // Create the mock store with an initial state that contains the test data.
+    const secretText = 'some text';
+    const store = mockStore({ secretText }); // Create the mock store with an initial state that contains the test data.
     fetchMock.get('*', 'some other text to prove the http request is not being used.');
 
     // When
     const actual = render(<HelloWorldSecretContainer store={store} />).find('.hello_world_message').text();
 
     // Then
-    assertThat(actual, equalTo(text))
+    assertThat(actual, equalTo(secretText))
   });
 });

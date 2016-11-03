@@ -15,7 +15,7 @@
  */
 
 import fetchMock from 'fetch-mock';
-import { request, login } from '../../main/javascript/HelloWorldService.js';
+import { request, requestSecret, login } from '../../main/javascript/HelloWorldService.js';
 
 describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
@@ -37,6 +37,24 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
     // When
     request(data).then(() => {
+      // This is an async action so we must also carry out the verify as an async callback.
+
+      // Then
+      verify(data)(text);
+      done(); // Indicate that the async test has successfully completed.
+    });
+  });
+
+  it('Can make a secret hello world request', (done) => {
+
+    const data = mockFunction();
+    const text = 'some service text';
+
+    // Given
+    fetchMock.get('*', text);
+
+    // When
+    requestSecret(data).then(() => {
       // This is an async action so we must also carry out the verify as an async callback.
 
       // Then

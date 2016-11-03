@@ -33,11 +33,11 @@ public class Bys {
     }
 
     public By text(String text) {
-        return xpath(format("//*[contains(text(),'%s')]", text));
+        return xpath(format(".//*[contains(text(),'%s')]", text));
     }
 
     public By value(String value) {
-        return xpath(format("//*[@value = '%s']", value));
+        return xpath(format(".//*[@value = '%s']", value));
     }
 
     private static By xpath(String xpath) {
