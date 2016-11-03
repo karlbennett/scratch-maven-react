@@ -75,13 +75,24 @@ public class LoginStepsTest {
     }
 
     @Test
-    public void Can_make_sure_the_user_is_not_logged_in() {
+    public void Can_be_logged_in() {
+
+        final User user = mock(User.class);
+
+        // Given
+        given(userFactory.create("existing")).willReturn(user);
+        given(userHolder.get()).willReturn(user);
 
         // When
-        steps.iAmNotLoggedIn();
+        steps.iAmLoggedIn();
 
         // Then
-        verify(page).clearCookies();
+        final InOrder order = inOrder(userHolder, homePage, helloWorldPage, loginPage);
+        order.verify(userHolder).set(user);
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).clickLogin();
+        order.verify(userHolder).get();
+        order.verify(loginPage).login(user);
     }
 
     @Test
@@ -96,8 +107,10 @@ public class LoginStepsTest {
         steps.iLogin();
 
         // Then
-        verify(helloWorldPage).clickLogin();
-        verify(loginPage).login(user);
+        final InOrder order = inOrder(homePage, helloWorldPage, loginPage);
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).clickLogin();
+        order.verify(loginPage).login(user);
     }
 
     @Test

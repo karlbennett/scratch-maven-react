@@ -15,7 +15,7 @@
  */
 
 import { browserHistory } from 'react-router';
-import { request, login } from './HelloWorldService';
+import { login, request, requestSecret } from './HelloWorldService';
 
 /**
  * If the login succeeds forward to the home page and dispatch the state for a successful login.
@@ -43,9 +43,15 @@ function loginFailureHandler(dispatch) {
  * when creating your store. You can see this being done in the "app.jsx" file.
  */
 export const requestHelloWorld = () =>
-  // Once the "Hello World" request has returned, a 'HELLO_WORLD' action will be dispatched to any registered Redux
+  // Once the 'Hello World' request has returned, a 'HELLO_WORLD' action will be dispatched to any registered Redux
   // reducers.
   dispatch => request(data => dispatch({ type: 'POLYMORPHIC', newState: () => ({ text: data }) }));
+
+/**
+ * This action carries out an asynchronous HTTP request for the secured 'Hello World' text..
+ */
+export const requestHelloWorldSecret = () =>
+  dispatch => requestSecret(data => dispatch({ type: 'POLYMORPHIC', newState: () => ({ text: data }) }));
 
 /**
  * This action carries out a login, it is also asynchronous because the login is an HTTP request.

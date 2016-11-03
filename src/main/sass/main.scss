@@ -31,8 +31,13 @@ a:link, a:visited, a:hover, a:active {
   .hello_world_header {
     width: 100%;
     height: 40px;
-    margin: 0 0 50px 0;
+    margin: 0 0 30px 0;
     border-bottom: solid black thin;
+
+    .hello_world_home {
+      float: left;
+      margin: 10px 20px;
+    }
 
     .hello_world_login, .hello_world_logout, .hello_world_username {
       float: right;
@@ -49,15 +54,16 @@ a:link, a:visited, a:hover, a:active {
   .hello_world {
     width: 400px;
     margin: 0 auto 50px auto;
+    text-align: center;
 
     p {
       height: 20px;
-      text-align: center;
+      margin: 0 0 20px 0;
+    }
 
-      a:link, a:visited, a:hover, a:active {
-        color: black;
-        text-decoration: none;
-      }
+    a {
+      display: block;
+      margin: 0 0 20px 0;
     }
 
     .hello_world_image {

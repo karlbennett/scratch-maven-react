@@ -24,7 +24,9 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import HelloWorldReducer from './HelloWorldReducer';
 import HelloWorldLayout from './HelloWorldLayout';
 import HelloWorldContainer from './HelloWorldContainer';
+import HelloWorldSecretContainer from './HelloWorldSecretContainer';
 import HelloWorldLoginContainer from './HelloWorldLoginContainer';
+import HelloWorldNoFound from './HelloWorldNoFound';
 
 // This will cause Webpack to add the compiled "main.scss" SASS file to the index.html page.
 require('../sass/main.scss');
@@ -42,10 +44,12 @@ persistStore(store); // Start persisting the Redux state to local storage.
 window.app = ReactDOM.render( // eslint-disable-line no-undef
   <Provider store={store}>
     <Router history={browserHistory}>
+      <Route path="/login" component={HelloWorldLoginContainer} />
       <Route path="/" component={HelloWorldLayout}>
         <IndexRoute component={HelloWorldContainer} />
+        <Route path="helloSecret" component={HelloWorldSecretContainer} />
+        <Route path="*" component={HelloWorldNoFound} />
       </Route>
-      <Route path="/login" component={HelloWorldLoginContainer} />
     </Router>
   </Provider>,
   document.getElementById('content') // eslint-disable-line no-undef

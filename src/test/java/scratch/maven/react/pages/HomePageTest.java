@@ -99,4 +99,14 @@ public class HomePageTest {
         verify(finder, times(3)).findTextByClassName("hello_world_message");
         verify(finder, times(2)).findByClassName("hello_world_image");
     }
+
+    @Test
+    public void Can_click_the_secret_link() {
+
+        // When
+        page.clickSecret();
+
+        // Then
+        verify(finder).clickByText("Secret");
+    }
 }

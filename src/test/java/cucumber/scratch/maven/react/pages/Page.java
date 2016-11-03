@@ -16,6 +16,7 @@
 
 package cucumber.scratch.maven.react.pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,11 @@ public class Page {
 
     public void clearCookies() {
         driver.manage().deleteAllCookies();
+    }
+
+    public void clearLocalStorage() {
+        visit(""); // We need to visit a page before we can use local storage.
+        ((JavascriptExecutor) driver).executeScript("localStorage.clear();");
     }
 
     public void visit(String path) {

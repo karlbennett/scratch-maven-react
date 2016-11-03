@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package cucumber.scratch.maven.react.steps;
+import React from 'react';
 
-import cucumber.scratch.maven.react.domain.User;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+/**
+ * This fragment will be displayed for any path that doesn't have an explicit react-router mapping.
+ */
+const HelloWorldNotFound = () => (
+  <div className="hello_world_not_found">
+    <h3 className="hello_world_not_found_message">Page not found.</h3>
+  </div>
+);
 
-import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
-
-@Component
-@Scope(scopeName = "cucumber-glue", proxyMode = TARGET_CLASS)
-public class UserHolder extends GenericHolder<User> {
-}
+export default HelloWorldNotFound;

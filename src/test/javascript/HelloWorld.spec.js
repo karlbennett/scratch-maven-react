@@ -26,7 +26,8 @@ describe('src/test/javascript/HelloWorld.spec.js', () => {
     const text = 'some text';
 
     // When
-    const actual = render(<HelloWorld text={text} />).find('.hello_world_message').text();
+    const actual = render(<HelloWorld text={text} linkUrl="" linkText="" imageClassNames="" />)
+      .find('.hello_world_message').text();
 
     // Then
     assertThat(actual, equalTo(text))

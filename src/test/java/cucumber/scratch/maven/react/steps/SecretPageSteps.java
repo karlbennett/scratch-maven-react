@@ -16,12 +16,25 @@
 
 package cucumber.scratch.maven.react.steps;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import cucumber.api.java.en.Then;
+import cucumber.scratch.maven.react.pages.SecretPage;
 
-import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
-@Component
-@Scope(scopeName = "cucumber-glue", proxyMode = TARGET_CLASS)
-public class PagePathHolder extends GenericHolder<String> {
+public class SecretPageSteps {
+
+    private final SecretPage secretPage;
+
+    public SecretPageSteps(SecretPage secretPage) {
+        this.secretPage = secretPage;
+    }
+
+    @Then("^I should see the secure page$")
+    public void iShouldSeeTheSecurePage() {
+        secretPage.waitToLoad();
+        assertThat(secretPage.getMessage(), equalTo("Hello secret world."));
+        assertThat(secretPage.hasImage(), is(true));
+    }
 }

@@ -16,12 +16,12 @@
 
 import { REHYDRATE } from 'redux-persist/constants';
 
-// Here we are defining the "Hello World" reducer, it is responsible for reacting to any actions that have been
+// Here we are defining the 'Hello World' reducer, it is responsible for reacting to any actions that have been
 // dispatched and updating the application state accordingly. If the reducer ends up changing the state then Redux will
-// re-render any components that have bound to that state attributes that have been updated.
-export default (state = {}, action) => {
+// re-render any components that have been bound to that state attributes that have been updated.
+export default (state = { text: '' }, action) => {
   // A polymorphic action must contain a 'newState' function that will return the required state updates when it is
-  // evaluated.
+  // called.
   if (action.type === 'POLYMORPHIC') {
     return Object.assign({}, state, action.newState(state));
   }

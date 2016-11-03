@@ -15,19 +15,24 @@
  */
 
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
 // Here we create a JSX fragment that can be used within other React components as a tag e.g. <HelloWorld />
-const HelloWorld = ({ text }) => (
+const HelloWorld = ({ text, linkUrl, linkText, imageClassNames }) => (
   <div className="hello_world">
     <p className="hello_world_message">{text}</p>
-    <div className="hello_world_image" />
+    <Link className="hello_world_link" to={linkUrl}>{linkText}</Link>
+    <div className={imageClassNames} />
   </div>
 );
 
 // Here we define any properties for the fragment, these map to attributes within the tag
-// e.g. <HelloWorld text={'some text'}/>
+// e.g. <HelloWorld text="some text" linkUrl="/aLink" linkText="some more text" imageClassNames="some classes" />
 HelloWorld.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.string.isRequired,
+  linkUrl: PropTypes.string.isRequired,
+  linkText: PropTypes.string.isRequired,
+  imageClassNames: PropTypes.string.isRequired,
 };
 
 export default HelloWorld;

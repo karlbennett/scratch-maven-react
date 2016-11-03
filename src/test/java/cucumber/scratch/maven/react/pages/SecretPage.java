@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package cucumber.scratch.maven.react.steps;
+package cucumber.scratch.maven.react.pages;
 
-import cucumber.scratch.maven.react.domain.User;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
-
 @Component
-@Scope(scopeName = "cucumber-glue", proxyMode = TARGET_CLASS)
-public class UserHolder extends GenericHolder<User> {
+public class SecretPage extends HomePage {
+
+    public SecretPage(Finder finder) {
+        super(finder);
+    }
 }

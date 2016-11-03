@@ -16,7 +16,7 @@
 
 describe('src/test/javascript/HelloWorldActions.spec.js', () => {
 
-  var mockPush, mockRequest, mockLogin, requestHelloWorld, loginHelloWorld;
+  var mockPush, mockLogin, mockRequest, mockRequestSecret, loginHelloWorld, requestHelloWorld, requestHelloWorldSecret;
 
   beforeEach(function () {
     // Here we manually load the HelloWorldAction through the inject-loader so that we can override the
@@ -24,6 +24,7 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     const inject = require('inject!../../main/javascript/HelloWorldActions');
     mockPush = mockFunction();
     mockRequest = mockFunction();
+    mockRequestSecret = mockFunction();
     mockLogin = mockFunction();
     const HelloWorldActions = inject({
       'react-router': {
@@ -32,31 +33,15 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
         }
       },
       './HelloWorldService': {
+        login: mockLogin,
         request: mockRequest,
-        login: mockLogin
+        requestSecret: mockRequestSecret
       }
     });
 
-    requestHelloWorld = HelloWorldActions.requestHelloWorld;
     loginHelloWorld = HelloWorldActions.loginHelloWorld;
-  });
-
-  it('Can dispatch a HelloWorld request', () => {
-
-    const dispatch = mockFunction();
-    const text = 'some text';
-    var newState = null;
-
-    // Given
-    when(mockRequest)(anything()).then(callback => callback(text));
-    when(dispatch)(anything()).then((object) => (newState = object.newState()));
-
-    // When
-    requestHelloWorld()(dispatch);
-
-    // Then
-    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
-    assertThat(newState, hasMember('text', equalTo(text)));
+    requestHelloWorld = HelloWorldActions.requestHelloWorld;
+    requestHelloWorldSecret = HelloWorldActions.requestHelloWorldSecret;
   });
 
   it('Can dispatch a successful HelloWorld login', () => {
@@ -110,5 +95,41 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
         hasMember('loginError', equalTo(error))
       )
     );
+  });
+
+  it('Can dispatch a HelloWorld request', () => {
+
+    const dispatch = mockFunction();
+    const text = 'some text';
+    var newState = null;
+
+    // Given
+    when(mockRequest)(anything()).then(callback => callback(text));
+    when(dispatch)(anything()).then((object) => (newState = object.newState()));
+
+    // When
+    requestHelloWorld()(dispatch);
+
+    // Then
+    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(newState, hasMember('text', equalTo(text)));
+  });
+
+  it('Can dispatch a HelloWorld secret request', () => {
+
+    const dispatch = mockFunction();
+    const text = 'some text';
+    var newState = null;
+
+    // Given
+    when(mockRequestSecret)(anything()).then(callback => callback(text));
+    when(dispatch)(anything()).then((object) => (newState = object.newState()));
+
+    // When
+    requestHelloWorldSecret()(dispatch);
+
+    // Then
+    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(newState, hasMember('text', equalTo(text)));
   });
 });

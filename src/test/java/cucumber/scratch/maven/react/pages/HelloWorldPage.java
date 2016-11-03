@@ -27,7 +27,6 @@ public class HelloWorldPage {
     private final Finder finder;
     private Logger log = LoggerFactory.getLogger(getClass());
 
-
     public HelloWorldPage(Finder finder) {
         this.finder = finder;
     }

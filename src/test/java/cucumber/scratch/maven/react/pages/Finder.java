@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Finder {
+
     private final WebDriver driver;
     private final Bys by;
 

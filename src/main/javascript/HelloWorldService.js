@@ -17,7 +17,7 @@
 // We MUST import the fetch function like this for the fetch-mock to work in the tests.
 import 'isomorphic-fetch';
 
-// These are the service functions that make the "Hello World" HTTP requests. They are completely decouple from any
+// These are the service functions that make the 'Hello World' HTTP requests. They are completely decouple from any
 // React or Redux code, this makes them much simpler to unit test.
 
 /**
@@ -28,6 +28,15 @@ export const request = processData =>
   // to the chain.
   // eslint-disable-next-line no-undef
   fetch('/hello').then(response => response.text()).then(text => processData(text));
+
+/**
+ * Request the secured 'Hello World' message and then pass it down into the supplied 'processData' callback.
+ */
+export const requestSecret = processData =>
+  // We have to add the '{ credentials: 'same-origin' }' configuration to the 'fetch' call to make it send the browser
+  // cookies for the current domain. Without this the HTTP call would not be authenticated.
+  // eslint-disable-next-line no-undef
+  fetch('/secret', { credentials: 'same-origin' }).then(response => response.text()).then(text => processData(text));
 
 /**
  * Make the login request useing the supplied username and password, if it succeeds call the 'success' callback

@@ -60,13 +60,15 @@ public class LoginSteps {
         userHolder.set(userFactory.create("existing"));
     }
 
-    @Given("^I am not logged in$")
-    public void iAmNotLoggedIn() {
-        page.clearCookies();
+    @Given("^I am logged in$")
+    public void iAmLoggedIn() {
+        iAmAnExistingUser();
+        iLogin();
     }
 
     @When("^I login$")
     public void iLogin() {
+        homePage.waitToLoad();
         helloWorldPage.clickLogin();
         loginPage.login(userHolder.get());
     }

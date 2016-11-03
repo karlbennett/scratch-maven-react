@@ -18,6 +18,7 @@ package cucumber.scratch.maven.react.pages;
 
 import cucumber.scratch.maven.react.domain.User;
 import org.springframework.stereotype.Component;
+import shiver.me.timbers.waiting.Wait;
 
 @Component
 public class LoginPage {
@@ -28,6 +29,7 @@ public class LoginPage {
         this.finder = finder;
     }
 
+    @Wait
     public void login(User user) {
         finder.setTextByLabel("Username", user.getUserName());
         finder.setTextByLabel("Password", user.getPassword());

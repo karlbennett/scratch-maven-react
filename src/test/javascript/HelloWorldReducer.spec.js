@@ -25,8 +25,7 @@ describe('src/test/javascript/HelloWorldReducer.spec.js', () => {
     const actual = HelloWorldReducer(undefined, { type: 'invalid' });
 
     // Then
-    assertThat(actual.constructor, equalTo(Object));
-    assertThat(Object.keys(actual).length, equalTo(0));
+    assertThat(actual, hasMember('text', ''));
   });
 
   it('Can update the application state with a polymorphic action', () => {

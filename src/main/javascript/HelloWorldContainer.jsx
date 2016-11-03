@@ -19,11 +19,11 @@ import { connect } from 'react-redux';
 import { requestHelloWorld } from './HelloWorldActions';
 import HelloWorld from './HelloWorld';
 
-// Here we have defined the "Hello World" container, this is responsible from making the "Hello World" HTTP request
+// Here we have defined the 'Hello World' container, this is responsible from making the 'Hello World' HTTP request
 // through Redux causing Redux to then re-render this container.
 class HelloWorldContainer extends Component {
 
-  // When this component is about to be mounted to the virtual DOM ask Redux to request the "Hello World" through the
+  // When this component is about to be mounted to the virtual DOM ask Redux to request the 'Hello World' through the
   // bound async action.
   componentWillMount() {
     this.props.requestHelloWorld();
@@ -33,7 +33,7 @@ class HelloWorldContainer extends Component {
   render() {
     const { text } = this.props;
     return (
-      <HelloWorld text={text} />
+      <HelloWorld text={text} linkUrl="/helloSecret" linkText="Secret" imageClassNames="hello_world_image" />
     );
   }
 }

@@ -20,6 +20,7 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.scratch.maven.react.ITCucumber;
+import cucumber.scratch.maven.react.pages.Page;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -37,14 +38,20 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 public class Hooks {
 
     private final WebDriver driver;
+    private final Page page;
 
     @Autowired
-    public Hooks(WebDriver driver) {
+    public Hooks(WebDriver driver, Page page) {
         this.driver = driver;
+        this.page = page;
     }
 
     @Before
     public void setUp() {
+        // Make sure that we are logged out and the page state has been reset before every scenario.
+        page.clearCookies();
+        page.clearLocalStorage();
+        page.refresh();
     }
 
     @After

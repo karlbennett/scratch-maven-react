@@ -19,9 +19,12 @@ package scratch.maven.react.pages;
 import cucumber.scratch.maven.react.pages.Page;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.openqa.selenium.WebDriver.Navigation;
@@ -31,13 +34,13 @@ import static shiver.me.timbers.data.random.RandomStrings.someString;
 public class PageTest {
 
     private String baseUrl;
-    private WebDriver driver;
+    private JavaScriptWebDriver driver;
     private Page page;
 
     @Before
     public void setUp() {
         baseUrl = someString();
-        driver = mock(WebDriver.class);
+        driver = mock(JavaScriptWebDriver.class);
         page = new Page(baseUrl, driver);
     }
 
@@ -57,6 +60,18 @@ public class PageTest {
     }
 
     @Test
+    public void Can_clear_the_browsers_local_storage() {
+
+        // When
+        page.clearLocalStorage();
+
+        // Then
+        final InOrder order = inOrder(driver);
+        order.verify(driver).get(baseUrl);
+        order.verify(driver).executeScript("localStorage.clear();");
+    }
+
+    @Test
     public void Can_visit_a_page() {
 
         // Given
@@ -72,8 +87,6 @@ public class PageTest {
     @Test
     public void Can_refresh_a_page() {
 
-        final String path = someString();
-
         final Navigation navigation = mock(Navigation.class);
 
         // Given
@@ -84,5 +97,8 @@ public class PageTest {
 
         // Then
         verify(navigation).refresh();
+    }
+
+    private interface JavaScriptWebDriver extends WebDriver, JavascriptExecutor {
     }
 }

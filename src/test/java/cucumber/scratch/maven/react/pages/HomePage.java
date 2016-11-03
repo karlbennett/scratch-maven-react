@@ -54,4 +54,8 @@ public class HomePage {
             return hasImage();
         });
     }
+
+    public void clickSecret() {
+        finder.clickByText("Secret");
+    }
 }

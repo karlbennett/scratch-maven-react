@@ -24,8 +24,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.InOrder;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
@@ -61,6 +63,16 @@ public class HomePageStepsTest {
     }
 
     @Test
+    public void Can_view_the_secret_page() {
+
+        // When
+        steps.iViewASecurePage();
+
+        // Then
+        verify(homePage).clickSecret();
+    }
+
+    @Test
     public void Can_verify_the_content_of_the_home_page() {
 
         // Given
@@ -71,8 +83,10 @@ public class HomePageStepsTest {
         steps.iShouldBeOnTheHomePage();
 
         // Then
-        verify(homePage).getMessage();
-        verify(homePage).hasImage();
+        final InOrder order = inOrder(homePage);
+        order.verify(homePage).waitToLoad();
+        order.verify(homePage).getMessage();
+        order.verify(homePage).hasImage();
     }
 
     @Test

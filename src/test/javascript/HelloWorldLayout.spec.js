@@ -30,7 +30,7 @@ describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
     const store = mockStore({});
 
     // When
-    const actual = render(<HelloWorldLayout store={store} />).find('.hello_world_header > a').text();
+    const actual = render(<HelloWorldLayout store={store} />).find('.hello_world_login').text();
 
     // Then
     assertThat(actual, equalTo('Login'))
@@ -46,8 +46,8 @@ describe('src/test/javascript/HelloWorldLayout.spec.js', () => {
     const component = render(<HelloWorldLayout store={store} />);
 
     // Then
-    assertThat(component.find('.hello_world_header p').text(), equalTo(username));
-    assertThat(component.find('.hello_world_header a').text(), equalTo('Logout'));
+    assertThat(component.find('.hello_world_logout').text(), equalTo('Logout'));
+    assertThat(component.find('.hello_world_username').text(), equalTo(username));
   });
 
   it('Can add content to the layout', () => {
