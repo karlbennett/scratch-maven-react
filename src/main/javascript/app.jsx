@@ -31,7 +31,7 @@ import HelloWorldNoFound from './HelloWorldNoFound';
 
 // This will cause Webpack to add the compiled "main.scss" SASS file to the index.html page.
 require('../sass/main.scss');
-// This will regester the authentication f'fetch' interceptors.
+// This will regester the authentication 'fetch' interceptors.
 require('./HelloWorldAuthInterceptor');
 
 // Here we create the Redux store.
@@ -42,8 +42,8 @@ const store = createStore(HelloWorldReducer, applyMiddleware(thunk), autoRehydra
 persistStore(store); // Start persisting the Redux state to local storage.
 
 // Here we setup the entire React app. First the "Provider" component is used to automatically add the Redux store to
-// all React components. Then the "Router" is used to setup the supported paths to the main component
-// e.g. "/" and "/login"
+// all React components. Then the "Router" is used to setup the supported paths to the main components
+// e.g. "/", "/helloSecret", "/login", "/logout"
 window.app = ReactDOM.render( // eslint-disable-line no-undef
   <Provider store={store}>
     <Router history={browserHistory}>
