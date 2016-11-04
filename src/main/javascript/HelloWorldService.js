@@ -39,7 +39,7 @@ export const requestSecret = processData =>
   fetch('/secret', { credentials: 'same-origin' }).then(response => response.text()).then(text => processData(text));
 
 /**
- * Make the login request useing the supplied username and password, if it succeeds call the 'success' callback
+ * Make the login request using the supplied username and password, if it succeeds call the 'success' callback
  * otherwise call the 'failure' callback.
  */
 export const login = (username, password, success, failure) =>
@@ -59,3 +59,10 @@ export const login = (username, password, success, failure) =>
     return response.json();
   }).then(json => success(json.username))
     .catch(error => failure(error.message));
+
+/**
+ * Logout then call the supplied callback.
+ */
+export const logout = callback =>
+  // eslint-disable-next-line no-undef
+  fetch('/logout', { method: 'POST', credentials: 'same-origin' }).then(() => callback());

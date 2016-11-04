@@ -126,6 +126,18 @@ public class LoginStepsTest {
     }
 
     @Test
+    public void Can_logout() {
+
+        // When
+        steps.iLogout();
+
+        // Then
+        final InOrder order = inOrder(homePage, helloWorldPage);
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).clickLogout();
+    }
+
+    @Test
     public void Can_check_that_the_user_should_be_logged_in_and_is() {
 
         // Given
@@ -175,6 +187,30 @@ public class LoginStepsTest {
 
         // When
         steps.iShouldNotBeLoggedIn();
+    }
+
+    @Test
+    public void Can_check_that_the_user_sees_they_are_logged_out() {
+
+        // Given
+        given(helloWorldPage.isLoggedIn()).willReturn(false);
+
+        // When
+        steps.iShouldSeeThatIAmLoggedOut();
+
+        // Then
+        verify(helloWorldPage).isLoggedIn();
+    }
+
+    @Test
+    public void Can_check_that_the_user_sees_they_are_logged_out_but_are_logged_in() {
+
+        // Given
+        given(helloWorldPage.isLoggedIn()).willReturn(true);
+        expectedException.expect(AssertionError.class);
+
+        // When
+        steps.iShouldSeeThatIAmLoggedOut();
     }
 
     @Test

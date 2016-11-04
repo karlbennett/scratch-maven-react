@@ -45,4 +45,8 @@ public class HelloWorldPage {
     public void clickLogin() {
         finder.clickByText("Login");
     }
+
+    public void clickLogout() {
+        finder.clickByText("Logout");
+    }
 }

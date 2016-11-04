@@ -17,6 +17,8 @@
 package scratch.maven.react.steps;
 
 import cucumber.api.Scenario;
+import cucumber.scratch.maven.react.pages.HelloWorldPage;
+import cucumber.scratch.maven.react.pages.HomePage;
 import cucumber.scratch.maven.react.pages.Page;
 import cucumber.scratch.maven.react.steps.Hooks;
 import org.junit.Before;
@@ -31,6 +33,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.openqa.selenium.OutputType.BYTES;
@@ -39,26 +42,42 @@ public class HooksTest {
 
     private ScreenshotWebDriver driver;
     private Page page;
+    private HomePage homePage;
+    private HelloWorldPage helloWorldPage;
     private Hooks hooks;
 
     @Before
     public void setUp() {
         driver = mock(ScreenshotWebDriver.class);
         page = mock(Page.class);
-        hooks = new Hooks(driver, page);
+        homePage = mock(HomePage.class);
+        helloWorldPage = mock(HelloWorldPage.class);
+        hooks = new Hooks(driver, page, homePage, helloWorldPage);
     }
 
     @Test
     public void Can_logout_before_a_scenario() {
 
+        // Given
+        given(helloWorldPage.isLoggedIn()).willReturn(true, false);
+
         // When
         hooks.setUp();
 
         // Then
-        final InOrder order = inOrder(page);
+        final InOrder order = inOrder(page, homePage, helloWorldPage);
+        order.verify(page).visit("/");
         order.verify(page).clearCookies();
         order.verify(page).clearLocalStorage();
         order.verify(page).refresh();
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).isLoggedIn();
+        order.verify(page).visit("/");
+        order.verify(page).clearCookies();
+        order.verify(page).clearLocalStorage();
+        order.verify(page).refresh();
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).isLoggedIn();
     }
 
     @Test

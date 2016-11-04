@@ -79,6 +79,12 @@ public class LoginSteps {
         loginPage.login(userHolder.get());
     }
 
+    @When("^I logout$")
+    public void iLogout() {
+        homePage.waitToLoad();
+        helloWorldPage.clickLogout();
+    }
+
     @Then("^I should see that I am logged in$")
     public void iShouldSeeThatIAmLoggedIn() {
         homePage.waitToLoad();
@@ -95,5 +101,10 @@ public class LoginSteps {
     @Then("^I should be taken to the login page$")
     public void iShouldBeTakenToTheLoginPage() {
         loginPage.login(new User("", ""));
+    }
+
+    @Then("^I should see that I am logged out$")
+    public void iShouldSeeThatIAmLoggedOut() {
+        iShouldNotBeLoggedIn();
     }
 }

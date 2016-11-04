@@ -78,4 +78,14 @@ public class HelloWorldPageTest {
         // Then
         verify(finder).clickByText("Login");
     }
+
+    @Test
+    public void Can_logout_a_user() {
+
+        // When
+        page.clickLogout();
+
+        // Then
+        verify(finder).clickByText("Logout");
+    }
 }

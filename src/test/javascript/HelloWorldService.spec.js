@@ -15,7 +15,7 @@
  */
 
 import fetchMock from 'fetch-mock';
-import { request, requestSecret, login } from '../../main/javascript/HelloWorldService.js';
+import { request, requestSecret, login, logout } from '../../main/javascript/HelloWorldService.js';
 
 describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
@@ -100,6 +100,22 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
       // Then
       verify(success, never())(anything());
       verify(failure)('Login Failed');
+      done();
+    });
+  });
+
+  it('Can make a successful logout request', (done) => {
+
+    const callback = mockFunction();
+
+    // Given
+    fetchMock.post('*', { status: 200 });
+
+    // When
+    logout(callback).then(() => {
+
+      // Then
+      verify(callback)();
       done();
     });
   });

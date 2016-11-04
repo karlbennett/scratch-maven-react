@@ -15,7 +15,7 @@
  */
 
 import { browserHistory } from 'react-router';
-import { login, request, requestSecret } from './HelloWorldService';
+import { request, requestSecret, login, logout } from './HelloWorldService';
 
 /**
  * If the login succeeds forward to the home page and dispatch the state for a successful login.
@@ -58,3 +58,12 @@ export const requestHelloWorldSecret = () =>
  */
 export const loginHelloWorld = (username, password) =>
   dispatch => login(username, password, loginSuccessHandler(dispatch), loginFailureHandler(dispatch));
+
+/**
+ * This action carries out a logout.
+ */
+export const logoutHelloWorld = () =>
+  dispatch => logout(() => {
+    browserHistory.push('/');
+    dispatch({ type: 'POLYMORPHIC', newState: () => ({ loggedIn: false, username: '' }) });
+  });

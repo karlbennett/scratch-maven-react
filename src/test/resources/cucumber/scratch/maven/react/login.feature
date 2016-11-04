@@ -7,6 +7,12 @@ Feature: Can login
     Then I should be on the home page
     And I should see that I am logged in
 
+  Scenario: Logout
+    Given I am logged in
+    When I logout
+    Then I should be on the home page
+    And I should see that I am logged out
+
   Scenario: View a secure page
     Given I am logged in
     When I view a secure page
