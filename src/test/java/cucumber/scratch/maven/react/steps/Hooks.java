@@ -31,7 +31,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import shiver.me.timbers.waiting.Options;
-import shiver.me.timbers.waiting.Until;
 import shiver.me.timbers.waiting.Waiter;
 
 import static org.openqa.selenium.OutputType.BYTES;

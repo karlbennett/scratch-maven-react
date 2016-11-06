@@ -29,37 +29,78 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
   it('Can make a hello world request', (done) => {
 
-    const data = mockFunction();
+    const success = mockFunction();
     const text = 'some service text';
 
     // Given
     fetchMock.get('*', text);
 
     // When
-    request(data).then(() => {
+    request(success).then(() => {
       // This is an async action so we must also carry out the verify as an async callback.
 
       // Then
-      verify(data)(text);
+      verify(success)(text);
       done(); // Indicate that the async test has successfully completed.
+    });
+  });
+
+  it('Can fail to make a hello world request', (done) => {
+
+    const failure = mockFunction();
+    const error = 'some service error text';
+
+    // Given
+    fetchMock.get('*', { status: 400, body: error });
+
+    // When
+    request(undefined, failure).then(() => {
+
+      // Then
+      verify(failure)(allOf(
+        hasMember("status", 400),
+        hasMember("body", error),
+        hasMember("errorMessage", 'Hello World request failed.')
+      ));
+      done();
     });
   });
 
   it('Can make a secret hello world request', (done) => {
 
     const data = mockFunction();
-    const text = 'some service text';
+    const text = 'some secret service text';
 
     // Given
     fetchMock.get('*', text);
 
     // When
     requestSecret(data).then(() => {
-      // This is an async action so we must also carry out the verify as an async callback.
 
       // Then
       verify(data)(text);
-      done(); // Indicate that the async test has successfully completed.
+      done();
+    });
+  });
+
+  it('Can fail to make a secret hello world request', (done) => {
+
+    const failure = mockFunction();
+    const error = 'some secret service error text';
+
+    // Given
+    fetchMock.get('*', { status: 400, body: error });
+
+    // When
+    requestSecret(undefined, failure).then(() => {
+
+      // Then
+      verify(failure)(allOf(
+        hasMember("status", 400),
+        hasMember("body", error),
+        hasMember("errorMessage", 'Hello World secret request failed.')
+      ));
+      done();
     });
   });
 

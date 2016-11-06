@@ -48,14 +48,14 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     requestHelloWorldSecret = HelloWorldActions.requestHelloWorldSecret;
   });
 
-  it('Can dispatch a HelloWorld request', () => {
+  it('Can dispatch a successful HelloWorld request', () => {
 
     const dispatch = mockFunction();
     const text = 'some text';
     var newState = null;
 
     // Given
-    when(mockRequest)(anything()).then(callback => callback(text));
+    when(mockRequest)(anything()).then(success => success(text));
     when(dispatch)(anything()).then((object) => (newState = object.newState()));
 
     // When
@@ -66,14 +66,32 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     assertThat(newState, hasMember('text', equalTo(text)));
   });
 
-  it('Can dispatch a HelloWorld secret request', () => {
+  it('Can dispatch a failed HelloWorld request', () => {
 
     const dispatch = mockFunction();
     const text = 'some text';
     var newState = null;
 
     // Given
-    when(mockRequestSecret)(anything()).then(callback => callback(text));
+    when(mockRequest)(anything()).then((success, failure) => failure());
+    when(dispatch)(anything()).then((object) => (newState = object.newState()));
+
+    // When
+    requestHelloWorld()(dispatch);
+
+    // Then
+    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(newState, hasMember('text', equalTo('')));
+  });
+
+  it('Can dispatch a successful HelloWorld secret request', () => {
+
+    const dispatch = mockFunction();
+    const text = 'some text';
+    var newState = null;
+
+    // Given
+    when(mockRequestSecret)(anything()).then(success => success(text));
     when(dispatch)(anything()).then((object) => (newState = object.newState()));
 
     // When
@@ -82,6 +100,24 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     // Then
     verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
     assertThat(newState, hasMember('secretText', equalTo(text)));
+  });
+
+  it('Can dispatch a failed HelloWorld secret request', () => {
+
+    const dispatch = mockFunction();
+    const text = 'some text';
+    var newState = null;
+
+    // Given
+    when(mockRequestSecret)(anything()).then((success, failure) => failure());
+    when(dispatch)(anything()).then((object) => (newState = object.newState()));
+
+    // When
+    requestHelloWorldSecret()(dispatch);
+
+    // Then
+    verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(newState, hasMember('secretText', equalTo('')));
   });
 
   it('Can dispatch a successful HelloWorld login', () => {

@@ -45,13 +45,19 @@ function loginFailureHandler(dispatch) {
 export const requestHelloWorld = () =>
   // Once the 'Hello World' request has returned, a 'HELLO_WORLD' action will be dispatched to any registered Redux
   // reducers.
-  dispatch => request(data => dispatch({ type: 'POLYMORPHIC', newState: () => ({ text: data }) }));
+  dispatch => request(
+    text => dispatch({ type: 'POLYMORPHIC', newState: () => ({ text }) }),
+    () => dispatch({ type: 'POLYMORPHIC', newState: () => ({ text: '' }) })
+  );
 
 /**
  * This action carries out an asynchronous HTTP request for the secured 'Hello World' text..
  */
 export const requestHelloWorldSecret = () =>
-  dispatch => requestSecret(data => dispatch({ type: 'POLYMORPHIC', newState: () => ({ secretText: data }) }));
+  dispatch => requestSecret(
+    secretText => dispatch({ type: 'POLYMORPHIC', newState: () => ({ secretText }) }),
+    () => dispatch({ type: 'POLYMORPHIC', newState: () => ({ secretText: '' }) })
+  );
 
 /**
  * This action carries out a login, it is also asynchronous because the login is an HTTP request.

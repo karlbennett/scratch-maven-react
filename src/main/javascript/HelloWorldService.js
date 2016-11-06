@@ -20,23 +20,57 @@ import 'isomorphic-fetch';
 // These are the service functions that make the 'Hello World' HTTP requests. They are completely decouple from any
 // React or Redux code, this makes them much simpler to unit test.
 
+class FetchError extends Error {
+  constructor(message, response) {
+    super(message, 'FetchError');
+    this.response = response;
+  }
+}
+
+function validSuccess(response, message) {
+  if (!response.ok) {
+    throw new FetchError(message, response);
+  }
+}
+
+function handleFetchFailure(callback) {
+  return error => error.response.text().then(
+    text => callback({
+      status: error.response.status,
+      body: text,
+      errorMessage: error.message,
+    })
+  );
+}
+
 /**
- * Request the 'Hello World' message and then pass it down into the supplied 'processData' callback.
+ * Request the 'Hello World' message and then pass it down into the supplied 'success' callback. Any failures will be
+ * passed to the 'failure' callback with an object: { status: INT, body: STRING, errorMessage: STRING }
  */
-export const request = processData =>
+export const request = (success, failure) =>
   // We return the promise that results from the async requests to allow users of this method to add further executions
   // to the chain.
   // eslint-disable-next-line no-undef
-  fetch('/hello').then(response => response.text()).then(text => processData(text));
+  fetch('/hello').then((response) => {
+    // Fetch doesn't call failure functions for HTTP error codes like other clients.
+    validSuccess(response, 'Hello World request failed.');
+    return response.text();
+  }).then(text => success(text))
+    .catch(handleFetchFailure(failure));
 
 /**
- * Request the secured 'Hello World' message and then pass it down into the supplied 'processData' callback.
+ * Request the secured 'Hello World' message and then pass it down into the supplied 'success' callback. Any failures
+ * will be passed to the 'failure' callback with an object: { status: INT, body: STRING, errorMessage: STRING }
  */
-export const requestSecret = processData =>
+export const requestSecret = (secret, failure) =>
   // We have to add the '{ credentials: 'same-origin' }' configuration to the 'fetch' call to make it send the browser
   // cookies for the current domain. Without this the HTTP call would not be authenticated.
   // eslint-disable-next-line no-undef
-  fetch('/secret', { credentials: 'same-origin' }).then(response => response.text()).then(text => processData(text));
+  fetch('/secret', { credentials: 'same-origin' }).then((response) => {
+    validSuccess(response, 'Hello World secret request failed.');
+    return response.text();
+  }).then(text => secret(text))
+    .catch(handleFetchFailure(failure));
 
 /**
  * Make the login request using the supplied username and password, if it succeeds call the 'success' callback
@@ -53,12 +87,10 @@ export const login = (username, password, success, failure) =>
       credentials: 'same-origin',
     }
   ).then((response) => {
-    if (!response.ok) { // Fetch doesn't call failure functions for HTTP error codes like other clients.
-      throw Error('Login Failed');
-    }
+    validSuccess(response, 'Login Failed');
     return response.json();
   }).then(json => success(json.username))
-    .catch(error => failure(error.message));
+    .catch(handleFetchFailure(({ errorMessage }) => failure(errorMessage)));
 
 /**
  * Logout then call the supplied callback.
