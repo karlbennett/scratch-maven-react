@@ -28,7 +28,8 @@ const webpack = {
   entry: path.join(srcDir, './app.jsx'),
   output: {
     // Webpack will build the code into this directory.
-    path: outputDir
+    path: outputDir,
+    publicPath: '/'
   },
 
   // These are the file extensions that will assumed for import names
@@ -67,7 +68,7 @@ const webpack = {
         include: path.join(mainDir, './images'),
         query: {
           // Note the '/' at the start of the name. This is needed to stop the image urls from being relative.
-          name: '/images/[name].[ext]'
+          name: 'images/[name].[ext]'
         }
       },
       {

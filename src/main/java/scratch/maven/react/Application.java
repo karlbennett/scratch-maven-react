@@ -60,7 +60,7 @@ public class Application extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/styles/**").addResourceLocations("classpath:/static/styles/");
         registry.addResourceHandler("/scripts/**").addResourceLocations("classpath:/static/scripts/");
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
-        registry.addResourceHandler("/*").resourceChain(false)
+        registry.addResourceHandler("/*", "/**/*").resourceChain(false)
             .addResolver(new ClasspathFileResourceResolver("/static/index.html"));
     }
 

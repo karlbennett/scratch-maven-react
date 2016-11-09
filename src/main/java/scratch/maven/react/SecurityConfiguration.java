@@ -41,8 +41,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
-            .authorizeRequests().antMatchers("/", "/scripts/*", "/images/*", "/styles/*", "/hello").permitAll()
-            .anyRequest().authenticated()
+            .authorizeRequests().antMatchers("/secret").authenticated()
             .and()
             .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
             .and()
