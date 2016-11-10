@@ -126,22 +126,29 @@ public class FinderTest {
     }
 
     @Test
-    public void Can_click_an_element_by_its_value() {
+    public void Can_find_an_element_by_its_label_name() {
 
-        final String value = someString();
+        final String labelName = someString();
+        final String text = someString();
 
-        final By byValue = mock(By.class);
-        final WebElement element = mock(WebElement.class);
+        final By byText = mock(By.class);
+        final WebElement label = mock(WebElement.class);
+        final String inputId = someString();
+        final By byId = mock(By.class);
+        final WebElement expected = mock(WebElement.class);
 
         // Given
-        given(by.value(value)).willReturn(byValue);
-        given(driver.findElement(byValue)).willReturn(element);
+        given(by.text(labelName)).willReturn(byText);
+        given(driver.findElement(byText)).willReturn(label);
+        given(label.getAttribute("for")).willReturn(inputId);
+        given(by.id(inputId)).willReturn(byId);
+        given(driver.findElement(byId)).willReturn(expected);
 
         // When
-        finder.clickByValue(value);
+        final WebElement actual = finder.findByLabel(labelName);
 
         // Then
-        verify(element).click();
+        assertThat(actual, is(expected));
     }
 
     @Test
@@ -170,5 +177,24 @@ public class FinderTest {
         final InOrder order = inOrder(input);
         order.verify(input).clear();
         order.verify(input).sendKeys(text);
+    }
+
+    @Test
+    public void Can_click_an_element_by_its_value() {
+
+        final String value = someString();
+
+        final By byValue = mock(By.class);
+        final WebElement element = mock(WebElement.class);
+
+        // Given
+        given(by.value(value)).willReturn(byValue);
+        given(driver.findElement(byValue)).willReturn(element);
+
+        // When
+        finder.clickByValue(value);
+
+        // Then
+        verify(element).click();
     }
 }

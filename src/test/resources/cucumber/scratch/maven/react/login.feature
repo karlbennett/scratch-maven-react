@@ -22,3 +22,10 @@ Feature: Can login
     Given I am not logged in
     When I view a secure page
     Then I should be taken to the login page
+
+  Scenario: Redirected to the login page when session has expired and viewing a secure page
+    Given I am logged in
+    And my session has expired
+    When I view a secure page
+    Then I should be taken to the login page
+    And I should see that I am logged out

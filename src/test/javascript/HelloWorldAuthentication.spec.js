@@ -42,6 +42,8 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
 
   Store.prototype.getState = () => {
   };
+  Store.prototype.dispatch = () => {
+  };
 
   it('Can redirect to the login page if the user is not logged in', () => {
 
@@ -78,23 +80,29 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
 
   it('Can forward to the login page for a forbidden response', () => {
 
+    var store = mock(Store);
     var register = {};
+    var newState = null;
     var response = {};
 
     // Given
     when(registerMock)(anything()).then(object => register = object);
+    when(store).dispatch(anything()).then((object) => (newState = object.newState()));
     response.status = 403;
 
     // When
-    registerFetchAuthInterceptor();
+    registerFetchAuthInterceptor(store);
     register.response(response);
 
     // Then
     verify(pushMock)('/login');
+    verify(store).dispatch(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    assertThat(newState, allOf(hasMember('loggedIn', equalTo(false)), hasMember('username', equalTo(''))));
   });
 
   it('Will ignore all other response statuses', () => {
 
+    var store = mock(Store);
     var register = {};
     var response = {};
 
@@ -103,11 +111,11 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
     response.status = 200;
 
     // When
-    registerFetchAuthInterceptor();
+    registerFetchAuthInterceptor(store);
     register.response(response);
 
     // Then
-    verifyZeroInteractions(pushMock);
+    verifyZeroInteractions(store, pushMock);
   });
 
   it('Calling other unused intercept methods for coverage.', () => {

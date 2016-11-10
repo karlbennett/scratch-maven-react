@@ -14,22 +14,7 @@
  * limitations under the License.
  */
 
-package cucumber.scratch.maven.react.io;
-
-import org.apache.commons.io.IOUtils;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-@Component
-public class Resources {
-
-    public InputStream toInputStream(String classPath) throws IOException {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(classPath);
-    }
-
-    public String toString(String classPath) throws IOException {
-        return IOUtils.toString(toInputStream(classPath), "UTF-8");
-    }
-}
+var callback = arguments[arguments.length - 1];
+fetch('/logout', { method: 'POST', credentials: 'same-origin' }).then(function () {
+  callback()
+});

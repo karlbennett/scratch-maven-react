@@ -20,8 +20,6 @@ import cucumber.scratch.maven.react.pages.Page;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
@@ -99,6 +97,4 @@ public class PageTest {
         verify(navigation).refresh();
     }
 
-    private interface JavaScriptWebDriver extends WebDriver, JavascriptExecutor {
-    }
 }

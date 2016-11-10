@@ -31,7 +31,6 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InOrder;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -105,6 +104,16 @@ public class LoginStepsTest {
 
         // Then
         verifyZeroInteractions(userFactory, userHolder, page, helloWorldPage, loginPage, homePage);
+    }
+
+    @Test
+    public void Can_expire_the_users_session() {
+
+        // When
+        steps.mySessionHasExpired();
+
+        // Then
+        verify(helloWorldPage).expireSession();
     }
 
     @Test
@@ -216,21 +225,24 @@ public class LoginStepsTest {
     @Test
     public void Can_check_that_the_user_is_on_the_login_page() {
 
+        // Given
+        given(loginPage.isCurrentPage()).willReturn(true);
+
         // When
         steps.iShouldBeTakenToTheLoginPage();
 
         // Then
-        verify(loginPage).login(any(User.class));
+        verify(loginPage).isCurrentPage();
     }
 
     @Test
     public void Can_check_that_the_user_is_not_on_the_login_page() {
 
         // Given
-        given(helloWorldPage.isLoggedIn()).willReturn(true);
+        given(loginPage.isCurrentPage()).willReturn(false);
         expectedException.expect(AssertionError.class);
 
         // When
-        steps.iShouldNotBeLoggedIn();
+        steps.iShouldBeTakenToTheLoginPage();
     }
 }

@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-package cucumber.scratch.maven.react.io;
+package scratch.maven.react.pages;
 
-import org.apache.commons.io.IOUtils;
-import org.springframework.stereotype.Component;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-@Component
-public class Resources {
-
-    public InputStream toInputStream(String classPath) throws IOException {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(classPath);
-    }
-
-    public String toString(String classPath) throws IOException {
-        return IOUtils.toString(toInputStream(classPath), "UTF-8");
-    }
+interface JavaScriptWebDriver extends WebDriver, JavascriptExecutor {
 }

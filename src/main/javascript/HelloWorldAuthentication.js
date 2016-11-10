@@ -31,11 +31,10 @@ export const checkForAuthentication = store => (nextState, replace) => {
 };
 
 /**
- * Here we ar registering a 'fetch' interceptor that will redirect the user to the login page whenever a fetch request
- * responds with forbidden which is an indication that the user is not logged in to the backend. It is this interceptor
- * that will log the user out in the frontend if their session has timed out in the backend.
+ * Here we ar registering a 'fetch' interceptor that will logout and redirect the user to the login page whenever a
+ * fetch request responds with forbidden which is an indication that the user is not logged in to the backend.
  */
-export const registerFetchAuthInterceptor = () =>
+export const registerFetchAuthInterceptor = store =>
   fetchIntercept.register({
     // Have to create these stubs or the library will crash.
     request: (url, config) => [url, config],
@@ -44,6 +43,7 @@ export const registerFetchAuthInterceptor = () =>
 
     response: (response) => {
       if (response.status === 403) {
+        store.dispatch({ type: 'POLYMORPHIC', newState: () => ({ loggedIn: false, username: '' }) });
         browserHistory.push('/login');
       }
       return response;

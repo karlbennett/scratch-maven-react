@@ -31,7 +31,17 @@ public class ResourcesTest {
     public void Can_get_the_input_stream_for_a_resource() throws IOException {
 
         // When
-        final String actual = IOUtils.toString(new Resources().toInputStream("test-resource.txt"));
+        final String actual = IOUtils.toString(new Resources().toInputStream("test-resource.txt"), "UTF-8");
+
+        // Then
+        assertThat(actual, is("Some test text."));
+    }
+
+    @Test
+    public void Can_get_the_string_for_a_resource() throws IOException {
+
+        // When
+        final String actual = new Resources().toString("test-resource.txt");
 
         // Then
         assertThat(actual, is("Some test text."));

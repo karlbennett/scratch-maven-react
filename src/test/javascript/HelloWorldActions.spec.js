@@ -137,13 +137,7 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     // Then
     verify(mockPush)('/');
     verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
-    assertThat(
-      newState,
-      allOf(
-        hasMember('loggedIn', equalTo(true)),
-        hasMember('username', equalTo(responseUsername))
-      )
-    );
+    assertThat(newState, allOf(hasMember('loggedIn', equalTo(true)), hasMember('username', equalTo(responseUsername))));
   });
 
   it('Can dispatch a failed HelloWorld login', () => {
@@ -188,12 +182,6 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     // Then
     verify(mockPush)('/');
     verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
-    assertThat(
-      newState,
-      allOf(
-        hasMember('loggedIn', equalTo(false)),
-        hasMember('username', equalTo(''))
-      )
-    );
+    assertThat(newState, allOf(hasMember('loggedIn', equalTo(false)), hasMember('username', equalTo(''))));
   });
 });

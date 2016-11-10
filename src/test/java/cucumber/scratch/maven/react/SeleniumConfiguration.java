@@ -22,10 +22,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import shiver.me.timbers.waiting.WaiterAspect;
+
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
@@ -61,5 +64,10 @@ public class SeleniumConfiguration {
     @Bean
     public WaiterAspect waiterAspect() {
         return new WaiterAspect();
+    }
+
+    @Autowired
+    public void configureWebDriver(WebDriver driver) {
+        driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
 }

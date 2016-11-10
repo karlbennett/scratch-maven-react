@@ -16,28 +16,41 @@
 
 package cucumber.scratch.maven.react.pages;
 
+import cucumber.scratch.maven.react.io.Resources;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class HelloWorldPage {
 
+    private final WebDriver driver;
+    private final Resources resources;
     private final Finder finder;
+    private final Bys by;
     private Logger log = LoggerFactory.getLogger(getClass());
 
-    public HelloWorldPage(Finder finder) {
+    public HelloWorldPage(WebDriver driver, Resources resources, Finder finder, Bys by) {
+        this.driver = driver;
+        this.resources = resources;
         this.finder = finder;
+        this.by = by;
     }
 
     public boolean isLoggedIn() {
+        final WebElement header = finder.findByClassName("hello_world_header");
         try {
-            finder.findByText("Login");
+            header.findElement(by.text("Login"));
             return false;
         } catch (NoSuchElementException e) {
             log.debug("User is logged in.", e);
-            finder.findByText("Logout");
+            header.findElement(by.text("Logout"));
             return true;
         }
     }
@@ -48,5 +61,13 @@ public class HelloWorldPage {
 
     public void clickLogout() {
         finder.clickByText("Logout");
+    }
+
+    public void expireSession() {
+        try {
+            ((JavascriptExecutor) driver).executeAsyncScript(resources.toString("logout.js"));
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

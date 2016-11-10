@@ -47,9 +47,13 @@ public class Finder {
         findByText(text).click();
     }
 
-    public void setTextByLabel(String labelName, String text) {
+    public WebElement findByLabel(String labelName) {
         final WebElement label = findByText(labelName);
-        final WebElement input = driver.findElement(by.id(label.getAttribute("for")));
+        return driver.findElement(by.id(label.getAttribute("for")));
+    }
+
+    public void setTextByLabel(String labelName, String text) {
+        final WebElement input = findByLabel(labelName);
         input.clear();
         input.sendKeys(text);
     }

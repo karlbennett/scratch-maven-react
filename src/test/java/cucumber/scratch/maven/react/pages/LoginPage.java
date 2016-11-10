@@ -17,10 +17,12 @@
 package cucumber.scratch.maven.react.pages;
 
 import cucumber.scratch.maven.react.domain.User;
+import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Component;
 import shiver.me.timbers.waiting.Wait;
 
 @Component
+@Wait
 public class LoginPage {
 
     private final Finder finder;
@@ -31,10 +33,31 @@ public class LoginPage {
         this.by = by;
     }
 
-    @Wait
     public void login(User user) {
         finder.setTextByLabel("Username", user.getUserName());
         finder.setTextByLabel("Password", user.getPassword());
         finder.findByClassName("hello_world_login").findElement(by.text("Login")).click();
+    }
+
+    public boolean isCurrentPage() {
+        if (finder.findByLabel("Username") == null) {
+            return false;
+        }
+
+        if (finder.findByLabel("Password") == null) {
+            return false;
+        }
+
+        final WebElement login = finder.findByClassName("hello_world_login");
+
+        if (login == null) {
+            return false;
+        }
+
+        if (login.findElement(by.text("Login")) == null) {
+            return false;
+        }
+
+        return true;
     }
 }
