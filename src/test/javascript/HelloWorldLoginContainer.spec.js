@@ -45,17 +45,40 @@ describe('src/test/javascript/HelloWorldLoginContainer.spec.js', () => {
     const store = mockStore({});
     const username = 'some username';
     const password = 'some password';
+    const location = {};
+    const securePage = 'some page';
 
     // Given
     when(mockLoginHelloWorld)(anything()).thenReturn({ type: 'MOCK_ACTION' });
+    location.state = { securePage: securePage };
 
     // When
-    const container = mount(<HelloWorldLoginContainer store={store} />);
+    const container = mount(<HelloWorldLoginContainer store={store} location={location} />);
     setText(container.find('#username'), username);
     setText(container.find('#password'), password);
     container.find('form').simulate('submit');
 
     // Then
-    verify(mockLoginHelloWorld)(username, password);
+    verify(mockLoginHelloWorld)(username, password, securePage);
+  });
+
+  it('Can redirect to the home page if no secure page was requested', () => {
+
+    const store = mockStore({});
+    const username = 'some username';
+    const password = 'some password';
+    const location = {};
+
+    // Given
+    when(mockLoginHelloWorld)(anything()).thenReturn({ type: 'MOCK_ACTION' });
+
+    // When
+    const container = mount(<HelloWorldLoginContainer store={store} location={location} />);
+    setText(container.find('#username'), username);
+    setText(container.find('#password'), password);
+    container.find('form').simulate('submit');
+
+    // Then
+    verify(mockLoginHelloWorld)(username, password, '/');
   });
 });

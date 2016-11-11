@@ -47,26 +47,31 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
 
   it('Can redirect to the login page if the user is not logged in', () => {
 
-    var store = mock(Store);
-    var nextState = mockFunction();
-    var replace = mockFunction();
+    const store = mock(Store);
+    const nextState = mockFunction();
+    const replace = mockFunction();
+    const pathname = 'some path';
 
     // Given
     when(store).getState().thenReturn({ loggedIn: false });
+    nextState.location = { pathname: pathname };
 
     // When
     checkForAuthentication(store)(nextState, replace);
 
     // Then
-    verify(replace)('/login');
+    verify(replace)(allOf(
+      hasMember('pathname', equalTo('/login')),
+      hasMember('state', hasMember('securePage', equalTo(pathname)))
+    ));
     verifyZeroInteractions(nextState);
   });
 
   it('Can continue to the requested page if the user is logged in', () => {
 
-    var store = mock(Store);
-    var nextState = mockFunction();
-    var replace = mockFunction();
+    const store = mock(Store);
+    const nextState = mockFunction();
+    const replace = mockFunction();
 
     // Given
     when(store).getState().thenReturn({ loggedIn: true });
@@ -80,10 +85,10 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
 
   it('Can forward to the login page for a forbidden response', () => {
 
-    var store = mock(Store);
-    var register = {};
+    const store = mock(Store);
+    var register = null;
     var newState = null;
-    var response = {};
+    const response = {};
 
     // Given
     when(registerMock)(anything()).then(object => register = object);
@@ -102,9 +107,9 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
 
   it('Will ignore all other response statuses', () => {
 
-    var store = mock(Store);
+    const store = mock(Store);
     var register = {};
-    var response = {};
+    const response = {};
 
     // Given
     when(registerMock)(anything()).then(object => register = object);

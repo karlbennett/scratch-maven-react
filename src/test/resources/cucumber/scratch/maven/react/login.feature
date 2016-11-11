@@ -3,13 +3,13 @@ Feature: Can login
 
   Scenario: Login
     Given I am an existing user
-    When I login
+    When I have logged in
     Then I should be on the home page
     And I should see that I am logged in
 
   Scenario: Logout
     Given I am logged in
-    When I logout
+    When I have logged out
     Then I should be on the home page
     And I should see that I am logged out
 
@@ -29,3 +29,8 @@ Feature: Can login
     When I view a secure page
     Then I should be taken to the login page
     And I should see that I am logged out
+
+  Scenario: Redirected back to requested page after login
+    Given I am redirected to the login page because I am logged out
+    When I login
+    Then I should see the secure page

@@ -63,7 +63,7 @@ public class LoginSteps {
     @Given("^I am logged in$")
     public void iAmLoggedIn() {
         iAmAnExistingUser();
-        iLogin();
+        iHaveLoggedIn();
     }
 
     @Given("^I am not logged in$")
@@ -76,17 +76,29 @@ public class LoginSteps {
         helloWorldPage.expireSession();
     }
 
-    @When("^I login$")
-    public void iLogin() {
+    @Given("^I am redirected to the login page because I am logged out$")
+    public void iAmRedirectedToTheLoginPageBecauseIAmLoggedOut() {
+        iAmAnExistingUser();
+        homePage.clickSecret();
+        assertThat(loginPage.isCurrentPage(), is(true));
+    }
+
+    @When("^I have logged in")
+    public void iHaveLoggedIn() {
         homePage.waitToLoad();
         helloWorldPage.clickLogin();
         loginPage.login(userHolder.get());
     }
 
-    @When("^I logout$")
-    public void iLogout() {
+    @When("^I have logged out$")
+    public void iHaveLoggedOut() {
         homePage.waitToLoad();
         helloWorldPage.clickLogout();
+    }
+
+    @When("^I login$")
+    public void iLogin() {
+        loginPage.login(userHolder.get());
     }
 
     @Then("^I should see that I am logged in$")

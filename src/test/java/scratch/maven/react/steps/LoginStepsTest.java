@@ -117,6 +117,65 @@ public class LoginStepsTest {
     }
 
     @Test
+    public void Can_be_redirected_because_of_being_logged_out() {
+
+        final User user = mock(User.class);
+
+        // Given
+        given(userFactory.create("existing")).willReturn(user);
+        given(loginPage.isCurrentPage()).willReturn(true);
+
+        // When
+        steps.iAmRedirectedToTheLoginPageBecauseIAmLoggedOut();
+
+        // Then
+        verify(userHolder).set(user);
+        verify(homePage).clickSecret();
+        verify(loginPage).isCurrentPage();
+    }
+
+    @Test
+    public void Can_fail_to_be_redirected_because_of_being_logged_out() {
+
+        // Given
+        given(loginPage.isCurrentPage()).willReturn(false);
+        expectedException.expect(AssertionError.class);
+
+        // When
+        steps.iAmRedirectedToTheLoginPageBecauseIAmLoggedOut();
+    }
+
+    @Test
+    public void Can_login_from_the_home_page() {
+
+        final User user = mock(User.class);
+
+        // Given
+        given(userHolder.get()).willReturn(user);
+
+        // When
+        steps.iHaveLoggedIn();
+
+        // Then
+        final InOrder order = inOrder(homePage, helloWorldPage, loginPage);
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).clickLogin();
+        order.verify(loginPage).login(user);
+    }
+
+    @Test
+    public void Can_logout_from_the_home_page() {
+
+        // When
+        steps.iHaveLoggedOut();
+
+        // Then
+        final InOrder order = inOrder(homePage, helloWorldPage);
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).clickLogout();
+    }
+
+    @Test
     public void Can_login() {
 
         final User user = mock(User.class);
@@ -128,22 +187,7 @@ public class LoginStepsTest {
         steps.iLogin();
 
         // Then
-        final InOrder order = inOrder(homePage, helloWorldPage, loginPage);
-        order.verify(homePage).waitToLoad();
-        order.verify(helloWorldPage).clickLogin();
-        order.verify(loginPage).login(user);
-    }
-
-    @Test
-    public void Can_logout() {
-
-        // When
-        steps.iLogout();
-
-        // Then
-        final InOrder order = inOrder(homePage, helloWorldPage);
-        order.verify(homePage).waitToLoad();
-        order.verify(helloWorldPage).clickLogout();
+        verify(loginPage).login(user);
     }
 
     @Test

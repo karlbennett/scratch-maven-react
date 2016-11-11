@@ -124,6 +124,7 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
 
     const dispatch = mockFunction();
     const username = 'some username';
+    const nextPage = 'some next page';
     const responseUsername = 'some response username';
     var newState = null;
 
@@ -132,11 +133,11 @@ describe('src/test/javascript/HelloWorldActions.spec.js', () => {
     when(dispatch)(anything()).then((object) => (newState = object.newState()));
 
     // When
-    loginHelloWorld(username, 'some password')(dispatch);
+    loginHelloWorld(username, 'some password', nextPage)(dispatch);
 
     // Then
-    verify(mockPush)('/');
     verify(dispatch)(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
+    verify(mockPush)(nextPage);
     assertThat(newState, allOf(hasMember('loggedIn', equalTo(true)), hasMember('username', equalTo(responseUsername))));
   });
 

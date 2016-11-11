@@ -16,6 +16,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { loginHelloWorld } from './HelloWorldActions';
 
 class HelloWorldLoginContainer extends Component {
@@ -33,16 +34,18 @@ class HelloWorldLoginContainer extends Component {
 
   /**
    * This method carries out the login request, it does this by first stopping the submit from doing it's normal page
-   * POST we don't get taken away from the current page. Then is records and clears the login state so that it isn't
+   * POST so we don't get taken away from the current page. Then is records and clears the login state so that it isn't
    * recorded and presented the next time this component is rendered. Lastly it carries out the actual login HTTP
-   * request with the entered username and password by calling the bound Redux action.
+   * request with the entered username, password, and the page we may have been redirected away from by calling the
+   * bound Redux action.
    */
   submitLogin(event) {
     event.preventDefault();
     const username = this.state.username;
     const password = this.state.password;
     this.setState({ username: '', password: '' });
-    this.props.submitLogin(username, password);
+    // eslint-disable-next-line react/prop-types
+    this.props.submitLogin(username, password, _.get(this.props.location, 'state.securePage', '/'));
   }
 
   /**

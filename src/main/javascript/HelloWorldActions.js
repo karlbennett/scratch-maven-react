@@ -20,10 +20,10 @@ import { request, requestSecret, login, logout } from './HelloWorldService';
 /**
  * If the login succeeds forward to the home page and dispatch the state for a successful login.
  */
-function loginSuccessHandler(dispatch) {
+function loginSuccessHandler(dispatch, nextPage) {
   return (responseUsername) => {
-    browserHistory.push('/');
     dispatch({ type: 'POLYMORPHIC', newState: () => ({ loggedIn: true, username: responseUsername }) });
+    browserHistory.push(nextPage);
   };
 }
 
@@ -62,8 +62,8 @@ export const requestHelloWorldSecret = () =>
 /**
  * This action carries out a login, it is also asynchronous because the login is an HTTP request.
  */
-export const loginHelloWorld = (username, password) =>
-  dispatch => login(username, password, loginSuccessHandler(dispatch), loginFailureHandler(dispatch));
+export const loginHelloWorld = (username, password, nextPage) =>
+  dispatch => login(username, password, loginSuccessHandler(dispatch, nextPage), loginFailureHandler(dispatch));
 
 /**
  * This action carries out a logout.

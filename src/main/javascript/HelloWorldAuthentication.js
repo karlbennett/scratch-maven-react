@@ -26,7 +26,7 @@ import { browserHistory } from 'react-router';
  */
 export const checkForAuthentication = store => (nextState, replace) => {
   if (!store.getState().loggedIn) {
-    replace('/login');
+    replace({ pathname: '/login', state: { securePage: nextState.location.pathname } });
   }
 };
 

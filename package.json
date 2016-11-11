@@ -27,6 +27,7 @@
     "babel-preset-stage-0": "6.16.0",
     "babel-loader": "6.2.5",
     "babel-polyfill": "6.16.0",
+    "babel-plugin-lodash": "3.2.9",
     "webpack": "1.13.2",
     "webpack-profiles": "1.0.0",
     "extendify": "1.0.0",
@@ -75,6 +76,7 @@
     "redux-thunk": "2.1.0",
     "redux-persist": "3.5.0",
     "isomorphic-fetch": "2.2.1",
-    "fetch-intercept": "2.2.1"
+    "fetch-intercept": "2.2.1",
+    "lodash": "4.16.6"
   }
 }
