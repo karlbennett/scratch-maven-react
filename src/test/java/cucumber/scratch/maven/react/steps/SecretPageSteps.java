@@ -17,6 +17,7 @@
 package cucumber.scratch.maven.react.steps;
 
 import cucumber.api.java.en.Then;
+import cucumber.scratch.maven.react.pages.Page;
 import cucumber.scratch.maven.react.pages.SecretPage;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -25,14 +26,18 @@ import static org.junit.Assert.assertThat;
 
 public class SecretPageSteps {
 
+    private final Page page;
     private final SecretPage secretPage;
 
-    public SecretPageSteps(SecretPage secretPage) {
+    public SecretPageSteps(Page page, SecretPage secretPage) {
+        this.page = page;
         this.secretPage = secretPage;
     }
 
     @Then("^I should see the secure page$")
     public void iShouldSeeTheSecurePage() {
+        secretPage.waitToLoad();
+        page.refresh();
         secretPage.waitToLoad();
         assertThat(secretPage.getMessage(), equalTo("Hello secret world."));
         assertThat(secretPage.hasImage(), is(true));

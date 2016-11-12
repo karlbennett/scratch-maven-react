@@ -20,7 +20,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import { persistStore, autoRehydrate } from 'redux-persist';
+import { persistStore } from 'redux-persist';
 import HelloWorldReducer from './HelloWorldReducer';
 import HelloWorldLayout from './HelloWorldLayout';
 import { registerFetchAuthInterceptor, checkForAuthentication } from './HelloWorldAuthentication';
@@ -37,26 +37,31 @@ require('../sass/main.scss');
 // The "redux-thunk" middleware is added to allows us to make asynchronous dispatches.
 // The the "autoRehydrate" enhancer is added so the 'redux-persist' hydrates the Redux store with the last state after a
 // browser refresh.
-const store = createStore(HelloWorldReducer, applyMiddleware(thunk), autoRehydrate());
-persistStore(store); // Start persisting the Redux state to local storage.
+const store = createStore(HelloWorldReducer, applyMiddleware(thunk));
 
-// This will register the authentication 'fetch' interceptors.
-registerFetchAuthInterceptor(store, window); // eslint-disable-line no-undef
+// Start persisting the Redux state to local storage.
+persistStore(store, {}, () => {
+  // We render the application in this callback to make sure that it is rendered after the Redux store has been
+  // rehydrated.
 
-// Here we setup the entire React app. First the "Provider" component is used to automatically add the Redux store to
-// all React components. Then the "Router" is used to setup the supported paths to the main components
-// e.g. "/", "/helloSecret", "/login", "/logout"
-window.app = ReactDOM.render( // eslint-disable-line no-undef
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={HelloWorldLayout}>
-        <IndexRoute component={HelloWorldContainer} />
-        <Route path="login" component={HelloWorldLoginContainer} />
-        <Route path="logout" component={HelloWorldLogoutContainer} />
-        <Route path="helloSecret" component={HelloWorldSecretContainer} onEnter={checkForAuthentication(store)} />
-        <Route path="*" component={HelloWorldNoFound} />
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('content') // eslint-disable-line no-undef
-);
+  // This will register the authentication 'fetch' interceptors.
+  registerFetchAuthInterceptor(store, window); // eslint-disable-line no-undef
+
+  // Here we setup the entire React app. First the "Provider" component is used to automatically add the Redux store to
+  // all React components. Then the "Router" is used to setup the supported paths to the main components
+  // e.g. "/", "/helloSecret", "/login", "/logout"
+  window.app = ReactDOM.render( // eslint-disable-line no-undef
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={HelloWorldLayout}>
+          <IndexRoute component={HelloWorldContainer} />
+          <Route path="login" component={HelloWorldLoginContainer} />
+          <Route path="logout" component={HelloWorldLogoutContainer} />
+          <Route path="helloSecret" component={HelloWorldSecretContainer} onEnter={checkForAuthentication(store)} />
+          <Route path="*" component={HelloWorldNoFound} />
+        </Route>
+      </Router>
+    </Provider>,
+    document.getElementById('content') // eslint-disable-line no-undef
+  );
+});

@@ -16,6 +16,7 @@
 
 package scratch.maven.react.steps;
 
+import cucumber.scratch.maven.react.pages.Page;
 import cucumber.scratch.maven.react.pages.SecretPage;
 import cucumber.scratch.maven.react.steps.SecretPageSteps;
 import org.junit.Before;
@@ -36,12 +37,14 @@ public class SecretPageStepsTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     private SecretPage secretPage;
+    private Page page;
     private SecretPageSteps steps;
 
     @Before
     public void setUp() {
         secretPage = mock(SecretPage.class);
-        steps = new SecretPageSteps(secretPage);
+        page = mock(Page.class);
+        steps = new SecretPageSteps(page, secretPage);
     }
 
     @Test
@@ -55,7 +58,9 @@ public class SecretPageStepsTest {
         steps.iShouldSeeTheSecurePage();
 
         // Then
-        final InOrder order = inOrder(secretPage);
+        final InOrder order = inOrder(secretPage, page);
+        order.verify(secretPage).waitToLoad();
+        order.verify(page).refresh();
         order.verify(secretPage).waitToLoad();
         order.verify(secretPage).getMessage();
         order.verify(secretPage).hasImage();
