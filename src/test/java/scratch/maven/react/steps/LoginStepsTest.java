@@ -146,6 +146,30 @@ public class LoginStepsTest {
     }
 
     @Test
+    public void Can_be_redirected_because_of_a_session_time_out() {
+
+        final User user = mock(User.class);
+
+        // Given
+        given(userFactory.create("existing")).willReturn(user);
+        given(userHolder.get()).willReturn(user);
+
+        // When
+        steps.iAmRedirectedToTheLoginPageMySessionHasTimedOut();
+
+        // Then
+        final InOrder order = inOrder(userHolder, homePage, helloWorldPage, loginPage);
+        order.verify(userHolder).set(user);
+        order.verify(homePage).waitToLoad();
+        order.verify(helloWorldPage).clickLogin();
+        order.verify(userHolder).get();
+        order.verify(loginPage).login(user);
+        order.verify(helloWorldPage).expireSession();
+        order.verify(homePage).waitToLoad();
+        order.verify(homePage).clickSecret();
+    }
+
+    @Test
     public void Can_login_from_the_home_page() {
 
         final User user = mock(User.class);

@@ -83,6 +83,14 @@ public class LoginSteps {
         assertThat(loginPage.isCurrentPage(), is(true));
     }
 
+    @Given("^I am redirected to the login page my session has timed out$")
+    public void iAmRedirectedToTheLoginPageMySessionHasTimedOut() {
+        iAmLoggedIn();
+        mySessionHasExpired();
+        homePage.waitToLoad();
+        homePage.clickSecret();
+    }
+
     @When("^I have logged in")
     public void iHaveLoggedIn() {
         homePage.waitToLoad();

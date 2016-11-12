@@ -41,7 +41,7 @@ const store = createStore(HelloWorldReducer, applyMiddleware(thunk), autoRehydra
 persistStore(store); // Start persisting the Redux state to local storage.
 
 // This will register the authentication 'fetch' interceptors.
-registerFetchAuthInterceptor(store);
+registerFetchAuthInterceptor(store, window); // eslint-disable-line no-undef
 
 // Here we setup the entire React app. First the "Provider" component is used to automatically add the Redux store to
 // all React components. Then the "Router" is used to setup the supported paths to the main components

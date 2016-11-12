@@ -34,3 +34,8 @@ Feature: Can login
     Given I am redirected to the login page because I am logged out
     When I login
     Then I should see the secure page
+
+  Scenario: Redirected back to requested page after session timeout login
+    Given I am redirected to the login page my session has timed out
+    When I login
+    Then I should see the secure page

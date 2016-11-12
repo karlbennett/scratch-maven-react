@@ -32,9 +32,11 @@ export const checkForAuthentication = store => (nextState, replace) => {
 
 /**
  * Here we ar registering a 'fetch' interceptor that will logout and redirect the user to the login page whenever a
- * fetch request responds with forbidden which is an indication that the user is not logged in to the backend.
+ * fetch request responds with forbidden which is an indication that the user is not logged in to the backend. We use
+ * the window object to get the path to the page that use tried to access so that after they login successfully we can
+ * redirect them back to that page.
  */
-export const registerFetchAuthInterceptor = store =>
+export const registerFetchAuthInterceptor = (store, window) =>
   fetchIntercept.register({
     // Have to create these stubs or the library will crash.
     request: (url, config) => [url, config],
@@ -44,7 +46,7 @@ export const registerFetchAuthInterceptor = store =>
     response: (response) => {
       if (response.status === 403) {
         store.dispatch({ type: 'POLYMORPHIC', newState: () => ({ loggedIn: false, username: '' }) });
-        browserHistory.push('/login');
+        browserHistory.push({ pathname: '/login', state: { securePage: window.location.pathname } });
       }
       return response;
     },

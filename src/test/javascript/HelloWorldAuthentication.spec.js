@@ -45,6 +45,11 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
   Store.prototype.dispatch = () => {
   };
 
+  function Window() {
+  }
+
+  Window.prototype.location = {};
+
   it('Can redirect to the login page if the user is not logged in', () => {
 
     const store = mock(Store);
@@ -86,21 +91,27 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
   it('Can forward to the login page for a forbidden response', () => {
 
     const store = mock(Store);
+    const window = mock(Window);
     var register = null;
     var newState = null;
+    const pathname = 'some path';
     const response = {};
 
     // Given
     when(registerMock)(anything()).then(object => register = object);
     when(store).dispatch(anything()).then((object) => (newState = object.newState()));
     response.status = 403;
+    window.location.pathname = pathname;
 
     // When
-    registerFetchAuthInterceptor(store);
+    registerFetchAuthInterceptor(store, window);
     register.response(response);
 
     // Then
-    verify(pushMock)('/login');
+    verify(pushMock)(allOf(
+      hasMember('pathname', equalTo('/login')),
+      hasMember('state', hasMember('securePage', equalTo(pathname)))
+    ));
     verify(store).dispatch(allOf(hasMember('type', equalTo('POLYMORPHIC')), hasFunction('newState')));
     assertThat(newState, allOf(hasMember('loggedIn', equalTo(false)), hasMember('username', equalTo(''))));
   });
@@ -108,6 +119,7 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
   it('Will ignore all other response statuses', () => {
 
     const store = mock(Store);
+    const window = mock(Window);
     var register = {};
     const response = {};
 
@@ -116,11 +128,11 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
     response.status = 200;
 
     // When
-    registerFetchAuthInterceptor(store);
+    registerFetchAuthInterceptor(store, window);
     register.response(response);
 
     // Then
-    verifyZeroInteractions(store, pushMock);
+    verifyZeroInteractions(store, window, pushMock);
   });
 
   it('Calling other unused intercept methods for coverage.', () => {
