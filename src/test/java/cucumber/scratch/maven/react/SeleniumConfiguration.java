@@ -36,7 +36,7 @@ import static java.lang.String.format;
 public class SeleniumConfiguration {
 
     @Bean(destroyMethod = "quit")
-    public WebDriver driver(@Value("${web.driver:firefox}") String webDriver) {
+    public WebDriver driver(@Value("${web.driver:chrome}") String webDriver) {
 
         if ("chrome".equals(webDriver)) {
             return new ChromeDriver();

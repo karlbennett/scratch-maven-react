@@ -32,31 +32,29 @@ const webpack = {
     publicPath: '/'
   },
 
-  // These are the file extensions that will assumed for import names
+  // These are the file extensions that will be assumed for import names
   // e.g. import HelloWorld from './HelloWorld';
   // Will be assumed to have either the extension '.js' or '.jsx'.
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx']
   },
 
   module: {
-    preLoaders: [
+    rules: [
+      // ## Pre-loaders
       {
+        enforce: 'pre',
         // This is the ESLint Webpack loader. It will check the ES6 code for any code style errors.
         loader: 'eslint-loader',
         // We will check all the JavaScript files.
-        test: /\.jsx?$/,
-        include: srcDir
-      }
-    ],
-    loaders: [
+        test: /\.jsx?$/
+      },
+      // ## Build Loaders
       {
         // This is the ES6 Webpack loader. It will pre-process any ES6 files.
         loader: 'babel-loader',
         // We assume that all the JavaScript files contain ES6 code.
         test: /\.jsx?$/,
-        // We also assume all the source files reside in the below directory.
-        include: srcDir,
         exclude: /spec\.js$/
       },
       {
@@ -65,7 +63,6 @@ const webpack = {
         // the 'url()' function calls.
         loader: 'file-loader',
         test: /\.png/,
-        include: path.join(mainDir, './images'),
         query: {
           // Note the '/' at the start of the name. This is needed to stop the image urls from being relative.
           name: 'images/[name].[ext]'
@@ -77,10 +74,9 @@ const webpack = {
         // placed inline within the index.html.
         loader: ExtractTextPlugin.extract(['css', 'sass']),
         // We assume that all the SASS files end with '.scss'.
-        test: /\.scss$/,
-        include: path.join(mainDir, './sass')
+        test: /\.scss$/
       }
-    ]
+    ],
   },
   plugins: [
     // This plugin will generate the index.html file with a script tag pointing to the dynamic 'bundle.[hash].js'
@@ -89,7 +85,8 @@ const webpack = {
       template: path.join(mainDir, './html/index.html')
     }),
     // This plugin will output all the transformed CSS into a file called 'main.css'.
-    new ExtractTextPlugin('styles/main.css', {
+    new ExtractTextPlugin({
+      filename: 'styles/main.css',
       allChunks: true
     })
   ]
