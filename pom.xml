@@ -111,7 +111,7 @@
                             <goal>webpack</goal>
                         </goals>
                         <configuration>
-                            <arguments>--profiles=${webpack.profile}</arguments>
+                            <arguments>--env.profiles=${webpack.profile}</arguments>
                         </configuration>
                     </execution>
                     <execution>

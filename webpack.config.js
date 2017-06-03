@@ -76,7 +76,7 @@ const webpack = {
         // We assume that all the SASS files end with '.scss'.
         test: /\.scss$/
       }
-    ],
+    ]
   },
   plugins: [
     // This plugin will generate the index.html file with a script tag pointing to the dynamic 'bundle.[hash].js'
@@ -92,4 +92,8 @@ const webpack = {
   ]
 };
 
-module.exports = applyProfile(webpack, { profilesFilename: 'webpack.profiles.js' });
+// It is not possible to use custom arguments in Webpack 2 so the "--profiles" webpack-profiles argument will no longer
+// work. We can get around this by using the Webpack 2 "env" argument e.g. webpack --env.profiles=prod
+module.exports = function (env) {
+  return applyProfile(webpack, { profilesFilename: 'webpack.profiles.js', profiles: env.profiles});
+}
