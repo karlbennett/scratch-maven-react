@@ -16,6 +16,7 @@
 
 const applyProfile = require('webpack-profiles');
 const path = require('path');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -72,13 +73,15 @@ const webpack = {
         // This is the SASS loader. It will compile the SASS files. We have used the
         // 'extract-text-webpack-plugin' loader so that the CSS is compiled into an external file instead of
         // placed inline within the index.html.
-        loader: ExtractTextPlugin.extract(['css', 'sass']),
+        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
         // We assume that all the SASS files end with '.scss'.
         test: /\.scss$/
       }
     ]
   },
   plugins: [
+    // This plugin will remove any unused lodash code.
+    new LodashModuleReplacementPlugin,
     // This plugin will generate the index.html file with a script tag pointing to the dynamic 'bundle.[hash].js'
     // name.
     new HtmlWebpackPlugin({
