@@ -17,13 +17,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { browserHistory, IndexRoute, Route, Router } from 'react-router';
 import { persistStore } from 'redux-persist';
 import HelloWorldReducer from './HelloWorldReducer';
 import HelloWorldLayout from './HelloWorldLayout';
-import { registerFetchAuthInterceptor, checkForAuthentication } from './HelloWorldAuthentication';
+import { checkForAuthentication, registerFetchAuthInterceptor } from './HelloWorldAuthentication';
 import HelloWorldContainer from './HelloWorldContainer';
 import HelloWorldSecretContainer from './HelloWorldSecretContainer';
 import HelloWorldLoginContainer from './HelloWorldLoginContainer';

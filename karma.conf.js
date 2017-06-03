@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var path = require("path");
+const path = require('path');
 
 // Karma configuration
 module.exports = function (config) {
@@ -81,7 +81,7 @@ module.exports = function (config) {
           },
           {
             test: /\.scss$/,
-            loaders: ["style-loader", "css-loader", "sass-loader"]
+            loaders: ['style-loader', 'css-loader', 'sass-loader']
           },
           {
             loader: 'file-loader',

@@ -15,7 +15,7 @@
  */
 
 import fetchMock from 'fetch-mock';
-import { request, requestSecret, login, logout } from '../../main/javascript/HelloWorldService.js';
+import { login, logout, request, requestSecret } from '../../main/javascript/HelloWorldService.js';
 
 describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
@@ -58,9 +58,9 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
       // Then
       verify(failure)(allOf(
-        hasMember("status", 400),
-        hasMember("body", error),
-        hasMember("errorMessage", 'Hello World request failed.')
+        hasMember('status', 400),
+        hasMember('body', error),
+        hasMember('errorMessage', 'Hello World request failed.')
       ));
       done();
     });
@@ -96,9 +96,9 @@ describe('src/test/javascript/HelloWorldService.spec.js', () => {
 
       // Then
       verify(failure)(allOf(
-        hasMember("status", 400),
-        hasMember("body", error),
-        hasMember("errorMessage", 'Hello World secret request failed.')
+        hasMember('status', 400),
+        hasMember('body', error),
+        hasMember('errorMessage', 'Hello World secret request failed.')
       ));
       done();
     });

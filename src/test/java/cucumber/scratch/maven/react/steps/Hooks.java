@@ -56,7 +56,7 @@ public class Hooks {
 
     @Before
     public void setUp() {
-        if(!hasLoggedOut()) {
+        if (!hasLoggedOut()) {
             throw new AssertionError("Could not logout.");
         }
     }

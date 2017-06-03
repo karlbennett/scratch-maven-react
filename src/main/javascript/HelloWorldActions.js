@@ -15,7 +15,7 @@
  */
 
 import { browserHistory } from 'react-router';
-import { request, requestSecret, login, logout } from './HelloWorldService';
+import { login, logout, request, requestSecret } from './HelloWorldService';
 
 /**
  * If the login succeeds forward to the home page and dispatch the state for a successful login.
