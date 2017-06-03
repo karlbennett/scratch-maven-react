@@ -95,5 +95,5 @@ const webpack = {
 // It is not possible to use custom arguments in Webpack 2 so the "--profiles" webpack-profiles argument will no longer
 // work. We can get around this by using the Webpack 2 "env" argument e.g. webpack --env.profiles=prod
 module.exports = function (env) {
-  return applyProfile(webpack, { profilesFilename: 'webpack.profiles.js', profiles: env.profiles});
+  return applyProfile(webpack, { profilesFilename: 'webpack.profiles.js', profiles: env === undefined ? '' : env.profiles});
 }
