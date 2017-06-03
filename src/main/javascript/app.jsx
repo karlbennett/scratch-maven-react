@@ -37,7 +37,7 @@ require('../sass/main.scss');
 // The "redux-thunk" middleware is added to allows us to make asynchronous dispatches.
 // The the "autoRehydrate" enhancer is added so the 'redux-persist' hydrates the Redux store with the last state after a
 // browser refresh.
-const store = createStore(HelloWorldReducer, applyMiddleware(thunk));
+const store = createStore(HelloWorldReducer, undefined, applyMiddleware(thunk));
 
 // Start persisting the Redux state to local storage.
 persistStore(store, {}, () => {

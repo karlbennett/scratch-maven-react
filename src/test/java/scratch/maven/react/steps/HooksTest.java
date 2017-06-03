@@ -58,25 +58,32 @@ public class HooksTest {
     public void Can_logout_before_a_scenario() {
 
         // Given
-        given(helloWorldPage.isLoggedIn()).willReturn(true, false);
+        given(helloWorldPage.isLoggedIn()).willReturn(true, true, false);
 
         // When
         hooks.setUp();
 
         // Then
-        final InOrder order = inOrder(page, homePage, helloWorldPage);
+        final InOrder order = inOrder(page, helloWorldPage, homePage);
         order.verify(page).visit("/");
-        order.verify(page).clearCookies();
-        order.verify(page).clearLocalStorage();
-        order.verify(page).refresh();
+        order.verify(helloWorldPage).isLoggedIn();
+        order.verify(helloWorldPage).clickLogout();
         order.verify(homePage).waitToLoad();
         order.verify(helloWorldPage).isLoggedIn();
         order.verify(page).visit("/");
-        order.verify(page).clearCookies();
-        order.verify(page).clearLocalStorage();
-        order.verify(page).refresh();
+        order.verify(helloWorldPage).isLoggedIn();
         order.verify(homePage).waitToLoad();
         order.verify(helloWorldPage).isLoggedIn();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void Can_fail_to_logout_before_a_scenario() {
+
+        // Given
+        given(helloWorldPage.isLoggedIn()).willReturn(true);
+
+        // When
+        hooks.setUp();
     }
 
     @Test

@@ -48,7 +48,8 @@ const webpack = {
         // This is the ESLint Webpack loader. It will check the ES6 code for any code style errors.
         loader: 'eslint-loader',
         // We will check all the JavaScript files.
-        test: /\.jsx?$/
+        test: /\.jsx?$/,
+        exclude: /node_modules/
       },
       // ## Build Loaders
       {
@@ -56,7 +57,7 @@ const webpack = {
         loader: 'babel-loader',
         // We assume that all the JavaScript files contain ES6 code.
         test: /\.jsx?$/,
-        exclude: /spec\.js$/
+        exclude: [/spec\.js$/, /node_modules/]
       },
       {
         // This is the file loader. It is used to copy the images into the final build location. The build image paths
@@ -80,8 +81,9 @@ const webpack = {
     ]
   },
   plugins: [
-    // This plugin will remove any unused lodash code.
-    new LodashModuleReplacementPlugin,
+    // This plugin will remove any unused lodash code. When using this we must enable 'paths' so that the 'get' function
+    // works correctly.
+    new LodashModuleReplacementPlugin({ 'paths': true }),
     // This plugin will generate the index.html file with a script tag pointing to the dynamic 'bundle.[hash].js'
     // name.
     new HtmlWebpackPlugin({
@@ -98,5 +100,8 @@ const webpack = {
 // It is not possible to use custom arguments in Webpack 2 so the "--profiles" webpack-profiles argument will no longer
 // work. We can get around this by using the Webpack 2 "env" argument e.g. webpack --env.profiles=prod
 module.exports = function (env) {
-  return applyProfile(webpack, { profilesFilename: 'webpack.profiles.js', profiles: env === undefined ? '' : env.profiles});
+  return applyProfile(webpack, {
+    profilesFilename: 'webpack.profiles.js',
+    profiles: env === undefined ? '' : env.profiles
+  });
 }

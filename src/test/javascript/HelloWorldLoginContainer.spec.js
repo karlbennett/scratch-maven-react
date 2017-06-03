@@ -28,10 +28,10 @@ describe('src/test/javascript/HelloWorldLoginContainer.spec.js', () => {
     input.simulate('change');
   }
 
-  var mockLoginHelloWorld, HelloWorldLoginContainer;
+  let mockLoginHelloWorld, HelloWorldLoginContainer;
 
   beforeEach(function () {
-    const inject = require('inject?./HelloWorldActions!../../main/javascript/HelloWorldLoginContainer');
+    const inject = require('inject-loader?./HelloWorldActions!../../main/javascript/HelloWorldLoginContainer');
     mockLoginHelloWorld = mockFunction();
     HelloWorldLoginContainer = inject({
       './HelloWorldActions': {
@@ -50,7 +50,7 @@ describe('src/test/javascript/HelloWorldLoginContainer.spec.js', () => {
 
     // Given
     when(mockLoginHelloWorld)(anything()).thenReturn({ type: 'MOCK_ACTION' });
-    location.state = { securePage: securePage };
+    location.state = { securePage };
 
     // When
     const container = mount(<HelloWorldLoginContainer store={store} location={location} />);

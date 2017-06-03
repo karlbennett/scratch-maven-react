@@ -56,12 +56,18 @@ public class Hooks {
 
     @Before
     public void setUp() {
+        if(!hasLoggedOut()) {
+            throw new AssertionError("Could not logout.");
+        }
+    }
+
+    private boolean hasLoggedOut() {
         // Make sure that we are logged out and the page state has been reset before every scenario.
-        new Waiter(new Options().willWaitForTrue(true)).wait(() -> {
+        return new Waiter(new Options().willWaitForTrue(true)).wait(() -> {
             page.visit("/");
-            page.clearCookies();
-            page.clearLocalStorage();
-            page.refresh();
+            if (helloWorldPage.isLoggedIn()) {
+                helloWorldPage.clickLogout();
+            }
             homePage.waitToLoad();
             return !helloWorldPage.isLoggedIn();
         });

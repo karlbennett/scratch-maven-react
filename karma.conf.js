@@ -58,18 +58,19 @@ module.exports = function (config) {
         fs: 'empty'
       },
       resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['*', '.js', '.jsx']
       },
       module: {
-        preLoaders: [
+        rules: [
+          // ## Pre-loaders
           {
             // This loader will instrument the JavaScript to enable coverage  reporting.
+            enforce: 'pre',
             loader: 'isparta-loader',
             test: /\.jsx?$/,
             include: path.join(__dirname, './src/main/javascript')
-          }
-        ],
-        loaders: [
+          },
+          // ## Build Loaders
           {
             loader: 'babel-loader',
             test: /\.jsx?$/,
@@ -80,7 +81,7 @@ module.exports = function (config) {
           },
           {
             test: /\.scss$/,
-            loaders: ["style", "css", "sass"]
+            loaders: ["style-loader", "css-loader", "sass-loader"]
           },
           {
             loader: 'file-loader',

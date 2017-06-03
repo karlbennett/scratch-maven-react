@@ -15,7 +15,8 @@
  */
 
 /* eslint-disable react/prop-types, react/jsx-indent */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -44,6 +45,13 @@ HelloWorldLayout.propTypes = {
   username: PropTypes.string,
   loggedIn: PropTypes.bool,
 };
+
+// The properties for this component must be optional because it is rendered on the first load of the page where nothing
+// will be contained within the Redux store.
+HelloWorldLayout.defaultProps = () => ({
+  username: '',
+  loggedIn: false
+});
 
 // It is possible to bind a simple stateless React component function with Redux as well as a Component class.
 const mapStateToProps = state => ({

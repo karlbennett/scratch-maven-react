@@ -15,7 +15,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { shallow } from 'enzyme';
 import HelloWorld from '../../main/javascript/HelloWorld';
 
 describe('src/test/javascript/HelloWorld.spec.js', () => {
@@ -26,7 +26,7 @@ describe('src/test/javascript/HelloWorld.spec.js', () => {
     const text = 'some text';
 
     // When
-    const actual = render(<HelloWorld text={text} linkUrl="" linkText="" imageClassNames="" />)
+    const actual = shallow(<HelloWorld text={text} linkUrl="" linkText="" imageClassNames="" />)
       .find('.hello_world_message').text();
 
     // Then

@@ -16,13 +16,13 @@
 
 describe('src/test/javascript/HelloWorldActions.spec.js', () => {
 
-  var mockPush, mockRequest, mockRequestSecret, mockLogin, mockLogout, loginHelloWorld, logoutHelloWorld,
+  let mockPush, mockRequest, mockRequestSecret, mockLogin, mockLogout, loginHelloWorld, logoutHelloWorld,
     requestHelloWorld, requestHelloWorldSecret;
 
   beforeEach(function () {
     // Here we manually load the HelloWorldAction through the inject-loader so that we can override the
     // HelloWorldService import and mock it's request method.
-    const inject = require('inject!../../main/javascript/HelloWorldActions');
+    const inject = require('inject-loader!../../main/javascript/HelloWorldActions');
     mockPush = mockFunction();
     mockRequest = mockFunction();
     mockRequestSecret = mockFunction();

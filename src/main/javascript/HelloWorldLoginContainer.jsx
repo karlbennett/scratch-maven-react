@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { loginHelloWorld } from './HelloWorldActions';
@@ -43,9 +44,9 @@ class HelloWorldLoginContainer extends Component {
     event.preventDefault();
     const username = this.state.username;
     const password = this.state.password;
+    const nextPage = _.get(this.props, 'location.state.securePage', '/');
+    this.props.submitLogin(username, password, nextPage);
     this.setState({ username: '', password: '' });
-    // eslint-disable-next-line react/prop-types
-    this.props.submitLogin(username, password, _.get(this.props.location, 'state.securePage', '/'));
   }
 
   /**
@@ -78,14 +79,20 @@ class HelloWorldLoginContainer extends Component {
              doesn't clear the inputs which would then be seen by the user.
              */}
             <input
-              id="username" name="username" type="text" className="hello_world_login_username_input"
+              id="username"
+              name="username"
+              type="text"
+              className="hello_world_login_username_input"
               onChange={this.usernameOnChange}
             />
           </div>
           <div className="hello_world_login_password">
             <label htmlFor="password" className="hello_world_login_password_label">Password</label>
             <input
-              id="password" name="password" type="password" className="hello_world_login_password_input"
+              id="password"
+              name="password"
+              type="password"
+              className="hello_world_login_password_input"
               onChange={this.passwordOnChange}
             />
           </div>
@@ -97,7 +104,7 @@ class HelloWorldLoginContainer extends Component {
 }
 
 HelloWorldLoginContainer.propTypes = {
-  submitLogin: PropTypes.func,
+  submitLogin: PropTypes.func.isRequired,
 };
 
 // We have no properties to bind to Redux just the loginHelloWorld action. This is because the login username and

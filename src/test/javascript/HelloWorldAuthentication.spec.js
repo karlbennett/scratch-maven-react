@@ -19,7 +19,7 @@ describe('src/test/javascript/HelloWorldAuthentication.spec.js', () => {
   var registerMock, pushMock, checkForAuthentication, registerFetchAuthInterceptor;
 
   beforeEach(function () {
-    const inject = require('inject!../../main/javascript/HelloWorldAuthentication');
+    const inject = require('inject-loader!../../main/javascript/HelloWorldAuthentication');
     registerMock = mockFunction();
     pushMock = mockFunction();
     const HelloWorldAuthentication = inject({

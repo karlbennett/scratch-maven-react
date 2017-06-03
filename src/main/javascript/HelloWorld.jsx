@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 // Here we create a JSX fragment that can be used within other React components as a tag e.g. <HelloWorld />

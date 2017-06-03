@@ -25,8 +25,8 @@ export default (state = { text: '' }, action) => {
   if (action.type === 'POLYMORPHIC') {
     return Object.assign({}, state, action.newState(state));
   }
-  // This handles the react-persist hydration from of the state from the local storage which allows the site to keep
-  // it's state across page refreshes.
+  // This handles the react-persist hydration of the state from the local storage which allows the site to keep it's
+  // state across page refreshes.
   if (action.type === REHYDRATE) {
     return Object.assign({}, state, action.payload);
   }

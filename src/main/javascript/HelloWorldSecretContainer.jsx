@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { requestHelloWorldSecret } from './HelloWorldActions';
 import HelloWorld from './HelloWorld';
@@ -37,8 +38,8 @@ class HelloWorldSecretContainer extends Component {
 }
 
 HelloWorldSecretContainer.propTypes = {
-  secretText: PropTypes.string,
-  requestHelloWorldSecret: PropTypes.func,
+  secretText: PropTypes.string.isRequired,
+  requestHelloWorldSecret: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({ secretText: state.secretText });

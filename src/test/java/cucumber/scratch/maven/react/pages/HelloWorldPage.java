@@ -65,7 +65,11 @@ public class HelloWorldPage {
 
     public void expireSession() {
         try {
-            ((JavascriptExecutor) driver).executeAsyncScript(resources.toString("logout.js"));
+            final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) this.driver;
+            final String logout = resources.toString("logout.js");
+            // We have to logout twice to make sure it works.
+            javascriptExecutor.executeAsyncScript(logout);
+            javascriptExecutor.executeAsyncScript(logout);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }

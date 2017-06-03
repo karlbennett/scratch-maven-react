@@ -34,6 +34,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
@@ -131,7 +132,7 @@ public class HelloWorldPageTest {
         page.expireSession();
 
         // Then
-        verify(driver).executeAsyncScript(javaScript);
+        verify(driver, times(2)).executeAsyncScript(javaScript);
     }
 
     @Test

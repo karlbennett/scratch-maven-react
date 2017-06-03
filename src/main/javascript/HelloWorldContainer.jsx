@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { requestHelloWorld } from './HelloWorldActions';
 import HelloWorld from './HelloWorld';
@@ -39,10 +40,10 @@ class HelloWorldContainer extends Component {
 }
 
 // These are the properties for this JSX tag, though they aren't to be used directly, they are both populated by
-// Redux which can be see bellow.
+// Redux which can be seen bellow.
 HelloWorldContainer.propTypes = {
-  text: PropTypes.string,
-  requestHelloWorld: PropTypes.func,
+  text: PropTypes.string.isRequired,
+  requestHelloWorld: PropTypes.func.isRequired,
 };
 
 // Here we map the text value from the Redux state to the text property of this component. That actual mapping itself

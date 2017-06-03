@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { Component, PropTypes } from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutHelloWorld } from './HelloWorldActions';
 
@@ -39,7 +40,7 @@ class HelloWorldLogoutContainer extends Component {
 }
 
 HelloWorldLogoutContainer.propTypes = {
-  logoutHelloWorld: PropTypes.func,
+  logoutHelloWorld: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = { logoutHelloWorld };
